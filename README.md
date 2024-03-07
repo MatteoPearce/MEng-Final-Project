@@ -15,5 +15,4 @@ one-off nanostructures, all physical elements will be simulated in software, wit
 York’s in-house atomistic simulator: Vampire. Furthermore, in light of the strengths, scalability
 and flexibility of high level programming languages, the neuron output layer will be emulated
 in Python. Developing the moving parts of the project in software increases portability and
-format compatibility between shared datasets. See section 3 for a breakdown of the project’s
-main academic categories, whereas suggested implementations can be found in section 4.
+format compatibility between shared datasets.
