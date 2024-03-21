@@ -6,7 +6,7 @@ from tkinter import filedialog
 from tqdm import tqdm
 import cv2
 from PIL import Image
-def CreatePlot(get_path: str = None, save_path: str = None, savefile: bool = False, interactive: bool = False, show: bool = False) -> None:
+def CreateCellPics(get_path: str = None, save_path: str = None, savefile: bool = False, interactive: bool = False, show: bool = False) -> None:
 
     filename = "reservoir_output.txt"
 
@@ -75,7 +75,7 @@ def CreatePlot(get_path: str = None, save_path: str = None, savefile: bool = Fal
     cv2.destroyAllWindows()
     video.release()  # releasing the video generated
 
-CreatePlot(get_path="/home/matteo/Desktop/VAMPIRE_WORKDIR/",
+CreateCellPics(get_path="/home/matteo/Desktop/VAMPIRE_WORKDIR/",
            save_path="/home/matteo/Desktop/VAMPIRE_WORKDIR/",
            interactive=True,
            show=0)
