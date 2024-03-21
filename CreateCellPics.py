@@ -63,7 +63,7 @@ def CreateCellPics(get_path: str = None,
     #plt.savefig(save_path + f"{linenum+1}.png")
         plt.close()
 
-    return frames, gif_frames
+    return frames
 
 save_path = "/home/matteo/Desktop/VAMPIRE_WORKDIR/"
 
