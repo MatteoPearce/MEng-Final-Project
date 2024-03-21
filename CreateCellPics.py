@@ -4,9 +4,14 @@ import os
 import tkinter as tk
 from tkinter import filedialog
 from tqdm import tqdm
-import cv2
-from PIL import Image
-def CreateCellPics(get_path: str = None, save_path: str = None, savefile: bool = False, interactive: bool = False, show: bool = False) -> None:
+from CreateGif import CreateGif
+from CreateVideo import CreateVideo
+
+def CreateCellPics(get_path: str = None,
+                   save_path: str = None,
+                   savefile: bool = False,
+                   interactive: bool = False,
+                   show: bool = False) -> list[plt.figure]:
 
     filename = "reservoir_output.txt"
 
@@ -58,24 +63,15 @@ def CreateCellPics(get_path: str = None, save_path: str = None, savefile: bool =
     #plt.savefig(save_path + f"{linenum+1}.png")
         plt.close()
 
-    video_name = save_path + 'polarisations.avi'
+    return frames
 
-    width, height = frames[0].canvas.get_width_height()
-    video = cv2.VideoWriter(video_name, 0, 5, (width, height))
+save_path = "/home/matteo/Desktop/VAMPIRE_WORKDIR/"
 
-    # Appending the images to the video one by one
-    for index,image in enumerate(frames):
-        image.canvas.draw()
-        image_array = np.array(image.canvas.renderer.buffer_rgba())
-        IMAGE = Image.fromarray(image_array)
-        image_rgb = IMAGE.convert("RGB")
-        video.write(cv2.cvtColor(np.array(image_rgb), cv2.COLOR_RGB2BGR))
-
-        # Deallocating memories taken for window creation
-    cv2.destroyAllWindows()
-    video.release()  # releasing the video generated
-
-CreateCellPics(get_path="/home/matteo/Desktop/VAMPIRE_WORKDIR/",
-           save_path="/home/matteo/Desktop/VAMPIRE_WORKDIR/",
+stuff = CreateCellPics(get_path="/home/matteo/Desktop/VAMPIRE_WORKDIR/",
+           save_path=save_path,
            interactive=True,
            show=0)
+
+CreateVideo(save_path,stuff)
+CreateGif(save_path,stuff)
+
