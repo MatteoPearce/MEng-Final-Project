@@ -4,7 +4,6 @@ import os
 import tkinter as tk
 from tkinter import filedialog
 from tqdm import tqdm
-from CreateGif import CreateGif
 from CreateVideo import CreateVideo
 
 def CreateCellPics(get_path: str = None,
