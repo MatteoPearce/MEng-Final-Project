@@ -63,15 +63,14 @@ def CreateCellPics(get_path: str = None,
     #plt.savefig(save_path + f"{linenum+1}.png")
         plt.close()
 
-    return frames
+    return frames, gif_frames
 
 save_path = "/home/matteo/Desktop/VAMPIRE_WORKDIR/"
 
-stuff = CreateCellPics(get_path="/home/matteo/Desktop/VAMPIRE_WORKDIR/",
+stuff, stuff2 = CreateCellPics(get_path="/home/matteo/Desktop/VAMPIRE_WORKDIR/",
            save_path=save_path,
            interactive=True,
            show=0)
 
 CreateVideo(save_path,stuff)
-CreateGif(save_path,stuff)
 
