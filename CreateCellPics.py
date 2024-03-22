@@ -66,7 +66,7 @@ def CreateCellPics(get_path: str = None,
 
 save_path = "/home/matteo/Desktop/VAMPIRE_WORKDIR/"
 
-stuff, stuff2 = CreateCellPics(get_path="/home/matteo/Desktop/VAMPIRE_WORKDIR/",
+stuff = CreateCellPics(get_path="/home/matteo/Desktop/VAMPIRE_WORKDIR/",
            save_path=save_path,
            interactive=True,
            show=0)

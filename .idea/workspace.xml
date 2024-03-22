@@ -5,6 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a4dfd85d-b366-4c78-b6bd-200915180eb4" name="Changes" comment="CreateGif and CreateVideo">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CreateCellPics.py" beforeDir="false" afterPath="$PROJECT_DIR$/CreateCellPics.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -164,7 +165,15 @@
       <option name="project" value="LOCAL" />
       <updated>1711044991409</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="CreateGif and CreateVideo">
+      <option name="closed" value="true" />
+      <created>1711045072070</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1711045072070</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -182,6 +191,6 @@
     <SUITE FILE_PATH="coverage/MEng_Project_Matteo_Pearce$CreatePlots.coverage" NAME="CreatePlots Coverage Results" MODIFIED="1711014565223" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/MEng_Project_Matteo_Pearce$ModifyVampireInputFile.coverage" NAME="ModifyVampireInputFile Coverage Results" MODIFIED="1709744535054" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/MEng_Project_Matteo_Pearce$CreateGif.coverage" NAME="CreateGif Coverage Results" MODIFIED="1711042816960" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/MEng_Project_Matteo_Pearce$CreateCellPics.coverage" NAME="CreateCellPics Coverage Results" MODIFIED="1711044833033" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/MEng_Project_Matteo_Pearce$CreateCellPics.coverage" NAME="CreateCellPics Coverage Results" MODIFIED="1711048022292" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
