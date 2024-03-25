@@ -8,19 +8,18 @@ def ExtractReservoirOutput(file_path:str):
         file_path = file_path + "/reservoir_output.txt"
 
     with open(file_path, "r") as file:
-        numpy_array = np.empty((1,len(file.readline())),dtype=float)
+        numpy_array = np.empty((1,len(file.readline().split(" "))-1),dtype=float)
         data = file.readlines()
         file.close()
 
     for line in data:
-
-        dummy_array = np.asarray(line.join(""))
-        #print(type(dummy_array))
-        print(dummy_array)
-        input()
-        dummy_array = dummy_array.reshape((1,len(line)))
+        dummy_list = line.split(" ")
+        dummy_list.pop(-1)
+        dummy_array = np.asarray(dummy_list,dtype=float)
+        dummy_array = dummy_array.reshape((1,len(dummy_list)))
         numpy_array = np.concatenate((numpy_array,dummy_array),axis=0)
 
-    print(numpy_array)
+    #print(numpy_array.shape)
+    return numpy_array
 
 ExtractReservoirOutput("/home/matteo/Desktop/VAMPIRE_WORKDIR/reservoir_output.txt")
