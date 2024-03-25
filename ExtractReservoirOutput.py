@@ -10,3 +10,7 @@ def ExtractReservoirOutput(file_path:str):
     with open(file_path, "r") as file:
         data = file.readlines()
         file.close()
+
+    print((data))
+
+ExtractReservoirOutput("/home/matteo/Desktop/VAMPIRE_WORKDIR/reservoir_output.txt")
