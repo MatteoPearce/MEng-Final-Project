@@ -7,5 +7,6 @@ def ExtractReservoirOutput(file_path:str):
     else:
         file_path = file_path + "/reservoir_output.txt"
 
-    with open(file_path, "r"):
-        data = readlines()
+    with open(file_path, "r") as file:
+        data = file.readlines()
+        file.close()
