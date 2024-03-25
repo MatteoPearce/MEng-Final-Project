@@ -1,6 +1,6 @@
 import numpy as np
 
-def ExtractReservoirOutput(file_path:str):
+def ExtractReservoirOutput(file_path:str) -> np.ndarray:
 
     if ".txt" in file_path:
         pass
