@@ -1,0 +1,15 @@
+Index: Sourcefield_Filemaker.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>\n\"\"\"\nCreates a sourcefield.txt file in specified path containing field components generated with uniform distribution\n-1 < x < 1 of size row x col.\n\"\"\"\n\n\nimport os\nimport warnings\nfrom tqdm import tqdm\nimport random\n\ndef filemaker(output_path: str, rows: int, columns: int, field_threshold: float) -> None:\n\n# ------------------------------------------------------------------ check inputs\n\n    if columns is None or rows is None:\n        raise ValueError('columns or rows cannot be None')\n\n    if output_path is not None and os.path.exists(output_path):\n        path_var = output_path + \"/sourcefield.txt\"\n    else:\n        path_var = \"sourcefield.txt\"\n        warnings.warn(\"File path not specified/valid, output file will be created in current directory\")\n\n# ------------------------------------------------------------------ create 2D data array\n    cell_num = int(columns**0.5)\n\n    header1 = str()\n    header2 = str()\n    for i in range(1,cell_num+1):\n        header1 = header1 + f\"{i} \"\n        for j in range(1,cell_num+1):\n            header2 = header2 + f\"{i} \"\n\n    dummy = header1\n    for i in range(cell_num-1):\n        header1 = header1 + dummy\n\n    header1 = header1 + \"-2\\n\"\n    header2 = header2 + \"-1\\n\"\n\n    data = str()\n    column = str()\n\n    for row in tqdm(range(rows)):\n        for col in range(columns):\n\n            val = round(random.uniform(-field_threshold, field_threshold), 4)\n\n            if col == 0:\n                column = column + str(val)\n            else:\n                column = column + \" \" + str(val)\n\n        if row == 0:\n            data = column +  \" \"  + str(row)\n        else:\n            data = data + \"\\n\"  + column + \" \" + str(row)\n\n        column = str()\n\n    print(header1)\n    print(header2)\n    print(data)\n\n# ------------------------------------------------------------------ write to file\n\n    with open(path_var, \"w\") as file:\n        file.writelines(header1)\n        file.writelines(header2)\n        file.writelines(str(data))\n\n    print(\"\\n#---------------------------------#\")\n    print(\"| SUCCESSFULLY WROTE SOURCE FILE  |\")\n    print(\"#---------------------------------#\\n\")\n\n\n\nfilemaker(\"/home/matteo/Desktop/VAMPIRE_WORKDIR\", 1000,100,1)\n\n
+===================================================================
+diff --git a/Sourcefield_Filemaker.py b/Sourcefield_Filemaker.py
+--- a/Sourcefield_Filemaker.py	
++++ b/Sourcefield_Filemaker.py	
+@@ -77,5 +77,5 @@
+ 
+ 
+ 
+-filemaker("/home/matteo/Desktop/VAMPIRE_WORKDIR", 1000,100,1)
++filemaker("/home/matteo/Desktop/VAMPIRE_WORKDIR", 10,100,1)
+ 
