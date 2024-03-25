@@ -1,10 +1,11 @@
 import timesynth as ts
 import numpy as np
 import matplotlib.pyplot as plt
+from Sourcefield_Filemaker import filemaker
 
 def GenerateTimeseries(series_name: str = None, stop_time: int = None) -> np.ndarray:
 
-    time_sampler = ts.TimeSampler(stop_time=500)
+    time_sampler = ts.TimeSampler(stop_time=1000)
     times = time_sampler.sample_regular_time(resolution=1.)
 
     narma_signal = ts.signals.NARMA(order=10)
@@ -19,4 +20,6 @@ def GenerateTimeseries(series_name: str = None, stop_time: int = None) -> np.nda
 
     return samples
 
-#####GenerateTimeseries()
+a = GenerateTimeseries()
+
+filemaker("/home/matteo/Desktop/VAMPIRE_WORKDIR", 1000, 100,)
