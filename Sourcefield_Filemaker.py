@@ -9,8 +9,14 @@ import os
 import warnings
 from tqdm import tqdm
 import random
+import numpy as np
 
-def filemaker(output_path: str, rows: int, columns: int, field_threshold: float) -> None:
+def filemaker(output_path: str,
+              rows: int,
+              columns: int,
+              field_threshold: float = None,
+              timeseries: np.ndarray = None,
+              all_same:bool = False) -> None:
 
 # ------------------------------------------------------------------ check inputs
 
@@ -23,7 +29,7 @@ def filemaker(output_path: str, rows: int, columns: int, field_threshold: float)
         path_var = "sourcefield.txt"
         warnings.warn("File path not specified/valid, output file will be created in current directory")
 
-# ------------------------------------------------------------------ create 2D data array
+# ------------------------------------------------------------------ create 2D data string
     cell_num = int(columns**0.5)
 
     header1 = str()
@@ -41,24 +47,45 @@ def filemaker(output_path: str, rows: int, columns: int, field_threshold: float)
     header2 = header2 + "-1\n"
 
     data = str()
-    column = str()
 
-    for row in tqdm(range(rows)):
-        for col in range(columns):
-
-            val = round(random.uniform(-field_threshold, field_threshold), 4)
-
-            if col == 0:
-                column = column + str(val)
-            else:
-                column = column + " " + str(val)
-
-        if row == 0:
-            data = column +  " "  + str(row)
+    if timeseries is not None:
+        if all_same:
+            for index, element in enumerate(timeseries):
+                row = np.repeat(element,columns)
+                if index == 0:
+                    new_array = row
+                else:
+                    new_array = np.stack((new_array,row))
         else:
-            data = data + "\n"  + column + " " + str(row)
+            if timeseries.shape != (rows,columns):
+                timeseries = timeseries.reshape((rows,columns))
+
+        data = np.array2string(timeseries,  precision=4, separator=' ')
+        data.strip()
+        data = data.replace("\n ","\n")
+        data = data.replace("[","")
+        data = data.replace("]", "")
+
+    else:
 
         column = str()
+
+        for row in tqdm(range(rows)):
+            for col in range(columns):
+
+                val = round(random.uniform(-field_threshold, field_threshold), 4)
+
+                if col == 0:
+                    column = column + str(val)
+                else:
+                    column = column + " " + str(val)
+
+            if row == 0:
+                data = column +  " "  + str(row)
+            else:
+                data = data + "\n"  + column + " " + str(row)
+
+            column = str()
 
     print(header1)
     print(header2)
@@ -76,6 +103,5 @@ def filemaker(output_path: str, rows: int, columns: int, field_threshold: float)
     print("#---------------------------------#\n")
 
 
-
-filemaker("/home/matteo/Desktop/VAMPIRE_WORKDIR", 1000,100,1)
+#filemaker("/home/matteo/Desktop/VAMPIRE_WORKDIR", 1000, 100, 1)
 
