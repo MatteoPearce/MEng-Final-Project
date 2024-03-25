@@ -1,7 +1,7 @@
 import timesynth as ts
 import numpy as np
 import matplotlib.pyplot as plt
-from Sourcefield_Filemaker import filemaker
+import Sourcefield_Filemaker as SF
 
 def GenerateTimeseries(series_name: str = None, stop_time: int = None) -> np.ndarray:
 
@@ -22,4 +22,4 @@ def GenerateTimeseries(series_name: str = None, stop_time: int = None) -> np.nda
 
 a = GenerateTimeseries()
 
-filemaker("/home/matteo/Desktop/VAMPIRE_WORKDIR", 1000, 100,)
+SF.filemaker(output_path="/home/matteo/Desktop/VAMPIRE_WORKDIR",rows= 1000,columns= 100,timeseries=a,all_same=True)
