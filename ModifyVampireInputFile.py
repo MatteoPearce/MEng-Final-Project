@@ -43,6 +43,7 @@ def modifyVampireInputFile(new_vals: dict,file_path : str) -> None:
                 modifiable_params.append(as_list)
 
     modifiable_params = dict(modifiable_params)
+    file.close()
     for key,val in modifiable_params.items():
         print(key,":",val)
 
