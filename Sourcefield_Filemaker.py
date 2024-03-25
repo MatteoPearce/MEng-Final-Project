@@ -55,7 +55,7 @@ def filemaker(output_path: str,
                 if index == 0:
                     new_array = row
                 else:
-                    new_array = np.stack((new_array,row))
+                    new_array = np.concatenate((new_array,row),axis=0)
         else:
             if timeseries.shape != (rows,columns):
                 timeseries = timeseries.reshape((rows,columns))
