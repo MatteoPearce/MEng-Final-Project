@@ -19,4 +19,4 @@ def GenerateTimeseries(series_name: str = None, stop_time: int = None) -> np.nda
 
     return samples
 
-####GenerateTimeseries()
+#####GenerateTimeseries()
