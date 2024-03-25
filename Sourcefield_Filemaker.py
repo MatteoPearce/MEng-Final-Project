@@ -6,6 +6,7 @@ Creates a sourcefield.txt file in specified path containing field components gen
 
 
 import os
+import sys
 import warnings
 from tqdm import tqdm
 import random
@@ -52,15 +53,19 @@ def filemaker(output_path: str,
         if all_same:
             for index, element in enumerate(timeseries):
                 row = np.repeat(element,columns)
+                row = np.append(row,index)
+                row = row.reshape((1, columns+1))
                 if index == 0:
                     new_array = row
                 else:
                     new_array = np.concatenate((new_array,row),axis=0)
+                #print(new_array)
+                #input()
         else:
             if timeseries.shape != (rows,columns):
                 timeseries = timeseries.reshape((rows,columns))
-
-        data = np.array2string(timeseries,  precision=4, separator=' ')
+        np.set_printoptions(threshold=sys.maxsize)
+        data = np.array2string(new_array,  precision=4, separator=' ',max_line_width=columns**2)
         data.strip()
         data = data.replace("\n ","\n")
         data = data.replace("[","")
