@@ -5,7 +5,7 @@ import Sourcefield_Filemaker as SF
 
 def GenerateTimeseries(series_name: str = None, stop_time: int = None) -> np.ndarray:
 
-    time_sampler = ts.TimeSampler(stop_time=1000)
+    time_sampler = ts.TimeSampler(stop_time=stop_time)
     times = time_sampler.sample_regular_time(resolution=1.)
 
     narma_signal = ts.signals.NARMA(order=10)
@@ -20,6 +20,7 @@ def GenerateTimeseries(series_name: str = None, stop_time: int = None) -> np.nda
 
     return samples
 
-a = GenerateTimeseries()
+rows = 100
+a = GenerateTimeseries(stop_time=rows)
 
-SF.filemaker(output_path="/home/matteo/Desktop/VAMPIRE_WORKDIR",rows= 1000,columns= 100,timeseries=a,all_same=True)
+SF.filemaker(output_path="/home/matteo/Desktop/VAMPIRE_WORKDIR",rows= rows,columns= 100,timeseries=a,all_same=True)
