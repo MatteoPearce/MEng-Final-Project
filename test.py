@@ -25,4 +25,4 @@ input_array = np.pad(input_array,((0, diff),(0, 0)))
 model = NeuronOutput.NeuronOutput(reservoir_input=input_array,reservoir_output=output_array,CV=True) #[1000:2000,:]
 print(model.score)
 print(model.model_params)
-#print(model.model.predict(input_array)/output_array)
+print(model.model.predict(input_array)-output_array)
