@@ -19,6 +19,6 @@ input_array = np.delete(input_array, 0, axis = 0)
 
 #print(X_normalized)
 
-model = NeuronOutput.NeuronOutput(reservoir_input=input_array,reservoir_output=output_array[:100,:],CV=True)
+model = NeuronOutput.NeuronOutput(reservoir_input=input_array,reservoir_output=output_array[:1000,:],CV=True)
 print(model.score)
 print(model.model_params)
