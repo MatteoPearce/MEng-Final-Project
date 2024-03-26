@@ -58,7 +58,7 @@ def filemaker(output_path: str,
                 row = row.reshape((1, columns+1))
                 """
                 row = np.repeat(element, 5)
-
+                row = np.pad(row,((0, columns-5)))
                 row = np.append(row, index)
                 row = row.reshape((1, columns + 1))
                 if index == 0:
