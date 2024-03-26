@@ -71,6 +71,9 @@ def filemaker(output_path: str,
         data = data.replace("[","")
         data = data.replace("]", "")
         data = data.replace("  "," ")
+        data = data.replace("   "," ")
+        data = data.replace("    ", " ")
+        data = data.replace("      ", " ")
 
     else:
 
