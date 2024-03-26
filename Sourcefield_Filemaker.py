@@ -52,9 +52,15 @@ def filemaker(output_path: str,
     if timeseries is not None:
         if all_same:
             for index, element in enumerate(timeseries):
+                """
                 row = np.repeat(element,columns)
                 row = np.append(row,index)
                 row = row.reshape((1, columns+1))
+                """
+                row = np.repeat(element, 5)
+
+                row = np.append(row, index)
+                row = row.reshape((1, columns + 1))
                 if index == 0:
                     new_array = row
                 else:
