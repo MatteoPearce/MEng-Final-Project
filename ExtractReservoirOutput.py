@@ -10,18 +10,24 @@ def ExtractReservoirIO(file_path1: str,file_path2: str = None) -> np.ndarray:
     for file_path in paths:
 
         with open(file_path, "r") as file:
-            numpy_array = np.empty((1,len(file.readline().split(" "))-1),dtype=float)
+            cell_num = len(file.readline().split(" "))-1
             data = file.readlines()
             file.close()
 
-        for line in data:
+        for index, line in enumerate(data):
+
             dummy_list = line.strip().split(" ")
-            if len(dummy_list) > numpy_array.shape[1]:
+
+            if len(dummy_list) > cell_num:
                 dummy_list.pop(-1)
 
-            dummy_array = np.asarray(dummy_list,dtype=float)
+            dummy_array = np.asarray(dummy_list,dtype=np.float128)
             dummy_array = dummy_array.reshape((1,len(dummy_list)))
-            numpy_array = np.concatenate((numpy_array,dummy_array),axis=0)
+
+            if index == 0:
+                numpy_array = dummy_array
+            else:
+                numpy_array = np.concatenate((numpy_array,dummy_array),axis=0)
 
         output_arrays.append(numpy_array)
 
