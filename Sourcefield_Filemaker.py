@@ -104,9 +104,9 @@ def filemaker(output_path: str,
 
             column = str()
 
-    print(header1)
-    print(header2)
-    print(data)
+    #print(header1)
+    #print(header2)
+    #print(data)
 
 # ------------------------------------------------------------------ write to file
 
