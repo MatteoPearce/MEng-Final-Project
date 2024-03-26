@@ -108,5 +108,5 @@ def filemaker(output_path: str,
     print("#---------------------------------#\n")
 
 
-#filemaker("/home/matteo/Desktop/VAMPIRE_WORKDIR", 1000, 100, 1)
+filemaker("/home/matteo/Desktop/VAMPIRE_WORKDIR", 10, 100, 1)
 
