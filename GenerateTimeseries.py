@@ -13,6 +13,7 @@ def GenerateTimeseries(series_name: str = None, stop_time: int = None) -> np.nda
     samples, signals, errors = series.sample(times)
 
     samples = samples - (samples.max() + samples.min())/2
+    samples = samples/10
 
     plt.plot(times, samples, marker='o', markersize=2)
     plt.xlabel('Time')  # X-axis label
