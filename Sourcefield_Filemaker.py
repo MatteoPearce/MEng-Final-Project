@@ -67,6 +67,7 @@ def filemaker(output_path: str,
         np.set_printoptions(threshold=sys.maxsize)
         data = np.array2string(new_array,  precision=4, separator=' ',max_line_width=columns**2)
         data.strip()
+        data.lstrip(" ")
         data = data.replace("\n ","\n")
         data = data.replace("[","")
         data = data.replace("]", "")
@@ -74,9 +75,6 @@ def filemaker(output_path: str,
         data = data.replace("    ", " ")
         data = data.replace("   ", " ")
         data = data.replace("  "," ")
-
-
-
 
     else:
 
@@ -115,5 +113,5 @@ def filemaker(output_path: str,
     print("#---------------------------------#\n")
 
 
-filemaker("/home/matteo/Desktop/VAMPIRE_WORKDIR", 10, 100, 1)
+#filemaker("/home/matteo/Desktop/VAMPIRE_WORKDIR", 10, 100, 1)
 
