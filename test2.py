@@ -41,5 +41,5 @@ plt.plot(np.arange(prediction.shape[0]), testing_y[:,0], marker='o', markersize=
 plt.plot(np.arange(prediction.shape[0]), prediction[:,0], marker='o', markersize=2)
 plt.xlabel('Time')  # X-axis label
 plt.ylabel('Magnitude')  # Y-axis label
-plt.title('10th-order NARMA Series');  # title of the plot
+plt.title('Prediction');  # title of the plot
 plt.show()
