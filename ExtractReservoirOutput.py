@@ -16,15 +16,15 @@ def ExtractReservoirIO(file_path1: str,file_path2: str = None) -> np.ndarray:
 
         for line in data:
             dummy_list = line.strip().split(" ")
-            dummy_list.pop(-1)
-            print(dummy_list)
+            if len(dummy_list) > numpy_array.shape[1]:
+                dummy_list.pop(-1)
+
             dummy_array = np.asarray(dummy_list,dtype=float)
             dummy_array = dummy_array.reshape((1,len(dummy_list)))
             numpy_array = np.concatenate((numpy_array,dummy_array),axis=0)
 
         output_arrays.append(numpy_array)
 
-    #print(numpy_array.shape)
     return output_arrays
 
 #ExtractReservoirOutput("/home/matteo/Desktop/VAMPIRE_WORKDIR/reservoir_output.txt")
