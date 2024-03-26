@@ -70,10 +70,13 @@ def filemaker(output_path: str,
         data = data.replace("\n ","\n")
         data = data.replace("[","")
         data = data.replace("]", "")
-        data = data.replace("  "," ")
-        data = data.replace("   "," ")
-        data = data.replace("    ", " ")
         data = data.replace("      ", " ")
+        data = data.replace("    ", " ")
+        data = data.replace("   ", " ")
+        data = data.replace("  "," ")
+
+
+
 
     else:
 
