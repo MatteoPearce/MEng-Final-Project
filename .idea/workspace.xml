@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a4dfd85d-b366-4c78-b6bd-200915180eb4" name="Changes" comment="update source field maker to accept array">
-      <change beforePath="$PROJECT_DIR$/Sourcefield_Filemaker.py" beforeDir="false" afterPath="$PROJECT_DIR$/Sourcefield_Filemaker.py" afterDir="false" />
-    </list>
+    <list default="true" id="a4dfd85d-b366-4c78-b6bd-200915180eb4" name="Changes" comment="Reservoir Output extractor script" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -27,7 +25,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="NeuronTraining" />
+        <entry key="$PROJECT_DIR$" value="CreatePlots" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -64,30 +62,31 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Python.CreateCellPics.executor&quot;: &quot;Run&quot;,
-    &quot;Python.CreateGif.executor&quot;: &quot;Run&quot;,
-    &quot;Python.GenerateTimeseries.executor&quot;: &quot;Run&quot;,
-    &quot;Python.ModifyVampireInputFile.executor&quot;: &quot;Run&quot;,
-    &quot;Python.Sourcefield_Filemaker.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;GenerateTImeseries&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;pyconsole&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python.CreateCellPics.executor": "Run",
+    "Python.CreateGif.executor": "Run",
+    "Python.ExtractReservoirInput.executor": "Run",
+    "Python.ExtractReservoirOutput.executor": "Run",
+    "Python.ModifyVampireInputFile.executor": "Run",
+    "Python.test.executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "NeuronTraining",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "pyconsole",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;ChangesTree.GroupingKeys&quot;: [
-      &quot;directory&quot;
+  "keyToStringList": {
+    "ChangesTree.GroupingKeys": [
+      "directory"
     ]
   }
-}</component>
+}]]></component>
   <component name="PyConsoleOptionsProvider">
     <option name="myPythonConsoleState">
       <console-settings module-name="MEng_Project_Matteo_Pearce" is-module-sdk="true">
@@ -112,7 +111,7 @@
       <option name="presentableId" value="Default" />
       <updated>1709724889442</updated>
       <workItem from="1709724893226" duration="19089000" />
-      <workItem from="1711364195314" duration="3096000" />
+      <workItem from="1711447989664" duration="1089000" />
     </task>
     <task id="LOCAL-00001" summary="first commit">
       <option name="closed" value="true" />
@@ -178,47 +177,39 @@
       <option name="project" value="LOCAL" />
       <updated>1711045072070</updated>
     </task>
-    <task id="LOCAL-00009" summary="CreateGif and CreateVideo">
+    <task id="LOCAL-00009" summary="update source field maker to accept array">
       <option name="closed" value="true" />
-      <created>1711124417197</created>
+      <created>1711377256226</created>
       <option name="number" value="00009" />
       <option name="presentableId" value="LOCAL-00009" />
       <option name="project" value="LOCAL" />
-      <updated>1711124417197</updated>
+      <updated>1711377256226</updated>
     </task>
-    <task id="LOCAL-00010" summary="CreateGif and CreateVideo">
+    <task id="LOCAL-00010" summary="Reservoir Output extractor script">
       <option name="closed" value="true" />
-      <created>1711369870494</created>
+      <created>1711380156071</created>
       <option name="number" value="00010" />
       <option name="presentableId" value="LOCAL-00010" />
       <option name="project" value="LOCAL" />
-      <updated>1711369870494</updated>
+      <updated>1711380156071</updated>
     </task>
-    <task id="LOCAL-00011" summary="update source field maker to accept array">
+    <task id="LOCAL-00011" summary="Reservoir Output extractor script">
       <option name="closed" value="true" />
-      <created>1711374555307</created>
+      <created>1711390842667</created>
       <option name="number" value="00011" />
       <option name="presentableId" value="LOCAL-00011" />
       <option name="project" value="LOCAL" />
-      <updated>1711374555307</updated>
+      <updated>1711390842667</updated>
     </task>
-    <task id="LOCAL-00012" summary="update source field maker to accept array">
+    <task id="LOCAL-00012" summary="Reservoir Output extractor script">
       <option name="closed" value="true" />
-      <created>1711374777030</created>
+      <created>1711390860671</created>
       <option name="number" value="00012" />
       <option name="presentableId" value="LOCAL-00012" />
       <option name="project" value="LOCAL" />
-      <updated>1711374777030</updated>
+      <updated>1711390860671</updated>
     </task>
-    <task id="LOCAL-00013" summary="update source field maker to accept array">
-      <option name="closed" value="true" />
-      <created>1711376333134</created>
-      <option name="number" value="00013" />
-      <option name="presentableId" value="LOCAL-00013" />
-      <option name="project" value="LOCAL" />
-      <updated>1711376333134</updated>
-    </task>
-    <option name="localTasksCounter" value="14" />
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -230,11 +221,14 @@
     <MESSAGE value="First iteration of CreatePlots" />
     <MESSAGE value="CreateGif and CreateVideo" />
     <MESSAGE value="update source field maker to accept array" />
-    <option name="LAST_COMMIT_MESSAGE" value="update source field maker to accept array" />
+    <MESSAGE value="NEuron Output script" />
+    <MESSAGE value="Reservoir Output extractor script" />
+    <option name="LAST_COMMIT_MESSAGE" value="Reservoir Output extractor script" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/MEng_Project_Matteo_Pearce$GenerateTimeseries.coverage" NAME="GenerateTimeseries Coverage Results" MODIFIED="1711376033923" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/MEng_Project_Matteo_Pearce$Sourcefield_Filemaker.coverage" NAME="Sourcefield_Filemaker Coverage Results" MODIFIED="1711375788939" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/MEng_Project_Matteo_Pearce$GenerateTimeseries.coverage" NAME="GenerateTimeseries Coverage Results" MODIFIED="1711450301490" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/MEng_Project_Matteo_Pearce$test.coverage" NAME="test Coverage Results" MODIFIED="1711450487462" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/MEng_Project_Matteo_Pearce$Sourcefield_Filemaker.coverage" NAME="Sourcefield_Filemaker Coverage Results" MODIFIED="1711450034577" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/MEng_Project_Matteo_Pearce$CreatePlots.coverage" NAME="CreatePlots Coverage Results" MODIFIED="1711014565223" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/MEng_Project_Matteo_Pearce$ModifyVampireInputFile.coverage" NAME="ModifyVampireInputFile Coverage Results" MODIFIED="1709744535054" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/MEng_Project_Matteo_Pearce$ExtractReservoirInput.coverage" NAME="ExtractReservoirInput Coverage Results" MODIFIED="1711448921062" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
