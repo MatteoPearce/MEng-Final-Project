@@ -26,7 +26,7 @@ class NeuronOutput:
         self.CV = CV
 
         if CV:
-            self.model = RidgeCV(alpha_per_target=True,alphas=[0.001,0.01,0.1,1,10,100,1000],store_cv_values=False,cv=None)
+            self.model = RidgeCV(gcv_mode="svd",alpha_per_target=False,store_cv_values=False,cv=None,scoring='neg_root_mean_squared_error',fit_intercept=True)
         else:
             self.model = Ridge()
 

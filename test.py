@@ -14,7 +14,7 @@ input_array = np.delete(input_array, 0, axis = 0)
 diff = output_array.shape[0] - input_array.shape[0]
 #print(diff)
 input_array = np.pad(input_array,((0, diff),(0, 0)))
-
+#output_array = output_array + 10e18
 #print(input_array)
 
 #X_normalized = preprocessing.normalize(output_array, norm='ls')
@@ -25,3 +25,4 @@ input_array = np.pad(input_array,((0, diff),(0, 0)))
 model = NeuronOutput.NeuronOutput(reservoir_input=input_array,reservoir_output=output_array,CV=True) #[1000:2000,:]
 print(model.score)
 print(model.model_params)
+#print(model.model.predict(input_array)/output_array)
