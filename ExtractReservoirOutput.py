@@ -15,8 +15,9 @@ def ExtractReservoirIO(file_path1: str,file_path2: str = None) -> np.ndarray:
             file.close()
 
         for line in data:
-            dummy_list = line.split(" ")
+            dummy_list = line.strip().split(" ")
             dummy_list.pop(-1)
+            print(dummy_list)
             dummy_array = np.asarray(dummy_list,dtype=float)
             dummy_array = dummy_array.reshape((1,len(dummy_list)))
             numpy_array = np.concatenate((numpy_array,dummy_array),axis=0)
