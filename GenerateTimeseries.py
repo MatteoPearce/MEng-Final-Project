@@ -22,7 +22,7 @@ def GenerateTimeseries(series_name: str = None, stop_time: int = None) -> np.nda
     plt.show()
     return samples
 
-rows = 10
+rows = 100
 a = GenerateTimeseries(stop_time=rows)
 
 SF.filemaker(output_path="/home/matteo/Desktop/VAMPIRE_WORKDIR",rows= rows,columns= 100,timeseries=a,all_same=True)
