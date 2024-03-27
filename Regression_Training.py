@@ -103,12 +103,12 @@ def train_cycle(training_X: np.ndarray,
 
 #----------------------------------------------------------------------------------------------------------------------#
 
-best_result, y, y_pred = TrainGS("/home/matteo/Desktop/VAMPIRE_WORKDIR")
-print(f"best_result = {best_result}")
+#best_result, y, y_pred = TrainGS("/home/matteo/Desktop/VAMPIRE_WORKDIR")
+#print(f"best_result = {best_result}")
 
-plt.plot(np.arange(y_pred.shape[0]), y[:, 0], marker='o', markersize=1)  # , color='red')
-plt.plot(np.arange(y_pred.shape[0]), y_pred[:, 0], marker='o', markersize=1)
-plt.xlabel('Time')  # X-axis label
-plt.ylabel('Magnitude')  # Y-axis label
-plt.title('Prediction');  # title of the plot
-plt.show()
+#plt.plot(np.arange(y_pred.shape[0]), y[:, 0], marker='o', markersize=1)  # , color='red')
+#plt.plot(np.arange(y_pred.shape[0]), y_pred[:, 0], marker='o', markersize=1)
+#plt.xlabel('Time')  # X-axis label
+#plt.ylabel('Magnitude')  # Y-axis label
+#plt.title('Prediction');  # title of the plot
+#plt.show()
