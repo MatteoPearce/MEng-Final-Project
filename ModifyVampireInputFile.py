@@ -7,7 +7,7 @@ with which to update VAMPIRE input file for each iteration of parameter sweep.
 import os
 import warnings
 
-def modifyVampireInputFile(new_vals: dict,file_path : str) -> None:
+def modifyVampireInputFile(new_vals: dict = None, file_path : str = None) -> None:
 
 #------------------------------------------------------------------ check inputs
 
@@ -74,11 +74,3 @@ def modifyVampireInputFile(new_vals: dict,file_path : str) -> None:
     print("#---------------------------------#\n")
     print(f"VALUES UPDATED:\n\n{new_vals}")
     print("\n#--------------------------------------------------------------#")
-
-new_vals = {
-            "sim:temperature": 300.0,
-            "sim:time-step": "2!fs",
-            "sim:time-steps-increment": 10
-           }
-
-modifyVampireInputFile(new_vals,"/home/matteo/Desktop/Vampire_Sims/input")
