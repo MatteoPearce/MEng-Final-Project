@@ -35,12 +35,13 @@ def TrainGS(workdir_path: str = None) -> float:
             testing_y = input_array[lower_limit:, :]
             testing_X = output_array[lower_limit:upper_limit, :] * scaling_factor
 
-            NRMSE = train_cycle(neuron_number, training_X, training_y, testing_X, testing_y)
+            NRMSE = train_cycle( training_X, training_y, testing_X, testing_y)
 
             if NRMSE < best_result:
                 best_result = NRMSE
                 best_split = split
 
+        print(f"best split: {best_split}")
         best_result = trainCV(input_array, output_array, neuron_number, best_split)
 
         return best_result
@@ -48,6 +49,9 @@ def TrainGS(workdir_path: str = None) -> float:
 def trainCV(input_array: np.ndarray, output_array: np.ndarray, neuron_number: int, split: float = None) -> float:
 
     if split is not None:
+
+        if split <= 0.1:
+            split = 0.9
 
         intervals = int(round(1 / (1- split),1))
 
@@ -62,18 +66,17 @@ def trainCV(input_array: np.ndarray, output_array: np.ndarray, neuron_number: in
             training_X = output_array[:input_array.shape[0], :]
             training_X = np.delete(training_X,rows,axis=0)
 
-            NRMSE = train_cycle(neuron_number, training_X, training_y, testing_X, testing_y)
+            NRMSE = train_cycle( training_X, training_y, testing_X, testing_y)
 
         return NRMSE
 
 #----------------------------------------------------------------------------------------------------------------------#
-def train_cycle(neuron_number: int,
-                training_X: np.ndarray,
+def train_cycle(training_X: np.ndarray,
                 training_y: np.ndarray,
                 testing_X: np.ndarray,
                 testing_y: np.ndarray) -> float:
 
-    output_node = Ridge(output_dim=neuron_number)  # , name="output_node ")
+    output_node = Ridge(output_dim=testing_y.shape[1])  # , name="output_node ")
     fitted_output = output_node.fit(training_X, training_y, warmup=0)
     prediction = fitted_output.run(testing_X)
 
@@ -99,4 +102,4 @@ def train_cycle(neuron_number: int,
 #----------------------------------------------------------------------------------------------------------------------#
 
 best_result = TrainGS("/home/matteo/Desktop/VAMPIRE_WORKDIR")
-print(best_result)
+print(f"best_result = {best_result}")
