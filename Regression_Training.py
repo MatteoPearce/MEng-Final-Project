@@ -18,7 +18,6 @@ def TrainGS(workdir_path: str = None) -> float:
                                         workdir_path + "/reservoir_output.txt")
 
         input_array = np.delete(input_array, 0, axis=0)
-        neuron_number = input_array.shape[1]
         print("Performing Grid Search of best training split \n")
 
         for split in tqdm(training_split):
@@ -35,21 +34,26 @@ def TrainGS(workdir_path: str = None) -> float:
             testing_y = input_array[lower_limit:, :]
             testing_X = output_array[lower_limit:upper_limit, :] * scaling_factor
 
-            NRMSE = train_cycle( training_X, training_y, testing_X, testing_y)
+            NRMSE, y, y_pred = train_cycle( training_X, training_y, testing_X, testing_y)
 
             if NRMSE < best_result:
                 best_result = NRMSE
                 best_split = split
 
-        print(f"best split: {best_split}")
-        best_result = trainCV(input_array, output_array, neuron_number, best_split)
+        print(f"\nbest split: {best_split}")
 
-        return best_result
+        best_result, y, y_pred = trainCV(input_array, output_array, best_split)
 
-def trainCV(input_array: np.ndarray, output_array: np.ndarray, neuron_number: int, split: float = None) -> float:
+        return best_result, y, y_pred
+
+#----------------------------------------------------------------------------------------------------------------------#
+def trainCV(input_array: np.ndarray,
+            output_array: np.ndarray,
+            split: float = None) -> [float,np.ndarray,np.ndarray]:
 
     if split is not None:
 
+        best_result = 1
         if split <= 0.1:
             split = 0.9
 
@@ -66,15 +70,20 @@ def trainCV(input_array: np.ndarray, output_array: np.ndarray, neuron_number: in
             training_X = output_array[:input_array.shape[0], :]
             training_X = np.delete(training_X,rows,axis=0)
 
-            NRMSE = train_cycle( training_X, training_y, testing_X, testing_y)
+            NRMSE, y, y_pred = train_cycle( training_X, training_y, testing_X, testing_y)
 
-        return NRMSE
+            if NRMSE < best_result:
+                best_result = NRMSE
+                best_y = y
+                best_y_pred = y_pred
+
+        return best_result, best_y, best_y_pred
 
 #----------------------------------------------------------------------------------------------------------------------#
 def train_cycle(training_X: np.ndarray,
                 training_y: np.ndarray,
                 testing_X: np.ndarray,
-                testing_y: np.ndarray) -> float:
+                testing_y: np.ndarray) -> [float,np.ndarray,np.ndarray]:
 
     output_node = Ridge(output_dim=testing_y.shape[1])  # , name="output_node ")
     fitted_output = output_node.fit(training_X, training_y, warmup=0)
@@ -87,19 +96,19 @@ def train_cycle(training_X: np.ndarray,
 
     NRMSE = robs.nrmse(clipped_testing_y, clipped_prediction)
 
-    plt.plot(np.arange(clipped_prediction.shape[0]), clipped_testing_y[:, 0], marker='o', markersize=1)  # , color='red')
-    plt.plot(np.arange(clipped_prediction.shape[0]), clipped_prediction[:,0], marker='o', markersize=1)
-    plt.xlabel('Time')  # X-axis label
-    plt.ylabel('Magnitude')  # Y-axis label
-    plt.title('Prediction');  # title of the plot
-    plt.show()
-
     del output_node
     del fitted_output
 
-    return NRMSE
+    return NRMSE, clipped_testing_y, clipped_prediction
 
 #----------------------------------------------------------------------------------------------------------------------#
 
-best_result = TrainGS("/home/matteo/Desktop/VAMPIRE_WORKDIR")
+best_result, y, y_pred = TrainGS("/home/matteo/Desktop/VAMPIRE_WORKDIR")
 print(f"best_result = {best_result}")
+
+plt.plot(np.arange(y_pred.shape[0]), y[:, 0], marker='o', markersize=1)  # , color='red')
+plt.plot(np.arange(y_pred.shape[0]), y_pred[:, 0], marker='o', markersize=1)
+plt.xlabel('Time')  # X-axis label
+plt.ylabel('Magnitude')  # Y-axis label
+plt.title('Prediction');  # title of the plot
+plt.show()
