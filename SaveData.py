@@ -37,24 +37,28 @@ def saveData(data: dict = None, dir_name: str = None, save_path: str = None, wor
             data.pop('y')
             data.pop('y_pred')
 
-            with open(destination_directory + 'log.txt',"w") as file:
-                file.writelines(data)
+            with open(destination_directory + '/accuracy_scores.txt',"w") as file:
+                for key, value in data.items():
+                    file.writelines(key + ": " + str(value) + "\n")
                 file.close()
 
 #----------------------------------------------------------------------------------------------------------------------#
 
+"""
 y = np.arange(0,10)
 y_pred = np.arange(0,10)
-y = y.reshape(y,(1,10))
-y_pred = y_pred.reshape(y_pred, (1,10))
+y = y.reshape((1,10))
+y_pred = y_pred.reshape((1,10))
 
 data = {"y_pred": y_pred,
         "y": y,
-        "NRMSE" : 0.14}
+        "NRMSE" : 0.14,
+        "MSE" : 0.2}
 
 saveData(data=data,
          dir_name="/test",
          save_path="/home/matteo/Desktop/VAMPIRE_TEST_RESULTS",
          workdir_path="/home/matteo/Desktop/VAMPIRE_WORKDIR")
+"""
 
 
