@@ -7,7 +7,7 @@ from ExtractReservoirIO import ExtractReservoirIO as ERO
 np.set_printoptions(threshold=np.inf)
 reservoirpy.verbosity(0)
 
-def TrainGS(workdir_path: str = None):
+def TrainGS(workdir_path: str = None) -> float:
 
     if workdir_path is not None:
 
@@ -56,7 +56,29 @@ def TrainGS(workdir_path: str = None):
 
         return best_result, best_split
 
-best_result, best_split = TrainGS("/home/matteo/Desktop/VAMPIRE_WORKDIR")
+def trainCV(split: float = None, workdir_path: str = None) -> float:
 
-print(best_result)
-print(best_split)
+    if split is not None and workdir_path is not None:
+
+        intervals = int(round(1 / (1- split),1))
+
+        input_array, output_array = ERO(workdir_path + "/sourcefield.txt",
+                                        workdir_path + "/reservoir_output.txt")
+
+        for i in tqdm(range(intervals)):
+
+            step = int(input_array.shape[0] / intervals)
+
+            testing_y = input_array[i * step:(i+1) * step,:]
+            testing_X = output_array[i * step:(i+1) * step,:]
+            rows = np.arange(i * step,(i+1) * step)
+            training_y = np.delete(input_array,rows,axis=0)
+            testing_X = output_array[:input_array.shape[0], :]
+            testing_X = np.delete(testing_X,rows,axis=0)
+
+
+#best_result, best_split = TrainGS("/home/matteo/Desktop/VAMPIRE_WORKDIR")
+#print(best_result)
+#print(best_split)
+
+trainCV("/home/matteo/Desktop/VAMPIRE_WORKDIR")
