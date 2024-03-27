@@ -42,7 +42,6 @@ def saveData(data: dict = None, dir_name: str = None, save_path: str = None, wor
                     file.writelines(key + ": " + str(value) + "\n")
                 file.close()
 
-
 #----------------------------------------------------------------------------------------------------------------------#
 
 """
