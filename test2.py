@@ -2,7 +2,7 @@ import reservoirpy as rpy
 from reservoirpy.nodes import Ridge, Input
 from reservoirpy import observables as robs
 import numpy as np
-from ExtractReservoirOutput import ExtractReservoirIO as ERO
+from ExtractReservoirIO import ExtractReservoirIO as ERO
 import matplotlib.pyplot as plt
 from sklearn import preprocessing
 np.set_printoptions(threshold=np.inf)
