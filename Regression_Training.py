@@ -20,10 +20,10 @@ def TrainGS(workdir_path: str = None) -> float:
         input_array = np.delete(input_array, 0, axis=0)
         print("Performing Grid Search of best training split \n")
 
-        for split in tqdm(training_split):
+        best_result = 1
+        best_split = 0
 
-            best_result = 1
-            best_split = 0
+        for split in tqdm(training_split):
 
             scaling_factor = 1
             lower_limit = int(split * input_array.shape[0])

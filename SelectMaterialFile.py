@@ -12,13 +12,13 @@ def SelectMaterialFile(file_name: str = None, file_path: str = None, workdir_pat
             if filename.endswith(".mat"):
                 os.remove(os.path.join(workdir_path, file))
 
-        with open(file_path + file_name, 'r') as file:
+        with open(file_path + "/" + file_name, 'r') as file:
             data = file.readlines()
             file.close()
         if data is not None:
             print("successfully grabbed material file \n")
 
-        with open(workdir_path + file_name, 'w') as file:
+        with open(workdir_path + "/" + file_name, 'w') as file:
             file.writelines(data)
             file.close()
             print("successfully copied material file to workdir \n")

@@ -55,15 +55,16 @@ def modifyVampireInputFile(new_vals: dict = None, file_path : str = None) -> Non
     if len_check < len(modifiable_params.items()):
         warnings.warn('YOU HAVE ADDED AN EXTRA PARAMETER')
 
-    for key,val in modifiable_params.items():
-        print(key,":",val)
+    #for key,val in modifiable_params.items():
+        #print(key,":",val)
 
 #------------------------------------------------------------------ write to input file
 
     for key in modifiable_params.keys():
         for index,line in enumerate(initial_data):
             if (key + " ") in line:
-                initial_data[index] = str(key + " = " + str(modifiable_params[key]) + "\n")
+                initial_data[index] = str(key + " = " + str(modifiable_params[key]).strip(")(") + "\n")
+                #initial_data[index].replace("(","")
                 break
 
     with open(VAMPIRE_input, "w") as file:
@@ -74,3 +75,6 @@ def modifyVampireInputFile(new_vals: dict = None, file_path : str = None) -> Non
     print("#---------------------------------#\n")
     print(f"VALUES UPDATED:\n\n{new_vals}")
     print("\n#--------------------------------------------------------------#")
+
+#new_vals = {"sim:applied-field-unit-vector": (0,1,0)}
+#modifyVampireInputFile(new_vals, "/home/matteo/Desktop/VAMPIRE_WORKDIR")

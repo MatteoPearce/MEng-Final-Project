@@ -7,20 +7,20 @@ from random import randint
 
 class Material_Evolution():
 
-    sweep_grid_size = False,
-    sweep_cell_size = False,
-    sweep_temperature = False,
-    tried_combos = list(),
-    max_attempts = 10e4,
-    iteration_counter = 0
-    simulation_end = False,
-    current_best_result = 1,
-    current_best_iteration = None,
-    current_best_setup = dict(),
-    base_workdir_path = "/home/matteo/Desktop/VAMPIRE_WORKDIR"
-    base_materials_path = "/home/matteo/Desktop/VAMPIRE_WORKDIR/Materials"
-    base_testdata_path = "/home/matteo/Desktop/VAMPIRE_TEST_RESULTS"
-    input_file_parameters = { "material:file" : ["/Co.mat","/Fe.mat","/Ag.mat"],
+    sweep_grid_size: bool = False
+    sweep_cell_size: bool = False
+    sweep_temperature: bool = False
+    tried_combos: list = list()
+    max_attempts: float = 10e4
+    iteration_counter: int = 0
+    simulation_end: bool = False
+    current_best_result: float = 1.0
+    current_best_iteration: int = None
+    current_best_setup: dict = dict()
+    base_workdir_path: str = "/home/matteo/Desktop/VAMPIRE_WORKDIR"
+    base_materials_path: str = "/home/matteo/Desktop/VAMPIRE_WORKDIR/Materials"
+    base_testdata_path: str = "/home/matteo/Desktop/VAMPIRE_TEST_RESULTS"
+    input_file_parameters: dict = { "material:file" : ["Co.mat","Fe.mat","Ag.mat"],
                               "dimensions:system-size-x" : [49,99,149,199],
                               "dimensions:system-size-y" : [49,99,149,199],
                               "dimensions:system-size-z" : [0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0],
@@ -28,7 +28,7 @@ class Material_Evolution():
                               "sim:applied-field-strength" : [0,1e-12,1e-6],
                               "sim:applied-field-unit-vector": [(0,0,1),(0,1,0),(1,0,0)],
                               "sim:temperature" : [0,10,50,100,200,309.65]} #MAKE SURE DEFAULT IS ALWAYS INDEX 0
-    new_input_file_parameters = dict()
+    new_input_file_parameters: dict = dict()
 
 #----------------------------------------------------------------------------------------------------------------------#
 
@@ -39,21 +39,24 @@ class Material_Evolution():
 
     def main_loop(self):
 
-        while not self.simulation_end:
 
-            self.select_parameters()
-            self.update_input_files()
-            self.run_simulation()
-            self.reservoir_computing()
-            self.iteration_counter += 1
 
-        print("SIMULATION ENDED, BEST SETUP AND RESULT:\n")
-        print(self.current_best_setup)
-        print(f"best result: NRMSE = {0:.2f}".format(self.current_best_result))
+            while not self.simulation_end:
 
-        with open(self.base_workdir_path + "/best_iteration.txt", "w") as file:
-            file.writelines(f"best interation number: {self.current_best_iteration}")
-            file.close()
+                self.select_parameters()
+                self.update_input_files()
+                self.run_simulation()
+                self.reservoir_computing()
+                self.iteration_counter += 1
+
+            print("SIMULATION ENDED, BEST SETUP AND RESULT:\n")
+            print(self.current_best_setup)
+            print(f"best result: NRMSE = {0:.2f}".format(self.current_best_result))
+
+            with open(self.base_workdir_path + "/best_iteration.txt", "w") as file:
+                file.writelines(f"best interation number: {self.current_best_iteration}")
+                file.close()
+
 
 #----------------------------------------------------------------------------------------------------------------------#
 
@@ -73,7 +76,7 @@ class Material_Evolution():
                 elif (key == "sim:temperature") and not self.sweep_temperature:
                     number = 0
                 else:
-                    number = randint(0,len(value))
+                    number = randint(0,len(value)-1)
 
                 self.new_input_file_parameters[key] = value[number]
 
@@ -115,24 +118,38 @@ class Material_Evolution():
 
     def reservoir_computing(self):
 
-        best_result, y, y_pred = TrainGS(self.base_workdir_path)
+        try:
+            best_result, y, y_pred = TrainGS(self.base_workdir_path)
 
-        data_to_save = {"y": y,
-                        "y_pred":y_pred,
-                        "NRMSE": best_result}
+            data_to_save = {"y": y,
+                            "y_pred":y_pred,
+                            "NRMSE": best_result}
 
-        data_to_save.update(self.new_input_file_parameters)
+            data_to_save.update(self.new_input_file_parameters)
 
-        if best_result < self.current_best_result:
-            self.current_best_result = best_result
-            self.current_best_setup = self.new_input_file_parameters
-            self.current_best_iteration = self.iteration_counter
-            print(f"\nnew best found! current NRMSE: {0:.2f}".format(best_result))
+            if best_result < self.current_best_result:
+                self.current_best_result = best_result
+                self.current_best_setup = self.new_input_file_parameters
+                self.current_best_iteration = self.iteration_counter
+                print(f"\nnew best found! current NRMSE: {0:.2f}".format(best_result))
 
-        saveData(data=data_to_save,
-                 dir_name=str(self.iteration_counter),
-                 save_path=self.base_testdata_path,
-                 workdir_path=self.base_workdir_path)
+            saveData(data=data_to_save,
+                     dir_name="/" + str(self.iteration_counter),
+                     save_path=self.base_testdata_path,
+                     workdir_path=self.base_workdir_path)
+
+        except Exception as e:
+
+            print("FAILED ON:")
+            print(self.new_input_file_parameters)
+            print(e)
+            # input("\nPress ENTER to continue...")
+            data_to_save = self.new_input_file_parameters
+            saveData(data=data_to_save,
+                     dir_name="/" + str(self.iteration_counter) + " FAILED",
+                     save_path=self.base_testdata_path,
+                     workdir_path=self.base_workdir_path,
+                     Failed=True)
 
 #----------------------------------------------------------------------------------------------------------------------#
 
