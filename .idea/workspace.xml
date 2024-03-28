@@ -4,13 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a4dfd85d-b366-4c78-b6bd-200915180eb4" name="Changes" comment="finished main, running first test">
+    <list default="true" id="a4dfd85d-b366-4c78-b6bd-200915180eb4" name="Changes" comment="Random Search fully functional">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GenerateTimeseries.py" beforeDir="false" afterPath="$PROJECT_DIR$/GenerateTimeseries.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ModifyVampireInputFile.py" beforeDir="false" afterPath="$PROJECT_DIR$/ModifyVampireInputFile.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Regression_Training.py" beforeDir="false" afterPath="$PROJECT_DIR$/Regression_Training.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SaveData.py" beforeDir="false" afterPath="$PROJECT_DIR$/SaveData.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SelectMaterialFile.py" beforeDir="false" afterPath="$PROJECT_DIR$/SelectMaterialFile.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -231,7 +226,15 @@
       <option name="project" value="LOCAL" />
       <updated>1711572121746</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="Random Search fully functional">
+      <option name="closed" value="true" />
+      <created>1711612837964</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1711612837964</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -258,7 +261,8 @@
     <MESSAGE value="wrote script that performs grid search for best training split and returns split and NRMSE" />
     <MESSAGE value="writing main" />
     <MESSAGE value="finished main, running first test" />
-    <option name="LAST_COMMIT_MESSAGE" value="finished main, running first test" />
+    <MESSAGE value="Random Search fully functional" />
+    <option name="LAST_COMMIT_MESSAGE" value="Random Search fully functional" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/MEng_Project_Matteo_Pearce$GenerateTimeseries.coverage" NAME="GenerateTimeseries Coverage Results" MODIFIED="1711573877872" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
