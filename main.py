@@ -17,6 +17,7 @@ class Material_Evolution():
     current_best_result: float = 1.0
     current_best_iteration: int = None
     current_best_setup: dict = dict()
+    best_per_materials : list(dict()) = list(dict())
     base_workdir_path: str = "/home/matteo/Desktop/VAMPIRE_WORKDIR"
     base_materials_path: str = "/home/matteo/Desktop/VAMPIRE_WORKDIR/Materials"
     base_testdata_path: str = "/home/matteo/Desktop/VAMPIRE_TEST_RESULTS"
@@ -39,8 +40,6 @@ class Material_Evolution():
 
     def main_loop(self):
 
-
-
             while not self.simulation_end:
 
                 self.select_parameters()
@@ -51,10 +50,16 @@ class Material_Evolution():
 
             print("SIMULATION ENDED, BEST SETUP AND RESULT:\n")
             print(self.current_best_setup)
-            print(f"best result: NRMSE = {0:.2f}".format(self.current_best_result))
+            print(f"best result: NRMSE = {self.current_best_result}")
 
             with open(self.base_workdir_path + "/best_iteration.txt", "w") as file:
                 file.writelines(f"best interation number: {self.current_best_iteration}")
+                file.writelines("\n")
+                file.writelines("best per material:\n")
+                for material in self.best_per_materials:
+                    for key in material.keys():
+                        file.writelines(str(key + " = " + str(material[key]) + "\n"))
+                    file.writelines("\n")
                 file.close()
 
 
@@ -133,6 +138,27 @@ class Material_Evolution():
                 self.current_best_iteration = self.iteration_counter
                 print(f"\nnew best found! current NRMSE: {0:.2f}".format(best_result))
 
+            if len(self.best_per_materials) == 0:
+                self.best_per_materials.append({"material:file" : self.new_input_file_parameters["material:file"],
+                                                "iteration" : self.iteration_counter,
+                                                "NRMSE": best_result})
+
+            else:
+                best_material_changed = False
+                for index,mat in enumerate(self.best_per_materials):
+                    if mat["material:file"] == self.new_input_file_parameters["material:file"]:
+                        if best_result < mat["NRMSE"]:
+                            self.best_per_materials[index] = ({"material:file": self.new_input_file_parameters["material:file"],
+                                                               "iteration": self.iteration_counter,
+                                                               "NRMSE": best_result})
+                            best_material_changed = True
+                        break
+
+                if not best_material_changed:
+                    self.best_per_materials.append({"material:file": self.new_input_file_parameters["material:file"],
+                                                    "iteration": self.iteration_counter,
+                                                    "NRMSE": best_result})
+
             saveData(data=data_to_save,
                      dir_name="/" + str(self.iteration_counter),
                      save_path=self.base_testdata_path,
@@ -143,7 +169,7 @@ class Material_Evolution():
             print("FAILED ON:")
             print(self.new_input_file_parameters)
             print(e)
-            # input("\nPress ENTER to continue...")
+            #input("\nPress ENTER to continue...")
             data_to_save = self.new_input_file_parameters
             saveData(data=data_to_save,
                      dir_name="/" + str(self.iteration_counter) + " FAILED",
