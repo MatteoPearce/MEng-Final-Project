@@ -53,7 +53,7 @@ class Material_Evolution():
             print(f"best result: NRMSE = {self.current_best_result}")
 
             with open(self.base_workdir_path + "/best_iteration.txt", "w") as file:
-                file.writelines(f"best interation number: {self.current_best_iteration}")
+                file.writelines(f"best iteration number: {self.current_best_iteration}")
                 file.writelines("\n")
                 file.writelines("best per material:\n")
                 for material in self.best_per_materials:
@@ -152,7 +152,7 @@ class Material_Evolution():
                                                                "iteration": self.iteration_counter,
                                                                "NRMSE": best_result})
                             best_material_changed = True
-                        break
+                            break
 
                 if not best_material_changed:
                     self.best_per_materials.append({"material:file": self.new_input_file_parameters["material:file"],
