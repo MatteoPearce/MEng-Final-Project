@@ -69,6 +69,7 @@ def modifyVampireInputFile(new_vals: dict = None, file_path : str = None) -> Non
 
     with open(VAMPIRE_input, "w") as file:
         file.writelines(initial_data)
+        file.close()
 
     print("\n#---------------------------------#")
     print("| SUCCESSFULLY UPDATED INPUT FILE |")

@@ -4,7 +4,7 @@ from reservoirpy import observables as robs
 import numpy as np
 from tqdm import tqdm
 from ExtractReservoirIO import ExtractReservoirIO as ERO
-import matplotlib.pyplot as plt
+import os
 np.set_printoptions(threshold=np.inf)
 reservoirpy.verbosity(0)
 
@@ -14,37 +14,40 @@ def TrainGS(workdir_path: str = None) -> float:
 
         training_split = np.arange(0.5,0.95,0.05)
 
-        input_array, output_array = ERO(workdir_path + "/sourcefield.txt",
-                                        workdir_path + "/reservoir_output.txt")
+        if not os.path.isfile(os.path.join(workdir_path,"reservoir_output.txt")):
+            pass
+        else:
+            input_array, output_array = ERO(workdir_path + "/sourcefield.txt",
+                                            workdir_path + "/reservoir_output.txt")
 
-        input_array = np.delete(input_array, 0, axis=0)
-        print("Performing Grid Search of best training split \n")
+            input_array = np.delete(input_array, 0, axis=0)
+            print("Performing Grid Search of best training split \n")
 
-        best_result = 1
-        best_split = 0
+            best_result = 1
+            best_split = 0
 
-        for split in tqdm(training_split):
+            for split in tqdm(training_split):
 
-            scaling_factor = 1
-            lower_limit = int(split * input_array.shape[0])
-            upper_limit = input_array.shape[0]
+                scaling_factor = 1
+                lower_limit = int(split * input_array.shape[0])
+                upper_limit = input_array.shape[0]
 
-            training_y = input_array[:lower_limit, :]
-            training_X = output_array[:lower_limit, :] * scaling_factor
-            testing_y = input_array[lower_limit:, :]
-            testing_X = output_array[lower_limit:upper_limit, :] * scaling_factor
+                training_y = input_array[:lower_limit, :]
+                training_X = output_array[:lower_limit, :] * scaling_factor
+                testing_y = input_array[lower_limit:, :]
+                testing_X = output_array[lower_limit:upper_limit, :] * scaling_factor
 
-            NRMSE, y, y_pred = train_cycle( training_X, training_y, testing_X, testing_y)
+                NRMSE, y, y_pred = train_cycle( training_X, training_y, testing_X, testing_y)
 
-            if NRMSE < best_result:
-                best_result = NRMSE
-                best_split = split
+                if NRMSE < best_result:
+                    best_result = NRMSE
+                    best_split = split
 
-        print(f"\nbest split: {best_split}")
+            print(f"\nbest split: {best_split}")
 
-        best_result, y, y_pred = trainCV(input_array, output_array, best_split)
+            best_result, y, y_pred = trainCV(input_array, output_array, best_split)
 
-        return best_result, y, y_pred
+            return best_result, y, y_pred
 
 #----------------------------------------------------------------------------------------------------------------------#
 def trainCV(input_array: np.ndarray,

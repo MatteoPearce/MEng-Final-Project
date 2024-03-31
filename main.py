@@ -4,6 +4,11 @@ from SaveData import saveData
 from Regression_Training import TrainGS
 from CallVAMPIRE import CallVAMPIRE
 from random import randint
+import numpy as np
+import matplotlib.pyplot as plt
+import pandas as pd
+from time import time
+
 
 class Material_Evolution():
 
@@ -17,23 +22,26 @@ class Material_Evolution():
     current_best_result: float = 1.0
     current_best_iteration: int = None
     current_best_setup: dict = dict()
-    best_per_materials : list(dict()) = list(dict())
+    best_per_materials : list[dict()] = list(dict())
+    main_timer : float = None
+    iteration_times : list = list()
     base_workdir_path: str = "/home/matteo/Desktop/VAMPIRE_WORKDIR"
     base_materials_path: str = "/home/matteo/Desktop/VAMPIRE_WORKDIR/Materials"
     base_testdata_path: str = "/home/matteo/Desktop/VAMPIRE_TEST_RESULTS"
     input_file_parameters: dict = { "material:file" : ["Co.mat","Fe.mat","Ag.mat"],
-                              "dimensions:system-size-x" : [49,99,149,199],
-                              "dimensions:system-size-y" : [49,99,149,199],
-                              "dimensions:system-size-z" : [0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0],
-                              "cells:macro-cell-size" : [5,10,15,20],
-                              "sim:applied-field-strength" : [0,1e-12,1e-6],
+                              "dimensions:system-size-x" : ["49 !nm",99,149,199],
+                              "dimensions:system-size-y" : ["49 !nm",99,149,199],
+                              "dimensions:system-size-z" : ["1.0 !A","5.0 !A","10.0 !A", "20.0 !A", "30.0 !A", "40.0 !A", "49.0 !A"], # 0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,
+                              "cells:macro-cell-size" : ["5 !nm",10,15,20],
+                              "sim:applied-field-strength" : ["0 !T","1e-24 !T","1e-12 !T","1e-6 !T"],
                               "sim:applied-field-unit-vector": [(0,0,1),(0,1,0),(1,0,0)],
-                              "sim:temperature" : [0,10,50,100,200,309.65]} #MAKE SURE DEFAULT IS ALWAYS INDEX 0
+                              "sim:temperature" : [309.65,0,10,50,100,200,309.65]} #MAKE SURE DEFAULT IS ALWAYS INDEX 0
     new_input_file_parameters: dict = dict()
 
 #----------------------------------------------------------------------------------------------------------------------#
 
     def __init__(self):
+        self.main_timer = time()
         self.main_loop()
 
 #----------------------------------------------------------------------------------------------------------------------#
@@ -41,18 +49,22 @@ class Material_Evolution():
     def main_loop(self):
 
             while not self.simulation_end:
-
+                start_time = time()
                 self.select_parameters()
-                self.update_input_files()
-                self.run_simulation()
-                self.reservoir_computing()
-                self.iteration_counter += 1
-
+                if self.simulation_end:
+                    pass
+                else:
+                    self.update_input_files()
+                    self.run_simulation()
+                    self.reservoir_computing()
+                    self.iteration_counter += 1
+                end_time = time()
+                self.iteration_times.append(end_time - start_time)
             print("SIMULATION ENDED, BEST SETUP AND RESULT:\n")
             print(self.current_best_setup)
             print(f"best result: NRMSE = {self.current_best_result}")
 
-            with open(self.base_workdir_path + "/best_iteration.txt", "w") as file:
+            with open(self.base_testdata_path + "/best_iteration.txt", "w") as file:
                 file.writelines(f"best iteration number: {self.current_best_iteration}")
                 file.writelines("\n")
                 file.writelines("best per material:\n")
@@ -62,6 +74,12 @@ class Material_Evolution():
                     file.writelines("\n")
                 file.close()
 
+            #self.plotBestResults()
+            end_time = time()
+            self.main_timer = end_time - self.main_timer
+            average_time = sum(self.iteration_times) / len(self.iteration_times)
+            print(f"\nelapsed time: {round((self.main_timer/60)/60,2)} hours")
+            print(f"\naverage time per iteration: {round(average_time,2)} seconds")
 
 #----------------------------------------------------------------------------------------------------------------------#
 
@@ -88,22 +106,27 @@ class Material_Evolution():
             if len(self.tried_combos) == 0:
                 unique = True
             else:
-
+                unique = True
                 for combo in self.tried_combos:
                     if combo == self.new_input_file_parameters:
                         unique = False
                         break
-                    else:
-                        unique = True
+
+                    #print(combo)
+                    #print()
+                    #print(self.new_input_file_parameters)
+                    #input()
 
             if unique:
                 self.tried_combos.append(self.new_input_file_parameters)
                 searching_combo = False
 
-            attempts += 1
+
             if attempts >= self.max_attempts:
                 searching_combo = False
                 self.simulation_end = True
+
+            attempts += 1
 
 #----------------------------------------------------------------------------------------------------------------------#
 
@@ -111,13 +134,19 @@ class Material_Evolution():
 
         mvif(self.new_input_file_parameters, self.base_workdir_path)
         smf(self.new_input_file_parameters["material:file"],self.base_materials_path, self.base_workdir_path)
+        import os
+
+        for file in os.listdir(self.base_workdir_path):
+            filename = os.fsdecode(file)
+            if filename == "reservoir_output.txt":
+                os.remove(os.path.join(self.base_workdir_path, file))
 
 #----------------------------------------------------------------------------------------------------------------------#
 
     def run_simulation(self):
 
         CallVAMPIRE(self.base_workdir_path,parallel=False,debug_mode=False)
-        print("simulation done")
+        #print("simulation done")
 
 #----------------------------------------------------------------------------------------------------------------------#
 
@@ -130,34 +159,32 @@ class Material_Evolution():
                             "y_pred":y_pred,
                             "NRMSE": best_result}
 
-            data_to_save.update(self.new_input_file_parameters)
+            dict_for_heatmaps = dict()
+            dict_for_heatmaps = self.new_input_file_parameters.copy()
+            dict_for_heatmaps["iteration"] = self.iteration_counter
+            dict_for_heatmaps["NRMSE"] = best_result
+
+            data_to_save.update(self.new_input_file_parameters.copy())
 
             if best_result < self.current_best_result:
                 self.current_best_result = best_result
                 self.current_best_setup = self.new_input_file_parameters
                 self.current_best_iteration = self.iteration_counter
-                print(f"\nnew best found! current NRMSE: {0:.2f}".format(best_result))
+                print(f"\nnew best found! current NRMSE: {0:.4f}".format(best_result))
 
             if len(self.best_per_materials) == 0:
-                self.best_per_materials.append({"material:file" : self.new_input_file_parameters["material:file"],
-                                                "iteration" : self.iteration_counter,
-                                                "NRMSE": best_result})
-
+                self.best_per_materials.append(dict_for_heatmaps)
             else:
                 best_material_changed = False
                 for index,mat in enumerate(self.best_per_materials):
                     if mat["material:file"] == self.new_input_file_parameters["material:file"]:
                         if best_result < mat["NRMSE"]:
-                            self.best_per_materials[index] = ({"material:file": self.new_input_file_parameters["material:file"],
-                                                               "iteration": self.iteration_counter,
-                                                               "NRMSE": best_result})
+                            self.best_per_materials[index] = dict_for_heatmaps
                             best_material_changed = True
                             break
 
                 if not best_material_changed:
-                    self.best_per_materials.append({"material:file": self.new_input_file_parameters["material:file"],
-                                                    "iteration": self.iteration_counter,
-                                                    "NRMSE": best_result})
+                    self.best_per_materials.append(dict_for_heatmaps)
 
             saveData(data=data_to_save,
                      dir_name="/" + str(self.iteration_counter),
@@ -178,6 +205,89 @@ class Material_Evolution():
                      Failed=True)
 
 #----------------------------------------------------------------------------------------------------------------------#
+
+    def plotBestResults(self):
+
+        materials = self.input_file_parameters["material:file"]
+        parameters = self.input_file_parameters.copy()
+        parameters.pop("material:file")
+        parameters = parameters.keys()
+
+        for material in materials:
+            iterations = list()
+            matrices = 0
+            make_image = False
+            for index, entry in enumerate(self.best_per_materials.copy()):
+                print(material)
+                print(entry.items())
+                try:
+                    if entry["material:file"] == material:
+                        name = entry["material:file"]
+                        iterations.append(str(entry["iteration"]))
+                        entry.pop("material:file")
+                        entry.pop("iteration")
+
+                        if entry["sim:applied-field-unit-vector"][0] != 0:
+                            entry["sim:applied-field-unit-vector"] = 1
+                        elif entry["sim:applied-field-unit-vector"][1] != 0:
+                            entry["sim:applied-field-unit-vector"] = 2
+                        elif entry["sim:applied-field-unit-vector"][2] != 0:
+                            entry["sim:applied-field-unit-vector"] = 3
+
+                        if not self.sweep_grid_size:
+                            entry.pop("dimensions:system-size-x")
+                            entry.pop("dimensions:system-size-y")
+                        if not self.sweep_cell_size:
+                            entry.pop("cells:macro-cell-size")
+                        if not self.sweep_temperature:
+                            entry.pop("sim:temperature")
+
+                        row = np.array(list(entry.values()))
+                        row = row.reshape((1,len(row)))
+
+                        if matrices == 0:
+                            result_matrix = row
+                            #result_matrix = result_matrix.reshape((1,len(row)))
+                        else:
+                            result_matrix = np.concatenate((result_matrix,row ),axis=0)
+
+                        matrices += 1
+                        valid_fields = entry.keys()
+                        make_image = True
+                        if len(iterations) >= 10:
+                            break
+                except KeyError:
+                    pass
+
+            if make_image:
+
+                fig, ax = plt.subplots()
+                im = ax.imshow(result_matrix)
+
+                # Show all ticks and label them with the respective list entries
+                ax.set_xticks(np.arange(len(valid_fields)), labels=valid_fields)
+                ax.set_yticks(np.arange(len(iterations)), labels=iterations)
+
+                # Rotate the tick labels and set their alignment.
+                plt.setp(ax.get_xticklabels(), rotation=45, ha="right",
+                         rotation_mode="anchor")
+
+                # Loop over data dimensions and create text annotations.
+                for i in range(len(iterations)):
+                    for j in range(len(valid_fields)):
+                        text = ax.text(j, i, round(result_matrix[i, j],3),
+                                       ha="center", va="center", color="w")
+
+                fig.colorbar(im, spacing='proportional')
+                ax.set_title(f"best iterations of {name}")
+                ax.set_aspect('auto')
+
+                fig.tight_layout()
+
+                fig.savefig(self.base_testdata_path + "/" + name.strip(".mat"))
+                plt.close()
+
+                del fig, ax, im, result_matrix, iterations, valid_fields
 
 def main() -> None:
 
