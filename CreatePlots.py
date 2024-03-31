@@ -1,3 +1,4 @@
+import math
 from collections import Counter
 from itertools import product
 import matplotlib.pyplot as plt
@@ -62,7 +63,8 @@ def createPlotData(file_path: str = None, parameter_names: list = None) -> None:
 
         #print(parameters)
         #plotXY(file_path,parameters)
-        plotHeatmap(file_path, parameters)
+        #plotHeatmap(file_path, parameters)
+        plotScatter(file_path,parameters)
 
 #-----------------------------------------------------------------------------------------------------------------------
 
@@ -183,7 +185,7 @@ def plotHeatmap(save_path: str = None, data: dict = None) -> None:
         ax.set_aspect('auto')
 
         fig.tight_layout()
-        plt.show()
+        #plt.show()
         #input()
         fig.savefig(save_path + "/" + material.strip(".mat"))
         plt.close()
@@ -193,6 +195,41 @@ def plotHeatmap(save_path: str = None, data: dict = None) -> None:
         #print(matrix)
 
 #-----------------------------------------------------------------------------------------------------------------------
+
+def plotScatter(save_path: str = None, data: dict = None) -> None:
+
+    labels = data["material:file"]
+    NRMSE = data["NRMSE"]
+    materials = list(Counter(labels).keys())
+    values = list()
+
+    for material in materials:
+        dict_to_plot = dict()
+        index_list = list()
+        for index, entry in enumerate(labels):
+            if material == entry:
+                index_list.append(index)
+
+        NRMSE_current_mat = list()
+        max_NRMSE = None
+        for index in index_list:
+            NRMSE_current_mat.append(NRMSE[index])
+        max_NRMSE = max(NRMSE_current_mat)
+
+        values.append(round(max_NRMSE,4))
+
+
+    plt.figure(figsize=(10, 5))
+    plt.title("materials comparison")
+    plt.xlabel("materials")
+    plt.ylabel("NRMSE")
+    plt.scatter(materials, values)
+    plt.grid(visible=True)
+    plt.savefig(save_path + "/materials_comparison")
+    plt.close()
+    #plt.show()
+
+# -----------------------------------------------------------------------------------------------------------------------
 
 param_names = ["material:file", "dimensions:system-size-x", "dimensions:system-size-y",
                "dimensions:system-size-z", "cells:macro-cell-size", "sim:applied-field-strength",
