@@ -12,8 +12,7 @@ def GenerateTimeseries(series_name: str = None, stop_time: int = None) -> np.nda
     series = ts.TimeSeries(narma_signal)
     samples, signals, errors = series.sample(times)
 
-    samples = samples - np.average(samples)#(samples.max() + samples.min())/2
-    #samples = samples/10e10
+    samples = samples - np.average(samples)
 
     """plt.plot(times, samples, marker='o', markersize=2)
     plt.xlabel('Time')  # X-axis label

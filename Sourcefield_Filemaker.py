@@ -72,8 +72,7 @@ def filemaker(output_path: str,
                     new_array = row
                 else:
                     new_array = np.concatenate((new_array,row),axis=0)
-                #print(new_array)
-                #input()
+
         else:
             if timeseries.shape != (rows,columns):
                 timeseries = timeseries.reshape((rows,columns))
@@ -109,10 +108,6 @@ def filemaker(output_path: str,
                 data = data + "\n"  + column + " " + str(row)
 
             column = str()
-
-    #print(header1)
-    #print(header2)
-    #print(data)
 
 # ------------------------------------------------------------------ write to file
 

@@ -5,8 +5,6 @@ from Regression_Training import TrainGS
 from CallVAMPIRE import CallVAMPIRE
 from random import randint
 import numpy as np
-import matplotlib.pyplot as plt
-import pandas as pd
 from time import time
 from ScaleGrid import scaleGrid
 from GenerateTimeseries import GenerateTimeseries as GT
@@ -133,11 +131,6 @@ class Material_Evolution():
                     if combo == self.new_input_file_parameters:
                         unique = False
                         break
-
-                    #print(combo)
-                    #print()
-                    #print(self.new_input_file_parameters)
-                    #input()
 
             if unique:
                 self.tried_combos.append(self.new_input_file_parameters)
@@ -270,88 +263,6 @@ class Material_Evolution():
 
 #----------------------------------------------------------------------------------------------------------------------#
 
-    def plotBestResults(self):
-
-        materials = self.input_file_parameters["material:file"]
-        parameters = self.input_file_parameters.copy()
-        parameters.pop("material:file")
-        parameters = parameters.keys()
-
-        for material in materials:
-            iterations = list()
-            matrices = 0
-            make_image = False
-            for index, entry in enumerate(self.best_per_materials.copy()):
-                print(material)
-                print(entry.items())
-                try:
-                    if entry["material:file"] == material:
-                        name = entry["material:file"]
-                        iterations.append(str(entry["iteration"]))
-                        entry.pop("material:file")
-                        entry.pop("iteration")
-
-                        if entry["sim:applied-field-unit-vector"][0] != 0:
-                            entry["sim:applied-field-unit-vector"] = 1
-                        elif entry["sim:applied-field-unit-vector"][1] != 0:
-                            entry["sim:applied-field-unit-vector"] = 2
-                        elif entry["sim:applied-field-unit-vector"][2] != 0:
-                            entry["sim:applied-field-unit-vector"] = 3
-
-                        if not self.sweep_grid_size:
-                            entry.pop("dimensions:system-size-x")
-                            entry.pop("dimensions:system-size-y")
-                        if not self.sweep_cell_size:
-                            entry.pop("cells:macro-cell-size")
-                        if not self.sweep_temperature:
-                            entry.pop("sim:temperature")
-
-                        row = np.array(list(entry.values()))
-                        row = row.reshape((1,len(row)))
-
-                        if matrices == 0:
-                            result_matrix = row
-                            #result_matrix = result_matrix.reshape((1,len(row)))
-                        else:
-                            result_matrix = np.concatenate((result_matrix,row ),axis=0)
-
-                        matrices += 1
-                        valid_fields = entry.keys()
-                        make_image = True
-                        if len(iterations) >= 10:
-                            break
-                except KeyError:
-                    pass
-
-            if make_image:
-
-                fig, ax = plt.subplots()
-                im = ax.imshow(result_matrix)
-
-                # Show all ticks and label them with the respective list entries
-                ax.set_xticks(np.arange(len(valid_fields)), labels=valid_fields)
-                ax.set_yticks(np.arange(len(iterations)), labels=iterations)
-
-                # Rotate the tick labels and set their alignment.
-                plt.setp(ax.get_xticklabels(), rotation=45, ha="right",
-                         rotation_mode="anchor")
-
-                # Loop over data dimensions and create text annotations.
-                for i in range(len(iterations)):
-                    for j in range(len(valid_fields)):
-                        text = ax.text(j, i, round(result_matrix[i, j],3),
-                                       ha="center", va="center", color="w")
-
-                fig.colorbar(im, spacing='proportional')
-                ax.set_title(f"best iterations of {name}")
-                ax.set_aspect('auto')
-
-                fig.tight_layout()
-
-                fig.savefig(self.base_testdata_path + "/" + name.strip(".mat"))
-                plt.close()
-
-                del fig, ax, im, result_matrix, iterations, valid_fields
 
 def main() -> None:
 
