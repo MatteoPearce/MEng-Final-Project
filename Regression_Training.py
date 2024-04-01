@@ -1,3 +1,5 @@
+from typing import Tuple, Any
+import matplotlib.pyplot as plt
 import reservoirpy
 from reservoirpy.nodes import Ridge
 from reservoirpy import observables as robs
@@ -8,7 +10,7 @@ import os
 np.set_printoptions(threshold=np.inf)
 reservoirpy.verbosity(0)
 
-def TrainGS(workdir_path: str = None) -> float:
+def TrainGS(workdir_path: str = None) -> tuple[Any, Any, Any]:
 
     if workdir_path is not None:
 
@@ -23,7 +25,7 @@ def TrainGS(workdir_path: str = None) -> float:
             input_array = np.delete(input_array, 0, axis=0)
             print("Performing Grid Search of best training split \n")
 
-            best_result = 1
+            best_result = np.inf
             best_split = 0
 
             for split in tqdm(training_split):
@@ -38,7 +40,9 @@ def TrainGS(workdir_path: str = None) -> float:
                 testing_X = output_array[lower_limit:upper_limit, :] * scaling_factor
 
                 NRMSE, y, y_pred = train_cycle( training_X, training_y, testing_X, testing_y)
-
+                #print("split: ", split)
+                #print("NRMSE: ", NRMSE)
+                #input()
                 if NRMSE < best_result:
                     best_result = NRMSE
                     best_split = split
@@ -56,7 +60,7 @@ def trainCV(input_array: np.ndarray,
 
     if split is not None:
 
-        best_result = 1
+        best_result = np.inf
         if split <= 0.1:
             split = 0.9
 
@@ -74,6 +78,7 @@ def trainCV(input_array: np.ndarray,
             training_X = np.delete(training_X,rows,axis=0)
 
             NRMSE, y, y_pred = train_cycle( training_X, training_y, testing_X, testing_y)
+
 
             if NRMSE < best_result:
                 best_result = NRMSE
@@ -106,12 +111,12 @@ def train_cycle(training_X: np.ndarray,
 
 #----------------------------------------------------------------------------------------------------------------------#
 
-#best_result, y, y_pred = TrainGS("/home/matteo/Desktop/VAMPIRE_WORKDIR")
-#print(f"best_result = {best_result}")
+best_result, y, y_pred = TrainGS("/home/matteo/Desktop/VAMPIRE_WORKDIR")
+print(f"best_result = {best_result}")
 
-#plt.plot(np.arange(y_pred.shape[0]), y[:, 0], marker='o', markersize=1)  # , color='red')
-#plt.plot(np.arange(y_pred.shape[0]), y_pred[:, 0], marker='o', markersize=1)
-#plt.xlabel('Time')  # X-axis label
-#plt.ylabel('Magnitude')  # Y-axis label
-#plt.title('Prediction');  # title of the plot
-#plt.show()
+plt.plot(np.arange(y_pred.shape[0]), y[:, 0], marker='o', markersize=1)  # , color='red')
+plt.plot(np.arange(y_pred.shape[0]), y_pred[:, 0], marker='o', markersize=1)
+plt.xlabel('Time')  # X-axis label
+plt.ylabel('Magnitude')  # Y-axis label
+plt.title('Prediction');  # title of the plot
+plt.show()

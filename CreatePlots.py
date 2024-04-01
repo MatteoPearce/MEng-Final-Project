@@ -1,4 +1,3 @@
-import math
 from collections import Counter
 from itertools import product
 import matplotlib.pyplot as plt
@@ -63,16 +62,16 @@ def createPlotData(file_path: str = None, parameter_names: list = None) -> None:
 
         #print(parameters)
         #plotXY(file_path,parameters)
-        #plotHeatmap(file_path, parameters)
+        plotHeatmap(file_path, parameters)
         plotScatter(file_path,parameters)
 
 #-----------------------------------------------------------------------------------------------------------------------
 
 def plotXY(save_path: str = None, data: dict = None) -> None:
 
-    labels = data["material:file"]
-    NRMSE = data["NRMSE"]
-    data.pop("material:file")
+    labels = data["material:file"].copy()
+    NRMSE = data["NRMSE"].copy()
+    #data.pop("material:file")
     data.pop("iteration")
     materials = list(Counter(labels).keys())
     print(data)
@@ -128,8 +127,9 @@ def plotXY(save_path: str = None, data: dict = None) -> None:
 
 def plotHeatmap(save_path: str = None, data: dict = None) -> None:
 
-    labels = data["material:file"]
-    data.pop("material:file")
+    labels = data["material:file"].copy()
+    data_copy = data.copy()
+    data_copy.pop("material:file")
 
     materials = list(Counter(labels).keys())
 
@@ -140,10 +140,10 @@ def plotHeatmap(save_path: str = None, data: dict = None) -> None:
                 index_list.append(index)
 
         dict_to_plot = dict()
-        for key in data.keys():
+        for key in data_copy.keys():
             dict_to_plot[key] = list()
             for index in index_list:
-                dict_to_plot[key].append(data[key][index])
+                dict_to_plot[key].append(data_copy[key][index])
 
         iterations = dict_to_plot["iteration"].copy()
         dict_to_plot.pop("iteration")
@@ -198,7 +198,7 @@ def plotHeatmap(save_path: str = None, data: dict = None) -> None:
 
 def plotScatter(save_path: str = None, data: dict = None) -> None:
 
-    labels = data["material:file"]
+    labels = data["material:file"].copy()
     NRMSE = data["NRMSE"]
     materials = list(Counter(labels).keys())
     values = list()
@@ -217,7 +217,6 @@ def plotScatter(save_path: str = None, data: dict = None) -> None:
         max_NRMSE = max(NRMSE_current_mat)
 
         values.append(round(max_NRMSE,4))
-
 
     plt.figure(figsize=(10, 5))
     plt.title("materials comparison")
