@@ -11,6 +11,7 @@ def scaleGrid(x_dims: list = None,
               timeseries: np.ndarray = None) -> tuple[int | Any, int | Any, Any]:
 
     valid_choice = False
+    counter = 0
     while not valid_choice:
         dim_choiceX = x_dims[randint(0, len(x_dims)-1)] + 1
         dim_choiceY = y_dims[randint(0, len(y_dims)-1)] + 1
@@ -22,4 +23,16 @@ def scaleGrid(x_dims: list = None,
         if cells_perX % 1 == 0 and cells_perY % 1 == 0:
             valid_choice = True
 
-    return dim_choiceX -1, dim_choiceY -1, dim_choiceCELL
+        if counter >= 10000:
+            break
+
+        counter += 1
+
+    if valid_choice:
+
+        return dim_choiceX -1, dim_choiceY -1, dim_choiceCELL
+
+    else:
+
+        print("COULD NOT FIND ANY DIMENSIONS")
+        return 49, 49, 5
