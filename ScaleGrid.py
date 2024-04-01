@@ -1,4 +1,6 @@
 from random import randint
+from typing import Tuple, Any
+
 from Sourcefield_Filemaker import filemaker
 import numpy as np
 from GenerateTimeseries import GenerateTimeseries as GT
@@ -6,7 +8,7 @@ def scaleGrid(x_dims: list = None,
               y_dims: list = None,
               cell_dim: list = None,
               save_path: str = None,
-              timeseries: np.ndarray = None) -> None:
+              timeseries: np.ndarray = None) -> tuple[int | Any, int | Any, Any]:
 
     valid_choice = False
     while not valid_choice:
@@ -51,7 +53,7 @@ def scaleGrid(x_dims: list = None,
     print("header1", header1)
     print("header2", header2)
     #a = GT(stop_time=1000)
-    filemaker(output_path=save_path,rows= a.shape[0],timeseries=a, columns=num_cells,all_same=True,headers=[header1,header2])
+    filemaker(output_path=save_path,rows= a.shape[0],timeseries=timeseries, columns=num_cells,all_same=True,headers=[header1,header2])
 
     return dim_choiceX -1, dim_choiceY -1, dim_choiceCELL
 
