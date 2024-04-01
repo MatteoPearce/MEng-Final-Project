@@ -188,7 +188,7 @@ class Material_Evolution():
 
         mvif(self.new_input_file_parameters, self.base_workdir_path)
         smf(self.new_input_file_parameters["material:file"], self.base_materials_path, self.base_workdir_path)
-        input()
+        #input()
         import os
 
         for file in os.listdir(self.base_workdir_path):
