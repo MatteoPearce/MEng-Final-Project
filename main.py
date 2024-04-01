@@ -150,7 +150,7 @@ class Material_Evolution():
 
             attempts += 1
 
-# ----------------------------------------------------------------------------------------------------------------------#
+#----------------------------------------------------------------------------------------------------------------------#
 
     def update_input_files(self):
 
@@ -172,6 +172,7 @@ class Material_Evolution():
         for i in range(cells_perY - 1):
             header1 = header1 + dummy
 
+        headers = [header1,header2]
 
         x_dim = self.new_input_file_parameters["dimensions:system-size-x"]
         y_dim = self.new_input_file_parameters["dimensions:system-size-y"]
@@ -184,7 +185,7 @@ class Material_Evolution():
                   timeseries=self.timeseries,
                   columns=int(x_dim * y_dim),
                   all_same=True,
-                  headers=[header1, header2])
+                  headers=headers)
 
         mvif(self.new_input_file_parameters, self.base_workdir_path)
         smf(self.new_input_file_parameters["material:file"], self.base_materials_path, self.base_workdir_path)

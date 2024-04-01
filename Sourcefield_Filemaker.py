@@ -18,7 +18,7 @@ def filemaker(output_path: str,
               field_threshold: float = None,
               timeseries: np.ndarray = None,
               all_same:bool = False,
-              headers: list[str,str] = None) -> None:
+              headers: list = None) -> None:
 
 # ------------------------------------------------------------------ check inputs
 
