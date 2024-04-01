@@ -36,7 +36,7 @@ class Material_Evolution():
                               "dimensions:system-size-y" : [49,99,149,199],
                               "dimensions:system-size-z" : [1,10,15,20], #, "20.0 !A", "30.0 !A", "40.0 !A", "49.0 !A"], # 0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,"1.0 !A","0.2 !A","0.3 !A","0.4 !A","0.5 !A","0.6 !A","0.7 !A","0.8 !A","0.9 !A","5.0 !A","10.0 !A"
                               "cells:macro-cell-size" : [5,10,15,20],
-                              "sim:applied-field-strength" : ["0 !T"],#,"1e-24 !T","1e-12 !T","1e-6 !T"],
+                              "sim:applied-field-strength" : [0],#,"1e-24 !T","1e-12 !T","1e-6 !T"],
                               "sim:applied-field-unit-vector": [(0,0,1),(0,1,0),(1,0,0)],
                               "sim:temperature" : [0,10,50,100,200,309.65]} #MAKE SURE DEFAULT IS ALWAYS INDEX 0
     input_file_units: dict = { "material:file" : "",
@@ -154,8 +154,8 @@ class Material_Evolution():
 
     def update_input_files(self):
 
-        mvif(self.new_input_file_parameters, self.base_workdir_path)
-        smf(self.new_input_file_parameters["material:file"],self.base_materials_path, self.base_workdir_path)
+        #mvif(self.new_input_file_parameters, self.base_workdir_path)
+        #smf(self.new_input_file_parameters["material:file"],self.base_materials_path, self.base_workdir_path)
 
         cells_perX = int((self.new_input_file_parameters["dimensions:system-size-x"] + 1)  / self.new_input_file_parameters["cells:macro-cell-size"])
         cells_perY = int((self.new_input_file_parameters["dimensions:system-size-y"] + 1)  / self.new_input_file_parameters["cells:macro-cell-size"])
@@ -177,6 +177,7 @@ class Material_Evolution():
         y_dim = self.new_input_file_parameters["dimensions:system-size-y"]
 
         self.addUnits()
+        print(self.new_input_file_parameters)
 
         filemaker(output_path=self.base_workdir_path,
                   rows=self.timeseries.shape[0],
@@ -184,6 +185,10 @@ class Material_Evolution():
                   columns=int(x_dim * y_dim),
                   all_same=True,
                   headers=[header1, header2])
+
+        mvif(self.new_input_file_parameters, self.base_workdir_path)
+        smf(self.new_input_file_parameters["material:file"], self.base_materials_path, self.base_workdir_path)
+        input()
         import os
 
         for file in os.listdir(self.base_workdir_path):

@@ -38,12 +38,12 @@ def TrainGS(workdir_path: str = None) -> tuple[Any, Any, Any]:
                 testing_y = input_array[lower_limit:, :]
                 testing_X = output_array[lower_limit:upper_limit, :] * scaling_factor
 
-                print(input_array.shape)
-                print(output_array.shape)
-                print(training_y.shape)
-                print(training_X.shape)
-                print(testing_X.shape)
-                print(testing_y.shape)
+                #print(input_array.shape)
+                #print(output_array.shape)
+                #print(training_y.shape)
+                #print(training_X.shape)
+                #print(testing_X.shape)
+                #print(testing_y.shape)
 
 
                 try:
