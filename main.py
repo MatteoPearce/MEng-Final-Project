@@ -8,7 +8,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 from time import time
-
+from ScaleGrid import scaleGrid
+from GenerateTimeseries import GenerateTimeseries as GT
 
 class Material_Evolution():
 
@@ -29,11 +30,11 @@ class Material_Evolution():
     base_materials_path: str = "/home/matteo/Desktop/VAMPIRE_WORKDIR/Materials"
     base_testdata_path: str = "/home/matteo/Desktop/VAMPIRE_TEST_RESULTS"
     input_file_parameters: dict = { "material:file" : ["Co.mat","Fe.mat","Ag.mat"],
-                              "dimensions:system-size-x" : ["49 !nm",99,149,199],
-                              "dimensions:system-size-y" : ["49 !nm",99,149,199],
-                              "dimensions:system-size-z" : ["1.0 !A","0.2 !A","0.3 !A","0.4 !A","0.5 !A","0.6 !A","0.7 !A","0.8 !A","0.9 !A","5.0 !A","10.0 !A"], #, "20.0 !A", "30.0 !A", "40.0 !A", "49.0 !A"], # 0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,
-                              "cells:macro-cell-size" : ["5 !nm",10,15,20],
-                              "sim:applied-field-strength" : ["0 !T","1e-24 !T","1e-12 !T","1e-6 !T"],
+                              "dimensions:system-size-x" : [49,99,149,199],
+                              "dimensions:system-size-y" : [49,99,149,199],
+                              "dimensions:system-size-z" : [1,10,15,20], #, "20.0 !A", "30.0 !A", "40.0 !A", "49.0 !A"], # 0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,"1.0 !A","0.2 !A","0.3 !A","0.4 !A","0.5 !A","0.6 !A","0.7 !A","0.8 !A","0.9 !A","5.0 !A","10.0 !A"
+                              "cells:macro-cell-size" : [5,10,15,20],
+                              "sim:applied-field-strength" : ["0 !T"],#,"1e-24 !T","1e-12 !T","1e-6 !T"],
                               "sim:applied-field-unit-vector": [(0,0,1),(0,1,0),(1,0,0)],
                               "sim:temperature" : [0,10,50,100,200,309.65]} #MAKE SURE DEFAULT IS ALWAYS INDEX 0
     new_input_file_parameters: dict = dict()
@@ -42,6 +43,7 @@ class Material_Evolution():
 
     def __init__(self):
         self.main_timer = time()
+        self.timeseries = GT(stop_time=1000)
         self.main_loop()
 
 #----------------------------------------------------------------------------------------------------------------------#
@@ -102,6 +104,16 @@ class Material_Evolution():
                     number = randint(0,len(value)-1)
 
                 self.new_input_file_parameters[key] = value[number]
+
+            new_x, new_y, new_grid = scaleGrid(x_dims=self.input_file_parameters["dimensions:system-size-x"],
+                                               y_dims=self.input_file_parameters["dimensions:system-size-y"],
+                                               cell_dim=self.input_file_parameters["cells:macro-cell-size"],
+                                               save_path=self.base_workdir_path,
+                                               timeseries=self.timeseries)
+
+            self.new_input_file_parameters["dimensions:system-size-x"] = new_x
+            self.new_input_file_parameters["dimensions:system-size-y"] = new_y
+            self.new_input_file_parameters["cells:macro-cell-size"] = new_grid
 
             if len(self.tried_combos) == 0:
                 unique = True

@@ -17,7 +17,8 @@ def filemaker(output_path: str,
               columns: int,
               field_threshold: float = None,
               timeseries: np.ndarray = None,
-              all_same:bool = False) -> None:
+              all_same:bool = False,
+              headers: list[str,str] = None) -> None:
 
 # ------------------------------------------------------------------ check inputs
 
@@ -35,14 +36,19 @@ def filemaker(output_path: str,
 
     header1 = str()
     header2 = str()
-    for i in range(1,cell_num+1):
-        header1 = header1 + f"{i} "
-        for j in range(1,cell_num+1):
-            header2 = header2 + f"{i} "
 
-    dummy = header1
-    for i in range(cell_num-1):
-        header1 = header1 + dummy
+    if headers is not None:
+        header1 = headers[0]
+        header2 = headers[1]
+    else:
+        for i in range(1,cell_num+1):
+            header1 = header1 + f"{i} "
+            for j in range(1,cell_num+1):
+                header2 = header2 + f"{i} "
+
+        dummy = header1
+        for i in range(cell_num-1):
+            header1 = header1 + dummy
 
     header1 = header1 + "-2\n"
     header2 = header2 + "-1\n"

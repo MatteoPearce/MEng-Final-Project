@@ -24,7 +24,6 @@ def TrainGS(workdir_path: str = None) -> tuple[Any, Any, Any]:
 
             input_array = np.delete(input_array, 0, axis=0)
             print("Performing Grid Search of best training split \n")
-
             best_result = np.inf
             best_split = 0
 
@@ -92,6 +91,8 @@ def train_cycle(training_X: np.ndarray,
                 training_y: np.ndarray,
                 testing_X: np.ndarray,
                 testing_y: np.ndarray) -> [float,np.ndarray,np.ndarray]:
+
+    print(training_X)
 
     output_node = Ridge(output_dim=testing_y.shape[1])  # , name="output_node ")
     fitted_output = output_node.fit(training_X, training_y, warmup=0)
