@@ -15,14 +15,14 @@ def GenerateTimeseries(series_name: str = None, stop_time: int = None) -> np.nda
     samples = samples - np.average(samples)#(samples.max() + samples.min())/2
     #samples = samples/10e10
 
-    plt.plot(times, samples, marker='o', markersize=2)
+    """plt.plot(times, samples, marker='o', markersize=2)
     plt.xlabel('Time')  # X-axis label
     plt.ylabel('Magnitude')  # Y-axis label
     plt.title('10th-order NARMA Series');  # title of the plot
-    plt.show()
+    plt.show()"""
     return samples
 
-rows = 1000
-a = GenerateTimeseries(stop_time=rows)
+#rows = 1000
+#a = GenerateTimeseries(stop_time=rows)
 
-SF.filemaker(output_path="/home/matteo/Desktop/VAMPIRE_WORKDIR",rows= rows,columns= 100,timeseries=a,all_same=True)
+#SF.filemaker(output_path="/home/matteo/Desktop/VAMPIRE_WORKDIR",rows= rows,columns= 100,timeseries=a,all_same=True)

@@ -26,20 +26,13 @@ def scaleGrid(x_dims: list = None,
 
     num_cells = int(cells_perX * cells_perY)
 
-    print("dim_choiceX", dim_choiceX)
-    print("dim_choiceY", dim_choiceY)
-    print("dim_choiceCELL", dim_choiceCELL)
-    print("num_cells", num_cells)
+    #print("dim_choiceX", dim_choiceX)
+    #print("dim_choiceY", dim_choiceY)
+    #print("dim_choiceCELL", dim_choiceCELL)
+    #print("num_cells", num_cells)
 
     header1 = str()
     header2 = str()
-
-    if cells_perX > cells_perY:
-        bigger_dim = cells_perX
-        smaller_dim = cells_perY
-    else:
-        bigger_dim = cells_perY
-        smaller_dim = cells_perX
 
     for i in range(1, cells_perX + 1):
         header1 = header1 + f"{i} "
@@ -50,10 +43,9 @@ def scaleGrid(x_dims: list = None,
     for i in range(cells_perY - 1):
         header1 = header1 + dummy
 
-    print("header1", header1)
-    print("header2", header2)
+    #print("header1", header1)
+    #print("header2", header2)
     #a = GT(stop_time=1000)
-    filemaker(output_path=save_path,rows= a.shape[0],timeseries=timeseries, columns=num_cells,all_same=True,headers=[header1,header2])
 
     return dim_choiceX -1, dim_choiceY -1, dim_choiceCELL
 

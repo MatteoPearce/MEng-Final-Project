@@ -38,13 +38,25 @@ def TrainGS(workdir_path: str = None) -> tuple[Any, Any, Any]:
                 testing_y = input_array[lower_limit:, :]
                 testing_X = output_array[lower_limit:upper_limit, :] * scaling_factor
 
-                NRMSE, y, y_pred = train_cycle( training_X, training_y, testing_X, testing_y)
+                print(input_array.shape)
+                print(output_array.shape)
+                print(training_y.shape)
+                print(training_X.shape)
+                print(testing_X.shape)
+                print(testing_y.shape)
+
+
+                try:
+                    NRMSE, y, y_pred = train_cycle( training_X, training_y, testing_X, testing_y)
+                except np.linalg.LinAlgError:
+                    NRMSE, y, y_pred = None, None, None
                 #print("split: ", split)
                 #print("NRMSE: ", NRMSE)
                 #input()
-                if NRMSE < best_result:
-                    best_result = NRMSE
-                    best_split = split
+                if NRMSE is not None:
+                    if NRMSE < best_result:
+                        best_result = NRMSE
+                        best_split = split
 
             print(f"\nbest split: {best_split}")
 
@@ -92,8 +104,6 @@ def train_cycle(training_X: np.ndarray,
                 testing_X: np.ndarray,
                 testing_y: np.ndarray) -> [float,np.ndarray,np.ndarray]:
 
-    print(training_X)
-
     output_node = Ridge(output_dim=testing_y.shape[1])  # , name="output_node ")
     fitted_output = output_node.fit(training_X, training_y, warmup=0)
     prediction = fitted_output.run(testing_X)
@@ -112,7 +122,7 @@ def train_cycle(training_X: np.ndarray,
 
 #----------------------------------------------------------------------------------------------------------------------#
 
-best_result, y, y_pred = TrainGS("/home/matteo/Desktop/VAMPIRE_WORKDIR")
+"""best_result, y, y_pred = TrainGS("/home/matteo/Desktop/VAMPIRE_WORKDIR")
 print(f"best_result = {best_result}")
 
 plt.plot(np.arange(y_pred.shape[0]), y[:, 0], marker='o', markersize=1)  # , color='red')
@@ -120,4 +130,4 @@ plt.plot(np.arange(y_pred.shape[0]), y_pred[:, 0], marker='o', markersize=1)
 plt.xlabel('Time')  # X-axis label
 plt.ylabel('Magnitude')  # Y-axis label
 plt.title('Prediction');  # title of the plot
-plt.show()
+plt.show()"""

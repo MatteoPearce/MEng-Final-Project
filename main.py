@@ -10,6 +10,7 @@ import pandas as pd
 from time import time
 from ScaleGrid import scaleGrid
 from GenerateTimeseries import GenerateTimeseries as GT
+from Sourcefield_Filemaker import filemaker
 
 class Material_Evolution():
 
@@ -26,6 +27,7 @@ class Material_Evolution():
     best_per_materials : list[dict()] = list(dict())
     main_timer : float = None
     iteration_times : list = list()
+    timeseries: np.ndarray = None
     base_workdir_path: str = "/home/matteo/Desktop/VAMPIRE_WORKDIR"
     base_materials_path: str = "/home/matteo/Desktop/VAMPIRE_WORKDIR/Materials"
     base_testdata_path: str = "/home/matteo/Desktop/VAMPIRE_TEST_RESULTS"
@@ -37,6 +39,14 @@ class Material_Evolution():
                               "sim:applied-field-strength" : ["0 !T"],#,"1e-24 !T","1e-12 !T","1e-6 !T"],
                               "sim:applied-field-unit-vector": [(0,0,1),(0,1,0),(1,0,0)],
                               "sim:temperature" : [0,10,50,100,200,309.65]} #MAKE SURE DEFAULT IS ALWAYS INDEX 0
+    input_file_units: dict = { "material:file" : "",
+                              "dimensions:system-size-x" : " !nm",
+                              "dimensions:system-size-y" : " !nm",
+                              "dimensions:system-size-z" : " !A",
+                              "cells:macro-cell-size" : " !nm",
+                              "sim:applied-field-strength" : " !T",
+                              "sim:applied-field-unit-vector": "",
+                              "sim:temperature" : ""}
     new_input_file_parameters: dict = dict()
 
 #----------------------------------------------------------------------------------------------------------------------#
@@ -140,18 +150,54 @@ class Material_Evolution():
 
             attempts += 1
 
-#----------------------------------------------------------------------------------------------------------------------#
+# ----------------------------------------------------------------------------------------------------------------------#
 
     def update_input_files(self):
 
         mvif(self.new_input_file_parameters, self.base_workdir_path)
         smf(self.new_input_file_parameters["material:file"],self.base_materials_path, self.base_workdir_path)
+
+        cells_perX = int((self.new_input_file_parameters["dimensions:system-size-x"] + 1)  / self.new_input_file_parameters["cells:macro-cell-size"])
+        cells_perY = int((self.new_input_file_parameters["dimensions:system-size-y"] + 1)  / self.new_input_file_parameters["cells:macro-cell-size"])
+
+        header1 = str()
+        header2 = str()
+
+        for i in range(1, cells_perX + 1):
+            header1 = header1 + f"{i} "
+            for j in range(1, cells_perY + 1):
+                header2 = header2 + f"{i} "
+
+        dummy = header1
+        for i in range(cells_perY - 1):
+            header1 = header1 + dummy
+
+
+        x_dim = self.new_input_file_parameters["dimensions:system-size-x"]
+        y_dim = self.new_input_file_parameters["dimensions:system-size-y"]
+
+        self.addUnits()
+
+        filemaker(output_path=self.base_workdir_path,
+                  rows=self.timeseries.shape[0],
+                  timeseries=self.timeseries,
+                  columns=int(x_dim * y_dim),
+                  all_same=True,
+                  headers=[header1, header2])
         import os
 
         for file in os.listdir(self.base_workdir_path):
             filename = os.fsdecode(file)
             if filename == "reservoir_output.txt":
                 os.remove(os.path.join(self.base_workdir_path, file))
+
+#----------------------------------------------------------------------------------------------------------------------#
+
+    def addUnits(self):
+
+        for key1, key2 in zip(self.new_input_file_parameters.keys(), self.input_file_units.keys()):
+            self.new_input_file_parameters[key1] = str(self.new_input_file_parameters[key1]) + \
+                                                   self.input_file_units[key2]
 
 #----------------------------------------------------------------------------------------------------------------------#
 
