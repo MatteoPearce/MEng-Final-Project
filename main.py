@@ -51,7 +51,7 @@ class Material_Evolution():
 
     def __init__(self):
         self.main_timer = time()
-        self.timeseries = GT(stop_time=1000)
+        self.timeseries = GT(stop_time=100)
         self.main_loop()
 
 #----------------------------------------------------------------------------------------------------------------------#
