@@ -177,7 +177,7 @@ class Material_Evolution():
         y_dim = self.new_input_file_parameters["dimensions:system-size-y"]
 
         self.addUnits()
-        print(self.new_input_file_parameters)
+        #print(self.new_input_file_parameters)
 
         filemaker(output_path=self.base_workdir_path,
                   rows=self.timeseries.shape[0],

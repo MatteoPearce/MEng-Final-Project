@@ -26,7 +26,10 @@ def saveData(data: dict = None, dir_name: str = None, save_path: str = None, wor
 
         # shutil.copy2() preserves original metadata
         for file in files_to_copy:
-            shutil.copy(file, destination_directory)
+            try:
+                shutil.copy(file, destination_directory)
+            except:
+                pass
 
         if data is not None:
 
