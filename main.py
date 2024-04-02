@@ -184,8 +184,8 @@ class Material_Evolution():
                   all_same=True,
                   headers=headers)
 
+        smf(self.new_input_file_parameters["material:file"], self.base_materials_path, self.base_workdir_path) #IMPORTANT THAT THIS GOES FIRST
         mvif(self.new_input_file_parameters.copy(), self.base_workdir_path)
-        smf(self.new_input_file_parameters["material:file"], self.base_materials_path, self.base_workdir_path)
         updateDamping(self.base_workdir_path,self.new_other_sweep_parameters["intrinsic magnetic damping"])
 
         for file in os.listdir(self.base_workdir_path):
