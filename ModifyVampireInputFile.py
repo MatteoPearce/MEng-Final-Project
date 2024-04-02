@@ -44,8 +44,27 @@ def modifyVampireInputFile(new_vals: dict = None, file_path : str = None) -> Non
 
     modifiable_params = dict(modifiable_params)
     file.close()
-    for key,val in modifiable_params.items():
-        print(key,":",val)
+
+    #for key, val in modifiable_params.items():
+    #    print(key, ":", val)
+
+#------------------------------------------------------------------ extract unit cell info
+
+    for file in os.listdir(file_path):
+        filename = os.fsdecode(file)
+        if filename.endswith(".mat"):
+            with open(os.path.join(file_path, file), "r") as f:
+                material_data = f.readlines()
+                f.close()
+            break
+
+    cell_structure = material_data[0].split(" = ")[1]
+    cell_size = material_data[1].split(" = ")[1]
+
+    cell_info = {"create:crystal-structure" : cell_structure,
+                 "dimensions:unit-cell-size" : cell_size}
+
+    new_vals.update(cell_info)
 
 #------------------------------------------------------------------ modify parameters
 

@@ -20,7 +20,7 @@ class Material_Evolution():
     max_attempts: float = 10e4
     iteration_counter: int = 0
     simulation_end: bool = False
-    current_best_result: float = 1.0
+    current_best_result: float = np.inf
     current_best_iteration: int = None
     current_best_setup: dict = dict()
     best_per_materials : list[dict()] = list(dict())
@@ -30,14 +30,14 @@ class Material_Evolution():
     base_workdir_path: str = "/home/matteo/Desktop/VAMPIRE_WORKDIR"
     base_materials_path: str = "/home/matteo/Desktop/VAMPIRE_WORKDIR/Materials"
     base_testdata_path: str = "/home/matteo/Desktop/VAMPIRE_TEST_RESULTS"
-    input_file_parameters: dict = { "material:file" : ["Co.mat","Fe.mat","Ag.mat"],
+    input_file_parameters: dict = { "material:file" : ["Co.mat"],#,"Fe.mat","Ni.mat",],#"Ag.mat"],
                               "dimensions:system-size-x" : [49],#,99,149,199],
                               "dimensions:system-size-y" : [49],#,99,149,199],
                               "dimensions:system-size-z" : [0.1],#1,10,15,20], #, "20.0 !A", "30.0 !A", "40.0 !A", "49.0 !A"], # 0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,"1.0 !A","0.2 !A","0.3 !A","0.4 !A","0.5 !A","0.6 !A","0.7 !A","0.8 !A","0.9 !A","5.0 !A","10.0 !A"
                               "cells:macro-cell-size" : [5],#,10,15,20],
                               "sim:applied-field-strength" : [0],#,"1e-24 !T","1e-12 !T","1e-6 !T"],
                               "sim:applied-field-unit-vector": [(0,0,1)],#,(0,1,0),(1,0,0)],
-                              "sim:temperature" : [0,10,50,100,200,309.65]} #MAKE SURE DEFAULT IS ALWAYS INDEX 0
+                              "sim:temperature" : [0]} #MAKE SURE DEFAULT IS ALWAYS INDEX 0
     input_file_units: dict = { "material:file" : "",
                               "dimensions:system-size-x" : " !nm",
                               "dimensions:system-size-y" : " !nm",
@@ -46,6 +46,10 @@ class Material_Evolution():
                               "sim:applied-field-strength" : " !T",
                               "sim:applied-field-unit-vector": "",
                               "sim:temperature" : ""}
+
+    all_sweep_parameters: dict = { "intrinsic magnetic damping" : np.arange(0.001,1.001,0.1),
+                                   "field intensity input scaling": np.arange(-2,2,0.5)}
+
     new_input_file_parameters: dict = dict()
 
 #----------------------------------------------------------------------------------------------------------------------#
@@ -89,7 +93,7 @@ class Material_Evolution():
                 file.writelines(f"total time : {round((self.main_timer / 60) / 60, 2)} hours\n")
                 file.writelines(f"average iteration time : {round(average_time, 2)} seconds \n\n")
                 file.writelines("#------------------------------------------------------------------------------------#\n\n")
-                file.writelines("best per material:\n")
+                file.writelines("best per material:\n\n")
                 for material in self.best_per_materials:
                     for key in material.keys():
                         file.writelines(str(key + " = " + str(material[key]) + "\n"))
@@ -170,7 +174,7 @@ class Material_Evolution():
                   all_same=True,
                   headers=headers)
 
-        mvif(self.new_input_file_parameters, self.base_workdir_path)
+        mvif(self.new_input_file_parameters.copy(), self.base_workdir_path)
         smf(self.new_input_file_parameters["material:file"], self.base_materials_path, self.base_workdir_path)
 
         for file in os.listdir(self.base_workdir_path):
