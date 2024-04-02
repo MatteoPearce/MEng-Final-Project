@@ -12,6 +12,7 @@ from Sourcefield_Filemaker import filemaker
 from makeHeaders import makeHeaders
 from UdateMagneticDamping import updateDamping
 import os
+import matplotlib.pyplot as plt
 
 class Material_Evolution():
 
@@ -175,9 +176,11 @@ class Material_Evolution():
             self.new_input_file_parameters[key1] = str(self.new_input_file_parameters[key1]) + \
                                                    self.input_file_units[key2]
 
+        scaled_timeseries = self.timeseries.copy() * self.new_other_sweep_parameters["field intensity input scaling"]
+
         filemaker(output_path=self.base_workdir_path,
                   rows=self.timeseries.shape[0],
-                  timeseries=self.timeseries,
+                  timeseries=scaled_timeseries,
                   columns=int(cells_perX * cells_perY),
                   all_same=True,
                   headers=headers)
@@ -250,7 +253,6 @@ class Material_Evolution():
                      Failed=True)
 
 #----------------------------------------------------------------------------------------------------------------------#
-
 
 def main() -> None:
 
