@@ -10,6 +10,7 @@ from ScaleGrid import scaleGrid
 from GenerateTimeseries import GenerateTimeseries as GT
 from Sourcefield_Filemaker import filemaker
 from makeHeaders import makeHeaders
+from UdateMagneticDamping import updateDamping
 import os
 
 class Material_Evolution():
@@ -46,11 +47,11 @@ class Material_Evolution():
                               "sim:applied-field-strength" : " !T",
                               "sim:applied-field-unit-vector": "",
                               "sim:temperature" : ""}
-
-    all_sweep_parameters: dict = { "intrinsic magnetic damping" : np.arange(0.001,1.001,0.1),
+    other_sweep_parameters: dict = { "intrinsic magnetic damping" : np.arange(0.001,1.001,0.1),
                                    "field intensity input scaling": np.arange(-2,2,0.5)}
-
+    all_sweep_parameters: dict = dict()
     new_input_file_parameters: dict = dict()
+    new_other_sweep_parameters: dict = dict()
 
 #----------------------------------------------------------------------------------------------------------------------#
 
@@ -134,17 +135,24 @@ class Material_Evolution():
                 self.new_input_file_parameters["dimensions:system-size-y"] = new_y
                 self.new_input_file_parameters["cells:macro-cell-size"] = new_grid
 
+            for key, value in self.other_sweep_parameters.items():
+                number = randint(0, len(value) - 1)
+                self.new_other_sweep_parameters[key] = value[number]
+
+            self.all_sweep_parameters.update(self.new_input_file_parameters)
+            self.all_sweep_parameters.update(self.new_other_sweep_parameters)
+
             if len(self.tried_combos) == 0:
                 unique = True
             else:
                 unique = True
                 for combo in self.tried_combos:
-                    if combo == self.new_input_file_parameters:
+                    if combo == self.all_sweep_parameters:
                         unique = False
                         break
 
             if unique:
-                self.tried_combos.append(self.new_input_file_parameters.copy())
+                self.tried_combos.append(self.all_sweep_parameters.copy())
                 searching_combo = False
 
 
@@ -176,6 +184,7 @@ class Material_Evolution():
 
         mvif(self.new_input_file_parameters.copy(), self.base_workdir_path)
         smf(self.new_input_file_parameters["material:file"], self.base_materials_path, self.base_workdir_path)
+        updateDamping(self.base_workdir_path,self.new_other_sweep_parameters["intrinsic magnetic damping"])
 
         for file in os.listdir(self.base_workdir_path):
             filename = os.fsdecode(file)
@@ -199,15 +208,15 @@ class Material_Evolution():
                             "y_pred":y_pred,
                             "NRMSE": best_result}
 
-            params = self.new_input_file_parameters.copy()
+            params = self.all_sweep_parameters.copy()
             params["iteration"] = self.iteration_counter
             params["NRMSE"] = best_result
 
-            data_to_save.update(self.new_input_file_parameters.copy())
+            data_to_save.update(self.all_sweep_parameters.copy())
 
             if best_result < self.current_best_result:
                 self.current_best_result = best_result
-                self.current_best_setup = self.new_input_file_parameters.copy()
+                self.current_best_setup = self.all_sweep_parameters.copy()
                 self.current_best_iteration = self.iteration_counter
 
             if len(self.best_per_materials) == 0:
@@ -215,7 +224,7 @@ class Material_Evolution():
             else:
                 best_material_changed = False
                 for index,mat in enumerate(self.best_per_materials):
-                    if mat["material:file"] == self.new_input_file_parameters["material:file"]:
+                    if mat["material:file"] == self.all_sweep_parameters["material:file"]:
                         if best_result < mat["NRMSE"]:
                             self.best_per_materials[index] = params
                             best_material_changed = True
@@ -232,8 +241,8 @@ class Material_Evolution():
         else:
 
             print("FAILED ON:")
-            print(self.new_input_file_parameters)
-            data_to_save = self.new_input_file_parameters
+            print(self.all_sweep_parameters)
+            data_to_save = self.all_sweep_parameters
             saveData(data=data_to_save,
                      dir_name="/" + str(self.iteration_counter) + " FAILED",
                      save_path=self.base_testdata_path,
