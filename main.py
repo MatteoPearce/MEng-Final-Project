@@ -49,9 +49,11 @@ class Material_Evolution():
 
 #----------------------------------------------------------------------------------------------------------------------#
 
-    def __init__(self):
+    def __init__(self , input_length):
+
         self.main_timer = time()
-        self.timeseries = GT(stop_time=100)
+        self.input_length = input_length
+        self.timeseries = GT(stop_time=input_length)
         self.main_loop()
 
 #----------------------------------------------------------------------------------------------------------------------#
@@ -70,6 +72,7 @@ class Material_Evolution():
                     self.iteration_counter += 1
                 end_time = time()
                 self.iteration_times.append(end_time - start_time)
+
             print("SIMULATION ENDED, BEST SETUP AND RESULT:\n")
             print(self.current_best_setup)
             print(f"best result: NRMSE = {self.current_best_result}")
@@ -84,7 +87,6 @@ class Material_Evolution():
                     file.writelines("\n")
                 file.close()
 
-            #self.plotBestResults()
             end_time = time()
             self.main_timer = end_time - self.main_timer
             average_time = sum(self.iteration_times) / len(self.iteration_times)
@@ -152,20 +154,6 @@ class Material_Evolution():
 
         cells_perX = int((self.new_input_file_parameters["dimensions:system-size-x"] + 1)  / self.new_input_file_parameters["cells:macro-cell-size"])
         cells_perY = int((self.new_input_file_parameters["dimensions:system-size-y"] + 1)  / self.new_input_file_parameters["cells:macro-cell-size"])
-
-        header1 = str()
-        header2 = str()
-
-        for i in range(1, cells_perX + 1):
-            header1 = header1 + f"{i} "
-            for j in range(1, cells_perY + 1):
-                header2 = header2 + f"{i} "
-
-        dummy = header1
-        for i in range(cells_perY - 1):
-            header1 = header1 + dummy
-
-        headers = [header1,header2]
 
         x_dim = self.new_input_file_parameters["dimensions:system-size-x"]
         y_dim = self.new_input_file_parameters["dimensions:system-size-y"]
@@ -266,6 +254,7 @@ class Material_Evolution():
 
 def main() -> None:
 
-    start = Material_Evolution()
+    input_length = 100
+    start = Material_Evolution(input_length)
 
 if __name__ == "__main__": main()
