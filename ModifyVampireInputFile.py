@@ -58,8 +58,8 @@ def modifyVampireInputFile(new_vals: dict = None, file_path : str = None) -> Non
                 f.close()
             break
 
-    cell_structure = material_data[0].split(" = ")[1]
-    cell_size = material_data[1].split(" = ")[1]
+    cell_structure = material_data[0].split(" = ")[1].strip("\n")
+    cell_size = material_data[1].split(" = ")[1].strip("\n")
 
     cell_info = {"create:crystal-structure" : cell_structure,
                  "dimensions:unit-cell-size" : cell_size}

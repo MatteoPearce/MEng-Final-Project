@@ -255,7 +255,7 @@ class Material_Evolution():
 
 def main() -> None:
 
-    input_length = 100
+    input_length = 500
     start = Material_Evolution(input_length)
 
 if __name__ == "__main__": main()
