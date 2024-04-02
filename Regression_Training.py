@@ -23,7 +23,6 @@ def TrainGS(workdir_path: str = None) -> tuple[Any, Any, Any]:
                                             workdir_path + "/reservoir_output.txt")
 
             input_array = np.delete(input_array, 0, axis=0)
-            print("Performing Grid Search of best training split \n")
             best_result = np.inf
             best_split = 0
 
@@ -38,31 +37,27 @@ def TrainGS(workdir_path: str = None) -> tuple[Any, Any, Any]:
                 testing_y = input_array[lower_limit:, :]
                 testing_X = output_array[lower_limit:upper_limit, :] * scaling_factor
 
-                """print(input_array.shape)
-                print(output_array.shape)
-                print(training_y.shape)
-                print(training_X.shape)
-                print(testing_X.shape)
-                print(testing_y.shape)"""
-
-
                 try:
                     NRMSE, y, y_pred = train_cycle( training_X, training_y, testing_X, testing_y)
                 except np.linalg.LinAlgError:
                     NRMSE, y, y_pred = None, None, None
-                #print("split: ", split)
-                #print("NRMSE: ", NRMSE)
-                #input()
+                    break
+
                 if NRMSE is not None:
                     if NRMSE < best_result:
                         best_result = NRMSE
                         best_split = split
 
-            print(f"\nbest split: {best_split}")
+            if NRMSE is not None:
 
-            best_result, y, y_pred = trainCV(input_array, output_array, best_split)
+                print(f"\nbest split: {best_split}")
 
-            return best_result, y, y_pred
+                best_result, y, y_pred = trainCV(input_array, output_array, best_split)
+
+                return best_result, y, y_pred
+
+            else:
+                return None, None, None
 
 #----------------------------------------------------------------------------------------------------------------------#
 def trainCV(input_array: np.ndarray,
@@ -89,7 +84,6 @@ def trainCV(input_array: np.ndarray,
             training_X = np.delete(training_X,rows,axis=0)
 
             NRMSE, y, y_pred = train_cycle( training_X, training_y, testing_X, testing_y)
-
 
             if NRMSE < best_result:
                 best_result = NRMSE
