@@ -21,8 +21,7 @@ def scaleGrid(x_dims: list = None,
         cells_perY = dim_choiceY / dim_choiceCELL
 
         if cells_perX % 1 == 0 and cells_perY % 1 == 0:
-            if cells_perX == cells_perY: # TEMPORARY
-                 valid_choice = True
+            valid_choice = True
 
         if counter >= 10000:
             break
