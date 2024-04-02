@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a4dfd85d-b366-4c78-b6bd-200915180eb4" name="Changes" comment="updated material files. added nickel. included code in MVIF to get crystal structure and unit cell size from material file and add to input file">
-      <change afterPath="$PROJECT_DIR$/UdateMagneticDamping.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="a4dfd85d-b366-4c78-b6bd-200915180eb4" name="Changes" comment="added line for scaling input based on new_other_sweep_parameters dict value">
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -400,7 +398,23 @@
       <option name="project" value="LOCAL" />
       <updated>1712074395008</updated>
     </task>
-    <option name="localTasksCounter" value="35" />
+    <task id="LOCAL-00035" summary="created UpdateMagneticDamping.py and added an extra dict with other sweep parameters, containing magnetic damping and input scaling. have not implemented latter yet">
+      <option name="closed" value="true" />
+      <created>1712076927625</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1712076927625</updated>
+    </task>
+    <task id="LOCAL-00036" summary="added line for scaling input based on new_other_sweep_parameters dict value">
+      <option name="closed" value="true" />
+      <created>1712077342324</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1712077342324</updated>
+    </task>
+    <option name="localTasksCounter" value="37" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -436,7 +450,9 @@
     <MESSAGE value="made makeHeaders.py" />
     <MESSAGE value="testing full setup with new makeheaders" />
     <MESSAGE value="updated material files. added nickel. included code in MVIF to get crystal structure and unit cell size from material file and add to input file" />
-    <option name="LAST_COMMIT_MESSAGE" value="updated material files. added nickel. included code in MVIF to get crystal structure and unit cell size from material file and add to input file" />
+    <MESSAGE value="created UpdateMagneticDamping.py and added an extra dict with other sweep parameters, containing magnetic damping and input scaling. have not implemented latter yet" />
+    <MESSAGE value="added line for scaling input based on new_other_sweep_parameters dict value" />
+    <option name="LAST_COMMIT_MESSAGE" value="added line for scaling input based on new_other_sweep_parameters dict value" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/MEng_Project_Matteo_Pearce$GenerateTimeseries.coverage" NAME="GenerateTimeseries Coverage Results" MODIFIED="1711573877872" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
@@ -448,7 +464,7 @@
     <SUITE FILE_PATH="coverage/MEng_Project_Matteo_Pearce$NeuronOutput.coverage" NAME="NeuronOutput Coverage Results" MODIFIED="1711470509914" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/MEng_Project_Matteo_Pearce$Regression_Training.coverage" NAME="Regression_Training Coverage Results" MODIFIED="1712042278326" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/MEng_Project_Matteo_Pearce$UdateMagneticDamping.coverage" NAME="UdateMagneticDamping Coverage Results" MODIFIED="1712076215202" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/MEng_Project_Matteo_Pearce$main.coverage" NAME="main Coverage Results" MODIFIED="1712076324112" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/MEng_Project_Matteo_Pearce$main.coverage" NAME="main Coverage Results" MODIFIED="1712077482471" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/MEng_Project_Matteo_Pearce$test.coverage" NAME="test Coverage Results" MODIFIED="1711477053556" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/MEng_Project_Matteo_Pearce$test2.coverage" NAME="test2 Coverage Results" MODIFIED="1711537256603" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/MEng_Project_Matteo_Pearce$Sourcefield_Filemaker.coverage" NAME="Sourcefield_Filemaker Coverage Results" MODIFIED="1712041455510" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />

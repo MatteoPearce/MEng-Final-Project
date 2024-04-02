@@ -12,7 +12,6 @@ from Sourcefield_Filemaker import filemaker
 from makeHeaders import makeHeaders
 from UdateMagneticDamping import updateDamping
 import os
-import matplotlib.pyplot as plt
 
 class Material_Evolution():
 
@@ -32,11 +31,11 @@ class Material_Evolution():
     base_workdir_path: str = "/home/matteo/Desktop/VAMPIRE_WORKDIR"
     base_materials_path: str = "/home/matteo/Desktop/VAMPIRE_WORKDIR/Materials"
     base_testdata_path: str = "/home/matteo/Desktop/VAMPIRE_TEST_RESULTS"
-    input_file_parameters: dict = { "material:file" : ["Co.mat"],#,"Fe.mat","Ni.mat",],#"Ag.mat"],
-                              "dimensions:system-size-x" : [49],#,99,149,199],
-                              "dimensions:system-size-y" : [49],#,99,149,199],
-                              "dimensions:system-size-z" : [0.1],#1,10,15,20], #, "20.0 !A", "30.0 !A", "40.0 !A", "49.0 !A"], # 0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,"1.0 !A","0.2 !A","0.3 !A","0.4 !A","0.5 !A","0.6 !A","0.7 !A","0.8 !A","0.9 !A","5.0 !A","10.0 !A"
-                              "cells:macro-cell-size" : [5],#,10,15,20],
+    input_file_parameters: dict = { "material:file" : ["Co.mat","Fe.mat","Ni.mat",],#"Ag.mat"],
+                              "dimensions:system-size-x" : [49,99,149,199],
+                              "dimensions:system-size-y" : [49,99,149,199],
+                              "dimensions:system-size-z" : [1.0,2.0,4.0,8.0,16.0,32.0,49.0],
+                              "cells:macro-cell-size" : [5,10,15,20],
                               "sim:applied-field-strength" : [0],#,"1e-24 !T","1e-12 !T","1e-6 !T"],
                               "sim:applied-field-unit-vector": [(0,0,1)],#,(0,1,0),(1,0,0)],
                               "sim:temperature" : [0]} #MAKE SURE DEFAULT IS ALWAYS INDEX 0
