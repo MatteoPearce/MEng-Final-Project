@@ -83,14 +83,24 @@ def trainCV(input_array: np.ndarray,
             training_X = output_array[:input_array.shape[0], :]
             training_X = np.delete(training_X,rows,axis=0)
 
-            NRMSE, y, y_pred = train_cycle( training_X, training_y, testing_X, testing_y)
+            try:
+                NRMSE, y, y_pred = train_cycle(training_X, training_y, testing_X, testing_y)
+            except np.linalg.LinAlgError:
+                NRMSE, y, y_pred = None, None, None
+                break
 
-            if NRMSE < best_result:
-                best_result = NRMSE
-                best_y = y
-                best_y_pred = y_pred
+            if NRMSE is not None:
+                if NRMSE < best_result:
+                    best_result = NRMSE
+                    best_y = y
+                    best_y_pred = y_pred
 
-        return best_result, best_y, best_y_pred
+        if best_result is not None:
+
+            return best_result, best_y, best_y_pred
+
+        else:
+            return None, None, None
 
 #----------------------------------------------------------------------------------------------------------------------#
 def train_cycle(training_X: np.ndarray,

@@ -42,13 +42,13 @@ def filemaker(output_path: str,
         header2 = headers[1]
     else:
         for i in range(1,cell_num+1):
-            header1 = header1 + f"{i} "
+            header2 = header2 + f"{i} "
             for j in range(1,cell_num+1):
-                header2 = header2 + f"{i} "
+                header1 = header1 + f"{i} "
 
-        dummy = header1
+        dummy = header2
         for i in range(cell_num-1):
-            header1 = header1 + dummy
+            header2 = header2 + dummy
 
     header1 = header1 + "-2\n"
     header2 = header2 + "-1\n"

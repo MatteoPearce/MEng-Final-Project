@@ -15,7 +15,7 @@ import os
 
 class Material_Evolution():
 
-    sweep_grid_size: bool = True
+    sweep_grid_size: bool = False
     sweep_temperature: bool = False
     tried_combos: list = list()
     max_attempts: float = 10e4
@@ -34,7 +34,7 @@ class Material_Evolution():
     input_file_parameters: dict = { "material:file" : ["Co.mat","Fe.mat","Ni.mat",],#"Ag.mat"],
                               "dimensions:system-size-x" : [49,99,149,199],
                               "dimensions:system-size-y" : [49,99,149,199],
-                              "dimensions:system-size-z" : [1.0,2.0,4.0,8.0,16.0,32.0,49.0],
+                              "dimensions:system-size-z" : np.arange(0.1,1,0.1),
                               "cells:macro-cell-size" : [5,10,15,20],
                               "sim:applied-field-strength" : [0],#,"1e-24 !T","1e-12 !T","1e-6 !T"],
                               "sim:applied-field-unit-vector": [(0,0,1)],#,(0,1,0),(1,0,0)],
@@ -47,7 +47,7 @@ class Material_Evolution():
                               "sim:applied-field-strength" : " !T",
                               "sim:applied-field-unit-vector": "",
                               "sim:temperature" : ""}
-    other_sweep_parameters: dict = { "intrinsic magnetic damping" : np.arange(0.001,1.001,0.1),
+    other_sweep_parameters: dict = { "intrinsic magnetic damping" : [0.001,0.1,0.5,1],
                                    "field intensity input scaling": np.arange(-2,2,0.5)}
     all_sweep_parameters: dict = dict()
     new_input_file_parameters: dict = dict()
