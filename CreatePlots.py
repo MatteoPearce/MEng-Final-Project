@@ -162,7 +162,7 @@ def plotHeatmap(save_path: str = None, data: dict = None) -> None:
                 matrix = np.concatenate((matrix,row), axis=1)
 
         valid_fields = dict_to_plot.keys()
-        fig, ax = plt.subplots()
+        fig, ax = plt.subplots(figsize=(10,20))
         im = ax.imshow(matrix)
 
         # Show all ticks and label them with the respective list entries
@@ -232,5 +232,6 @@ def plotScatter(save_path: str = None, data: dict = None) -> None:
 
 param_names = ["material:file", "dimensions:system-size-x", "dimensions:system-size-y",
                "dimensions:system-size-z", "cells:macro-cell-size", "sim:applied-field-strength",
-               "sim:applied-field-unit-vector", "sim:temperature"]
+               "sim:applied-field-unit-vector", "sim:temperature","intrinsic magnetic damping",
+                "field intensity input scaling"]
 createPlotData("/home/matteo/Desktop/VAMPIRE_TEST_RESULTS",param_names)

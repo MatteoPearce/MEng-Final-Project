@@ -67,6 +67,7 @@ def trainCV(input_array: np.ndarray,
     if split is not None:
 
         best_result = np.inf
+        updated = False
         if split <= 0.1:
             split = 0.9
 
@@ -91,12 +92,12 @@ def trainCV(input_array: np.ndarray,
 
             if NRMSE is not None:
                 if NRMSE < best_result:
+                    updated = True
                     best_result = NRMSE
                     best_y = y
                     best_y_pred = y_pred
 
-        if best_result is not None:
-
+        if updated:
             return best_result, best_y, best_y_pred
 
         else:
