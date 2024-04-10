@@ -30,6 +30,12 @@ def scaleGrid(x_dims: list = None,
 
     if valid_choice:
 
+        if dim_choiceX < dim_choiceY:
+
+            dummy = dim_choiceX
+            dim_choiceX = dim_choiceY
+            dim_choiceY = dummy
+
         return dim_choiceX -1, dim_choiceY -1, dim_choiceCELL
 
     else:

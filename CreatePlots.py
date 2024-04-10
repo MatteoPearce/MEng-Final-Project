@@ -145,12 +145,20 @@ def plotHeatmap(save_path: str = None, data: dict = None) -> None:
             for index in index_list:
                 dict_to_plot[key].append(data_copy[key][index])
 
-        iterations = dict_to_plot["iteration"].copy()
-        dict_to_plot.pop("iteration")
-        matrix = np.ndarray(shape=(17,))#len(dict_to_plot.keys())))
+        dummy_dict = dict_to_plot.copy()
+
+        for key, value in dummy_dict.items():
+            if key != "NRMSE":
+                dict_to_plot[key] = [x for _, x in sorted(zip(dummy_dict["NRMSE"],dummy_dict[key]))]
+
+        dict_to_plot["NRMSE"].sort()
 
         for index, item in enumerate(dict_to_plot["NRMSE"]):
             dict_to_plot["NRMSE"][index] = round(item,4)
+
+        iterations = dict_to_plot["iteration"].copy()
+        dict_to_plot.pop("iteration")
+        matrix = np.ndarray(len(dict_to_plot.keys()))
 
         for index,key in enumerate(dict_to_plot.keys()):
 
@@ -199,7 +207,7 @@ def plotHeatmap(save_path: str = None, data: dict = None) -> None:
 def plotScatter(save_path: str = None, data: dict = None) -> None:
 
     labels = data["material:file"].copy()
-    NRMSE = data["NRMSE"]
+    NRMSE = data["NRMSE"].copy()
     materials = list(Counter(labels).keys())
     values = list()
 
@@ -211,12 +219,12 @@ def plotScatter(save_path: str = None, data: dict = None) -> None:
                 index_list.append(index)
 
         NRMSE_current_mat = list()
-        max_NRMSE = None
+        min_NRMSE = None
         for index in index_list:
             NRMSE_current_mat.append(NRMSE[index])
-        max_NRMSE = max(NRMSE_current_mat)
+        min_NRMSE = min(NRMSE_current_mat.copy())
 
-        values.append(round(max_NRMSE,4))
+        values.append(round(min_NRMSE,4))
 
     plt.figure(figsize=(10, 5))
     plt.title("materials comparison")

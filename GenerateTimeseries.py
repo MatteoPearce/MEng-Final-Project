@@ -19,9 +19,10 @@ def GenerateTimeseries(series_name: str = None, stop_time: int = None) -> np.nda
     plt.ylabel('Magnitude')  # Y-axis label
     plt.title('10th-order NARMA Series');  # title of the plot
     plt.show()"""
+
     return samples
 
 #rows = 1000
 #a = GenerateTimeseries(stop_time=rows)
-
+#a = a * -1
 #SF.filemaker(output_path="/home/matteo/Desktop/VAMPIRE_WORKDIR",rows= rows,columns= 100,timeseries=a,all_same=True)

@@ -17,7 +17,8 @@ def TrainGS(workdir_path: str = None) -> tuple[Any, Any, Any]:
         training_split = np.arange(0.5,0.95,0.05)
 
         if not os.path.isfile(os.path.join(workdir_path,"reservoir_output.txt")):
-            pass
+            print("Training")
+            return None, None, None
         else:
             input_array, output_array = ERO(workdir_path + "/sourcefield.txt",
                                             workdir_path + "/reservoir_output.txt")
@@ -110,20 +111,23 @@ def train_cycle(training_X: np.ndarray,
                 testing_y: np.ndarray) -> [float,np.ndarray,np.ndarray]:
 
     output_node = Ridge(output_dim=testing_y.shape[1])  # , name="output_node ")
-    fitted_output = output_node.fit(training_X, training_y, warmup=0)
-    prediction = fitted_output.run(testing_X)
+    try:
+        fitted_output = output_node.fit(training_X, training_y, warmup=0)
+        prediction = fitted_output.run(testing_X)
 
-    clip_size = 2
-    new_limit = testing_y.shape[0] - clip_size
-    clipped_prediction = prediction[:new_limit, :]
-    clipped_testing_y = testing_y[:new_limit, :]
+        clip_size = 2
+        new_limit = testing_y.shape[0] - clip_size
+        clipped_prediction = prediction[:new_limit, :]
+        clipped_testing_y = testing_y[:new_limit, :]
 
-    NRMSE = robs.nrmse(clipped_testing_y, clipped_prediction)
+        NRMSE = robs.nrmse(clipped_testing_y, clipped_prediction)
 
-    del output_node
-    del fitted_output
+        del output_node
+        del fitted_output
 
-    return NRMSE, clipped_testing_y, clipped_prediction
+        return NRMSE, clipped_testing_y, clipped_prediction
+    except ValueError:
+        return None, None, None
 
 #----------------------------------------------------------------------------------------------------------------------#
 
