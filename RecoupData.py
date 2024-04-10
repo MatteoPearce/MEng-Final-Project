@@ -35,4 +35,4 @@ def recoupData(test_data_path: str, threshold: float = 0.2):
         f.write(all_data)
         f.close()
 
-recoupData( "/home/matteo/Desktop/VAMPIRE_TEST_RESULTS")
+recoupData( "/home/matteo/Desktop/VAMPIRE_TEST_RESULTS" )

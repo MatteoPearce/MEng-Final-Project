@@ -188,7 +188,7 @@ def plotHeatmap(save_path: str = None, data: dict = None) -> None:
                 text = ax.text(j, i, str(matrix[i, j]),
                                ha="center", va="center", color="w")
 
-        fig.colorbar(im, spacing='proportional')
+        #fig.colorbar(im, spacing='proportional',)
         ax.set_title(f"best iterations of {material}")
         ax.set_aspect('auto')
 
@@ -242,4 +242,4 @@ param_names = ["material:file", "dimensions:system-size-x", "dimensions:system-s
                "dimensions:system-size-z", "cells:macro-cell-size", "sim:applied-field-strength",
                "sim:applied-field-unit-vector", "sim:temperature","intrinsic magnetic damping",
                 "field intensity input scaling"]
-createPlotData("/home/matteo/Desktop/VAMPIRE_TEST_RESULTS",param_names)
+createPlotData( "/home/matteo/Desktop/VAMPIRE_TEST_RESULTS",param_names)

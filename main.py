@@ -22,6 +22,7 @@ class Material_Evolution():
     iteration_counter: int = 0
     simulation_end: bool = False
     current_best_result: float = np.inf
+    current_best_training: float = np.inf
     current_best_iteration: int = None
     current_best_setup: dict = dict()
     best_per_materials : list[dict()] = list(dict())
@@ -203,21 +204,24 @@ class Material_Evolution():
 
     def reservoir_computing(self):
 
-        best_result, y, y_pred = TrainGS(self.base_workdir_path)
+        best_result, best_training, y, y_pred = TrainGS(self.base_workdir_path)
 
         if best_result is not None:
             data_to_save = {"y": y,
                             "y_pred":y_pred,
+                            "training_NRMSE":best_training,
                             "NRMSE": best_result}
 
             params = self.all_sweep_parameters.copy()
             params["iteration"] = self.iteration_counter
+            params["training_NRMSE"] = best_training
             params["NRMSE"] = best_result
 
             data_to_save.update(self.all_sweep_parameters.copy())
 
             if best_result < self.current_best_result:
                 self.current_best_result = best_result
+                self.current_best_training = best_training
                 self.current_best_setup = self.all_sweep_parameters.copy()
                 self.current_best_iteration = self.iteration_counter
 
