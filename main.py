@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 from ModifyVampireInputFile import modifyVampireInputFile as mvif
 from SelectMaterialFile import SelectMaterialFile as smf
 from SaveData import saveData
