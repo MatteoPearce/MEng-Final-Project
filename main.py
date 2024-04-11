@@ -7,7 +7,7 @@ from random import randint
 import numpy as np
 from time import time
 from ScaleGrid import scaleGrid
-from GenerateTimeseries import GenerateTimeseries as GT
+from GenerateTimeseries import GenerateTimeseries as GT #https://analyticsindiamag.com/guide-to-timesynth-a-python-library-for-synthetic-time-series-generation/#h-narma-series
 from Sourcefield_Filemaker import filemaker
 from makeHeaders import makeHeaders
 from UdateMagneticDamping import updateDamping
