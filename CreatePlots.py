@@ -61,20 +61,22 @@ def createPlotData(file_path: str = None, parameter_names: list = None) -> None:
                             parameters[key][i] = 3
 
         #print(parameters)
-        #plotXY(file_path,parameters)
-        plotHeatmap(file_path, parameters)
-        plotScatter(file_path,parameters)
+        plotXY(file_path,parameters)
+        plotTable(file_path, parameters)
+        plotMaterialComparison(file_path,parameters)
 
 #-----------------------------------------------------------------------------------------------------------------------
 
-def plotXY(save_path: str = None, data: dict = None) -> None:
+def plotXY(save_path: str = None, data: dict = None, variable_pair: tuple = None) -> None:
 
+    data_copy = data.copy()
     labels = data["material:file"].copy()
     NRMSE = data["NRMSE"].copy()
     #data.pop("material:file")
-    data.pop("iteration")
+    data_copy.pop("iteration")
+    data_copy.pop("material:file")
     materials = list(Counter(labels).keys())
-    print(data)
+    #print(data)
 
     for material in materials:
         index_list = list()
@@ -82,7 +84,7 @@ def plotXY(save_path: str = None, data: dict = None) -> None:
             if material != entry:
                 index_list.append(index)
 
-        param_combos = list(product(data.keys(), repeat=2))  # itertools.permutations does not allow repititions
+        param_combos = list(product(data_copy.keys(), repeat=2))  # itertools.permutations does not allow repititions
         param_combos = list(np.unique(param_combos, axis=0))  # remove repeated events
 
         to_delete = list()
@@ -98,9 +100,9 @@ def plotXY(save_path: str = None, data: dict = None) -> None:
             param_combos.pop(index)
 
         for combo in param_combos:
-            values1 = data[combo[0]].copy()
-            values2 = data[combo[1]].copy()
-            print(combo, values1, values2)
+            values1 = data_copy[combo[0]].copy()
+            values2 = data_copy[combo[1]].copy()
+            #print(combo, values1, values2)
             for index in reversed(index_list):
                     values1.pop(index)
                     values2.pop(index)
@@ -121,11 +123,11 @@ def plotXY(save_path: str = None, data: dict = None) -> None:
             plt.grid(visible=True)
             plt.show()
 
-        print(param_combos)
+        #print(param_combos)
 
 #-----------------------------------------------------------------------------------------------------------------------
 
-def plotHeatmap(save_path: str = None, data: dict = None) -> None:
+def plotTable(save_path: str = None, data: dict = None) -> None:
 
     labels = data["material:file"].copy()
     data_copy = data.copy()
@@ -188,7 +190,7 @@ def plotHeatmap(save_path: str = None, data: dict = None) -> None:
                 text = ax.text(j, i, str(matrix[i, j]),
                                ha="center", va="center", color="w")
 
-        fig.colorbar(im, spacing='proportional')
+        #fig.colorbar(im, spacing='proportional',)
         ax.set_title(f"best iterations of {material}")
         ax.set_aspect('auto')
 
@@ -204,7 +206,7 @@ def plotHeatmap(save_path: str = None, data: dict = None) -> None:
 
 #-----------------------------------------------------------------------------------------------------------------------
 
-def plotScatter(save_path: str = None, data: dict = None) -> None:
+def plotMaterialComparison(save_path: str = None, data: dict = None) -> None:
 
     labels = data["material:file"].copy()
     NRMSE = data["NRMSE"].copy()
@@ -242,4 +244,4 @@ param_names = ["material:file", "dimensions:system-size-x", "dimensions:system-s
                "dimensions:system-size-z", "cells:macro-cell-size", "sim:applied-field-strength",
                "sim:applied-field-unit-vector", "sim:temperature","intrinsic magnetic damping",
                 "field intensity input scaling"]
-createPlotData("/home/matteo/Desktop/VAMPIRE_TEST_RESULTS",param_names)
+createPlotData( "/home/matteo/Desktop/VAMPIRE_TEST_RESULTS",param_names)
