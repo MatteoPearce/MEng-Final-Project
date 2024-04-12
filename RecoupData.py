@@ -1,5 +1,5 @@
 import os
-def recoupData(test_data_path: str, threshold: float = 0.2):
+def recoupData(test_data_path: str, threshold: float = None, training: bool = False):
 
     all_data = str()
 
@@ -17,12 +17,30 @@ def recoupData(test_data_path: str, threshold: float = 0.2):
                         new_data = f.readlines()
                         f.close()
 
-                    for line in new_data:
-                        if "NRMSE" in line:
-                            nrmse = float(line.split(": ")[1])
+                    if threshold is not None:
+
+                        for line in new_data:
+                            if training:
+                                if "training_NRMSE" in line:
+                                    nrmse = float(line.split(": ")[1])
+                                    break
+                            else:
+                                if "NRMSE" in line :
+                                    if "training_NRMSE" in line:
+                                        pass
+                                    else:
+                                        nrmse = float(line.split(": ")[1])
+                                        break
+
+                        if nrmse < threshold:
+
+                            for line in new_data:
+                                all_data += str(line).replace(": ", " = ")
+                            all_data += "iteration = " + dirname + "\n"
+                            all_data += "\n"
                             break
 
-                    if nrmse < threshold:
+                    else:
 
                         for line in new_data:
                             all_data += str(line).replace(": ", " = ")
@@ -31,8 +49,11 @@ def recoupData(test_data_path: str, threshold: float = 0.2):
                         break
 
 
+
     with open(os.path.join(test_data_path, "best_iteration.txt"), "w") as f:
         f.write(all_data)
         f.close()
 
-recoupData( "/home/matteo/Desktop/VAMPIRE_TEST_RESULTS" )
+#----------------------------------------------------------------------------------------------------------------------#
+
+recoupData( "/home/matteo/Desktop/VAMPIRE_TEST_RESULTS",training=True )

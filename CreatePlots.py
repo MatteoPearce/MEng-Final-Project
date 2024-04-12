@@ -3,7 +3,7 @@ from itertools import product
 import matplotlib.pyplot as plt
 import numpy as np
 
-def createPlotData(file_path: str = None, parameter_names: list = None) -> None:
+def createPlotData(file_path: str = None, parameter_names: list = None, plot_all_graphs: bool = False, all_NRMSEs: bool = False) -> None:
 
     if file_path is not None:
 
@@ -14,8 +14,8 @@ def createPlotData(file_path: str = None, parameter_names: list = None) -> None:
         parameters = dict()
         for name in parameter_names:
             parameters[name] = list()
-        parameters["iteration"] = list()
-        parameters["NRMSE"] = list()
+        #parameters["iteration"] = list()
+        #parameters["NRMSE"] = list()
 
         for line in data:
 
@@ -60,10 +60,11 @@ def createPlotData(file_path: str = None, parameter_names: list = None) -> None:
                         elif parameters[key][i][5] != '0':
                             parameters[key][i] = 3
 
-        #print(parameters)
-        plotXY(file_path,parameters)
-        plotTable(file_path, parameters)
-        plotMaterialComparison(file_path,parameters)
+
+        if plot_all_graphs:
+            plotXY(file_path,parameters)
+        plotTable(file_path, parameters, all_NRMSEs)
+        plotMaterialComparison(file_path, parameters)
 
 #-----------------------------------------------------------------------------------------------------------------------
 
@@ -127,7 +128,7 @@ def plotXY(save_path: str = None, data: dict = None, variable_pair: tuple = None
 
 #-----------------------------------------------------------------------------------------------------------------------
 
-def plotTable(save_path: str = None, data: dict = None) -> None:
+def plotTable(save_path: str = None, data: dict = None, all_NRMSEs: bool = False) -> None:
 
     labels = data["material:file"].copy()
     data_copy = data.copy()
@@ -147,60 +148,70 @@ def plotTable(save_path: str = None, data: dict = None) -> None:
             for index in index_list:
                 dict_to_plot[key].append(data_copy[key][index])
 
-        dummy_dict = dict_to_plot.copy()
-
-        for key, value in dummy_dict.items():
-            if key != "NRMSE":
-                dict_to_plot[key] = [x for _, x in sorted(zip(dummy_dict["NRMSE"],dummy_dict[key]))]
-
-        dict_to_plot["NRMSE"].sort()
-
         for index, item in enumerate(dict_to_plot["NRMSE"]):
             dict_to_plot["NRMSE"][index] = round(item,4)
 
-        iterations = dict_to_plot["iteration"].copy()
-        dict_to_plot.pop("iteration")
-        matrix = np.ndarray(len(dict_to_plot.keys()))
+        for index, item in enumerate(dict_to_plot["training_NRMSE"]):
+            dict_to_plot["training_NRMSE"][index] = round(item, 4)
 
-        for index,key in enumerate(dict_to_plot.keys()):
+        dict_to_plot["average_NRMSE"] = list()
+        for i,j in zip(dict_to_plot["training_NRMSE"], dict_to_plot["NRMSE"]):
+            dict_to_plot["average_NRMSE"].append( round((i * j)**0.5,4)  )
 
-            row = np.array(dict_to_plot[key])
-            row = row.reshape((len(index_list),1))# len(dict_to_plot.keys())))
-            if index == 0:
-                matrix = row
-            else:
-                matrix = np.concatenate((matrix,row), axis=1)
+        NRMSE_list = ["training_NRMSE","NRMSE","average_NRMSE"]
 
-        valid_fields = dict_to_plot.keys()
-        fig, ax = plt.subplots(figsize=(10,20))
-        im = ax.imshow(matrix)
+        for index, name in enumerate(NRMSE_list):
 
-        # Show all ticks and label them with the respective list entries
-        ax.set_xticks(np.arange(len(valid_fields)), labels=valid_fields)
-        ax.set_yticks(np.arange(len(iterations)), labels=iterations)
+            dummy_dict = dict_to_plot.copy()
+            for key, value in dummy_dict.items():
+                if key != name:
+                    dict_to_plot[key] = [x for _, x in sorted(zip(dummy_dict[name], dummy_dict[key]))]
 
-        # Rotate the tick labels and set their alignment.
-        plt.setp(ax.get_xticklabels(), rotation=45, ha="right",
-                 rotation_mode="anchor")
+            dict_to_plot[name].sort()
 
-        # Loop over data dimensions and create text annotations.
-        for i in range(len(iterations)):
-            for j in range(len(valid_fields)):
-                #print(i)
-                text = ax.text(j, i, str(matrix[i, j]),
-                               ha="center", va="center", color="w")
+            iterations = dict_to_plot["iteration"].copy()
+            dummy_dict_to_plot = dict_to_plot.copy()
+            dummy_dict_to_plot.pop("iteration")
+            matrix = np.ndarray(len(dummy_dict_to_plot.keys()))
 
-        #fig.colorbar(im, spacing='proportional',)
-        ax.set_title(f"best iterations of {material}")
-        ax.set_aspect('auto')
+            for index,key in enumerate(dummy_dict_to_plot.keys()):
 
-        fig.tight_layout()
-        #plt.show()
-        #input()
-        fig.savefig(save_path + "/" + material.strip(".mat"))
-        plt.close()
+                row = np.array(dummy_dict_to_plot[key])
+                row = row.reshape((len(index_list),1))# len(dict_to_plot.keys())))
+                if index == 0:
+                    matrix = row
+                else:
+                    matrix = np.concatenate((matrix,row), axis=1)
 
-        del fig, ax, im, matrix, iterations, valid_fields
+            valid_fields = dummy_dict_to_plot.keys()
+            fig, ax = plt.subplots(figsize=(10,20))
+            im = ax.imshow(matrix)
+
+            # Show all ticks and label them with the respective list entries
+            ax.set_xticks(np.arange(len(valid_fields)), labels=valid_fields)
+            ax.set_yticks(np.arange(len(iterations)), labels=iterations)
+
+            # Rotate the tick labels and set their alignment.
+            plt.setp(ax.get_xticklabels(), rotation=45, ha="right",
+                     rotation_mode="anchor")
+
+            # Loop over data dimensions and create text annotations.
+            for i in range(len(iterations)):
+                for j in range(len(valid_fields)):
+
+                    text = ax.text(j, i, str(matrix[i, j]),
+                                   ha="center", va="center", color="w")
+
+            #fig.colorbar(im, spacing='proportional',)
+            ax.set_title(f"best iterations of {material} by {name}")
+            ax.set_aspect('auto')
+
+            fig.tight_layout()
+
+            fig.savefig(save_path + "/" + material.strip(".mat") + "_" + name)
+            plt.close()
+
+            del fig, ax, im, matrix, iterations, valid_fields
 
         #print(matrix)
 
@@ -210,8 +221,16 @@ def plotMaterialComparison(save_path: str = None, data: dict = None) -> None:
 
     labels = data["material:file"].copy()
     NRMSE = data["NRMSE"].copy()
+    training_NRMSE = data["training_NRMSE"].copy()
     materials = list(Counter(labels).keys())
-    values = list()
+    values = { "training_NRMSE" : list(),
+               "NRMSE" : list(),
+               "average_NRMSE" : list()
+             }
+
+    average_NRMSE = list()
+    for i, j in zip(training_NRMSE, NRMSE):
+        average_NRMSE.append(round((i * j) ** 0.5, 4))
 
     for material in materials:
         dict_to_plot = dict()
@@ -221,14 +240,44 @@ def plotMaterialComparison(save_path: str = None, data: dict = None) -> None:
                 index_list.append(index)
 
         NRMSE_current_mat = list()
+        training_NRMSE_current_mat = list()
+        average_NRMSE_current_mat = list()
         min_NRMSE = None
         for index in index_list:
             NRMSE_current_mat.append(NRMSE[index])
+            training_NRMSE_current_mat.append(training_NRMSE[index])
+            average_NRMSE_current_mat.append(average_NRMSE[index])
         min_NRMSE = min(NRMSE_current_mat.copy())
+        min_training_NRMSE = min(training_NRMSE_current_mat)
+        min_average_NRMSE = min(average_NRMSE_current_mat)
 
-        values.append(round(min_NRMSE,4))
+        values["training_NRMSE"].append(round(min_training_NRMSE,4))
+        values["NRMSE"].append(round(min_NRMSE,4))
+        values["average_NRMSE"].append(round(min_average_NRMSE,4))
 
-    plt.figure(figsize=(10, 5))
+    x = np.arange(len(materials))  # the label locations
+    width = 0.25  # the width of the bars
+    multiplier = 0
+
+    fig, ax = plt.subplots(layout='constrained')
+
+    for attribute, measurement in values.items():
+        offset = width * multiplier
+        rects = ax.bar(x + offset, measurement, width, label=attribute)
+        ax.bar_label(rects, padding=3)
+        multiplier += 1
+
+    # Add some text for labels, title and custom x-axis tick labels, etc.
+    ax.set_ylabel('error')
+    ax.set_title('best NRMSEs by material')
+    ax.set_xticks(x + width, materials)
+    ax.legend(loc='upper left', ncols=3)
+    ax.set_ylim(0, 0.4)
+
+    plt.grid(visible=True)
+    plt.savefig(save_path + "/materials_comparison")
+
+    """plt.figure(figsize=(10, 5))
     plt.title("materials comparison")
     plt.xlabel("materials")
     plt.ylabel("NRMSE")
@@ -236,12 +285,12 @@ def plotMaterialComparison(save_path: str = None, data: dict = None) -> None:
     plt.grid(visible=True)
     plt.savefig(save_path + "/materials_comparison")
     plt.close()
-    #plt.show()
+    #plt.show()"""
 
 # -----------------------------------------------------------------------------------------------------------------------
 
 param_names = ["material:file", "dimensions:system-size-x", "dimensions:system-size-y",
                "dimensions:system-size-z", "cells:macro-cell-size", "sim:applied-field-strength",
                "sim:applied-field-unit-vector", "sim:temperature","intrinsic magnetic damping",
-                "field intensity input scaling"]
-createPlotData( "/home/matteo/Desktop/VAMPIRE_TEST_RESULTS",param_names)
+                "field intensity input scaling","iteration","training_NRMSE","NRMSE"]
+createPlotData( "/home/matteo/Desktop/VAMPIRE_TEST_RESULTS",param_names,all_NRMSEs=True)

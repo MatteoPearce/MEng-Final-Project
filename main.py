@@ -34,13 +34,13 @@ class Material_Evolution():
     base_materials_path: str = "/home/matteo/Desktop/VAMPIRE_WORKDIR/Materials"
     base_testdata_path: str = "/home/matteo/Desktop/VAMPIRE_TEST_RESULTS"
     input_file_parameters: dict = { "material:file" : ["Co.mat","Fe.mat","Ni.mat",],#"Ag.mat"],
-                              "dimensions:system-size-x" : [49,99,149,199],
-                              "dimensions:system-size-y" : [49,99,149,199],
+                              "dimensions:system-size-x" : [49],#,99,149,199],
+                              "dimensions:system-size-y" : [49],#,99,149,199],
                               "dimensions:system-size-z" : [0.1],#np.arange(0.1,1,0.1),
-                              "cells:macro-cell-size" : [5,10,15,20],
+                              "cells:macro-cell-size" : [5],#,10,15,20],
                               "sim:applied-field-strength" : [0],#,"1e-24 !T","1e-12 !T","1e-6 !T"],
                               "sim:applied-field-unit-vector": [(0,0,1)],#,(0,1,0),(1,0,0)],
-                              "sim:temperature" : [0]} #MAKE SURE DEFAULT IS ALWAYS INDEX 0
+                              "sim:temperature" : [309.65]} #MAKE SURE DEFAULT IS ALWAYS INDEX 0
     input_file_units: dict = { "material:file" : "",
                               "dimensions:system-size-x" : " !nm",
                               "dimensions:system-size-y" : " !nm",
@@ -49,8 +49,8 @@ class Material_Evolution():
                               "sim:applied-field-strength" : " !T",
                               "sim:applied-field-unit-vector": "",
                               "sim:temperature" : ""}
-    other_sweep_parameters: dict = { "intrinsic magnetic damping" : [0.3,0.4,0.5],#0.001,0.1,0.5,1],
-                                   "field intensity input scaling": [-2,-1.5,-1,-0.5]}
+    other_sweep_parameters: dict = { "intrinsic magnetic damping" : [0.001,0.01,0.1,0.5,1],
+                                   "field intensity input scaling": [-2,-1.5,-1,-0.5,0.5,1,1.5,2]}
     all_sweep_parameters: dict = dict()
     new_input_file_parameters: dict = dict()
     new_other_sweep_parameters: dict = dict()
