@@ -12,6 +12,7 @@ from GenerateTimeseries import GenerateTimeseries as GT #https://analyticsindiam
 from Sourcefield_Filemaker import filemaker
 from makeHeaders import makeHeaders
 from UdateMagneticDamping import updateDamping
+from ScaleHeight import scaleHeight
 import os
 
 class Material_Evolution():
@@ -124,6 +125,9 @@ class Material_Evolution():
                     number = randint(0,len(value)-1)
 
                 self.new_input_file_parameters[key] = value[number]
+
+            new_height = scaleHeight(self.base_workdir_path, self.new_input_file_parameters["dimensions:system-size-z"])
+            self.new_input_file_parameters["dimensions:system-size-z"] = new_height
 
             if self.sweep_grid_size:
 
