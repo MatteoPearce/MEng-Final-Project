@@ -56,4 +56,4 @@ def recoupData(test_data_path: str, threshold: float = None, training: bool = Fa
 
 #----------------------------------------------------------------------------------------------------------------------#
 
-recoupData( "/home/matteo/Desktop/VAMPIRE_TEST_RESULTS",training=True )
+recoupData( "/home/matteo/Desktop/VAMPIRE_TEST_RESULTS",threshold=0.3)

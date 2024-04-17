@@ -65,6 +65,7 @@ def createPlotData(file_path: str = None, parameter_names: list = None, plot_all
             plotXY(file_path,parameters)
         plotTable(file_path, parameters, all_NRMSEs)
         plotMaterialComparison(file_path, parameters)
+        #testBest(file_path,data)
 
 #-----------------------------------------------------------------------------------------------------------------------
 
@@ -130,9 +131,17 @@ def plotXY(save_path: str = None, data: dict = None, variable_pair: tuple = None
 
 def plotTable(save_path: str = None, data: dict = None, all_NRMSEs: bool = False) -> None:
 
-    labels = data["material:file"].copy()
     data_copy = data.copy()
-    data_copy.pop("material:file")
+    try:
+        labels = data["material:file"].copy()
+        data_copy.pop("material:file")
+    except KeyError:
+        for key in data.keys():
+            array_length = len(data[key])
+            break
+        labels = list()
+        for i in range(array_length):
+            labels.append("Ag.mat") # INSERT NAME OF MATERIAL YOU TESTED IN ISOLATION
 
     materials = list(Counter(labels).keys())
 
@@ -219,7 +228,16 @@ def plotTable(save_path: str = None, data: dict = None, all_NRMSEs: bool = False
 
 def plotMaterialComparison(save_path: str = None, data: dict = None) -> None:
 
-    labels = data["material:file"].copy()
+    try:
+        labels = data["material:file"].copy()
+    except KeyError:
+        for key in data.keys():
+            array_length = len(data[key])
+            break
+        labels = list()
+        for i in range(array_length):
+            labels.append("Ag.mat")  # INSERT NAME OF MATERIAL YOU TESTED IN ISOLATION
+
     NRMSE = data["NRMSE"].copy()
     training_NRMSE = data["training_NRMSE"].copy()
     materials = list(Counter(labels).keys())
@@ -288,6 +306,38 @@ def plotMaterialComparison(save_path: str = None, data: dict = None) -> None:
     #plt.show()"""
 
 # -----------------------------------------------------------------------------------------------------------------------
+
+def testBest(test_data_path: str = None,data:dict = None):
+
+    best_results = { "training_NRMSE" : list(),
+                     "NRMSE" : list(),
+                     "material" : list()
+                   }
+
+    for line in data:
+
+        if "training_NRMSE" in line:
+            best_results["training_NRMSE"].append(float(line.split(" = ")[1]))
+        if "NRMSE" in line:
+            best_results["NRMSE"].append(float(line.split(" = ")[1]))
+        if "material:file" in line:
+            best_results["material"].append(line.split(" = ")[1].strip(".mat\n"))
+
+    NRMSE_list = ["training_NRMSE", "NRMSE"]
+
+    for index, name in enumerate(NRMSE_list):
+
+        dummy_dict = best_results.copy()
+        for key, value in dummy_dict.items():
+            if key != name:
+                best_results[key] = [x for _, x in sorted(zip(dummy_dict[name], dummy_dict[key]))]
+
+        best_results[name].sort()
+
+        print(best_results)
+        input()
+
+#-----------------------------------------------------------------------------------------------------------------------
 
 param_names = ["material:file", "dimensions:system-size-x", "dimensions:system-size-y",
                "dimensions:system-size-z", "cells:macro-cell-size", "sim:applied-field-strength",
