@@ -29,7 +29,7 @@ class Material_Evolution():
     current_best_training: float = np.inf
     current_best_iteration: int = None
     current_best_setup: dict = dict()
-    best_per_materials : list[dict()] = list(dict())
+    best_per_materials : list = list(dict())
     main_timer : float = None
     iteration_times : list = list()
     timeseries: np.ndarray = None
