@@ -13,6 +13,7 @@ from Sourcefield_Filemaker import filemaker
 from makeHeaders import makeHeaders
 from UdateMagneticDamping import updateDamping
 from ScaleHeight import scaleHeight
+from ComputeIterations import computeIterations as CI
 import os
 
 class Material_Evolution():
@@ -22,6 +23,7 @@ class Material_Evolution():
     tried_combos: list = list()
     max_attempts: float = 10e4
     iteration_counter: int = 0
+    iterations_total: int = None
     simulation_end: bool = False
     current_best_result: float = np.inf
     current_best_training: float = np.inf
@@ -63,6 +65,7 @@ class Material_Evolution():
         self.main_timer = time()
         self.input_length = input_length
         self.timeseries = GT(stop_time=input_length)
+        self.iterations_total = CI(self.base_workdir_path,self.input_file_parameters,self.other_sweep_parameters)
         self.main_loop()
 
 #----------------------------------------------------------------------------------------------------------------------#
@@ -70,6 +73,7 @@ class Material_Evolution():
     def main_loop(self):
 
             while not self.simulation_end:
+                print(f"\n WORKING ON ITERATION {self.iteration_counter+1} / {self.iterations_total} \n")
                 start_time = time()
                 self.select_parameters()
                 if self.simulation_end:
