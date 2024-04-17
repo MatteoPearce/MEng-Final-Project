@@ -37,13 +37,13 @@ class Material_Evolution():
     base_materials_path: str = "/home/matteo/Desktop/VAMPIRE_WORKDIR/Materials"
     base_testdata_path: str = "/home/matteo/Desktop/VAMPIRE_TEST_RESULTS"
     input_file_parameters: dict = { "material:file" : ["Co.mat","Fe.mat","Ni.mat"],#
-                              "dimensions:system-size-x" : [49,99],#149,199],
-                              "dimensions:system-size-y" : [49,99],#,99,149,199],
-                              "dimensions:system-size-z" : [0.1],#np.arange(0.1,1,0.1),
-                              "cells:macro-cell-size" : [5,10,20],#,10,15,20],
+                              "dimensions:system-size-x" : [49],#149,199],
+                              "dimensions:system-size-y" : [49],#,99,149,199],
+                              "dimensions:system-size-z" : [5],#np.arange(0.1,1,0.1),
+                              "cells:macro-cell-size" : [5],#,10,15,20],
                               "sim:applied-field-strength" : [0],#,1e-24,1e-12,1e-6],
                               "sim:applied-field-unit-vector": [(0,0,1)],#,(0,1,0),(1,0,0)],
-                              "sim:temperature" : [0]} #MAKE SURE DEFAULT IS ALWAYS INDEX 0
+                              "sim:temperature" : [309.65]} #MAKE SURE DEFAULT IS ALWAYS INDEX 0
     input_file_units: dict = { "material:file" : "",
                               "dimensions:system-size-x" : " !nm",
                               "dimensions:system-size-y" : " !nm",
@@ -130,7 +130,7 @@ class Material_Evolution():
 
                 self.new_input_file_parameters[key] = value[number]
 
-            new_height = scaleHeight(self.base_workdir_path, self.new_input_file_parameters["dimensions:system-size-z"])
+            new_height = scaleHeight(self.base_materials_path,self.new_input_file_parameters["material:file"], self.new_input_file_parameters["dimensions:system-size-z"])
             self.new_input_file_parameters["dimensions:system-size-z"] = new_height
 
             if self.sweep_grid_size:

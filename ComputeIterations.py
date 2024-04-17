@@ -63,7 +63,7 @@ def computeIterations(workdir_path: str, input_file_parameters: dict, other_swee
                 #searching_combo = False
 
 
-            if attempts >= 100000:
+            if attempts >= 10000:
                 searching_combo = False
                 simulation_end = True
 
