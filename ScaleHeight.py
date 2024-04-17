@@ -23,6 +23,3 @@ def scaleHeight(file_path: str = None, height: float = None) ->float:
         else:
             scaled_height = int (height / unit_cell_size) * unit_cell_size
             return scaled_height
-
-a = scaleHeight("/home/matteo/Desktop/VAMPIRE_WORKDIR", 17)
-print(a)
