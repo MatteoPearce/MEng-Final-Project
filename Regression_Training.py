@@ -140,8 +140,9 @@ def train_cycle(training_X: np.ndarray,
 
 #----------------------------------------------------------------------------------------------------------------------#
 
-"""best_result, y, y_pred = TrainGS("/home/matteo/Desktop/VAMPIRE_WORKDIR")
-print(f"best_result = {best_result}")
+"""best_r, best_t, y, y_pred = TrainGS("/home/matteo/Desktop/VAMPIRE_WORKDIR")
+print(f"best_result = {best_r}")
+print(f"best_training = {best_t}")
 
 plt.plot(np.arange(y_pred.shape[0]), y[:, 0], marker='o', markersize=1)  # , color='red')
 plt.plot(np.arange(y_pred.shape[0]), y_pred[:, 0], marker='o', markersize=1)

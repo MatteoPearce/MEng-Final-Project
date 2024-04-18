@@ -163,11 +163,11 @@ def plotTable(save_path: str = None, data: dict = None, all_NRMSEs: bool = False
         for index, item in enumerate(dict_to_plot["training_NRMSE"]):
             dict_to_plot["training_NRMSE"][index] = round(item, 4)
 
-        dict_to_plot["average_NRMSE"] = list()
+        """dict_to_plot["average_NRMSE"] = list()
         for i,j in zip(dict_to_plot["training_NRMSE"], dict_to_plot["NRMSE"]):
-            dict_to_plot["average_NRMSE"].append( round((i * j)**0.5,4)  )
+            dict_to_plot["average_NRMSE"].append( round((i * j)**0.5,4)  )"""
 
-        NRMSE_list = ["training_NRMSE","NRMSE","average_NRMSE"]
+        NRMSE_list = ["training_NRMSE","NRMSE"]#,"average_NRMSE"]
 
         for index, name in enumerate(NRMSE_list):
 
@@ -242,13 +242,12 @@ def plotMaterialComparison(save_path: str = None, data: dict = None) -> None:
     training_NRMSE = data["training_NRMSE"].copy()
     materials = list(Counter(labels).keys())
     values = { "training_NRMSE" : list(),
-               "NRMSE" : list(),
-               "average_NRMSE" : list()
+               "NRMSE" : list()
              }
 
-    average_NRMSE = list()
+    """average_NRMSE = list()
     for i, j in zip(training_NRMSE, NRMSE):
-        average_NRMSE.append(round((i * j) ** 0.5, 4))
+        average_NRMSE.append(round((i * j) ** 0.5, 4))"""
 
     for material in materials:
         dict_to_plot = dict()
@@ -259,19 +258,19 @@ def plotMaterialComparison(save_path: str = None, data: dict = None) -> None:
 
         NRMSE_current_mat = list()
         training_NRMSE_current_mat = list()
-        average_NRMSE_current_mat = list()
+        #average_NRMSE_current_mat = list()
         min_NRMSE = None
         for index in index_list:
             NRMSE_current_mat.append(NRMSE[index])
             training_NRMSE_current_mat.append(training_NRMSE[index])
-            average_NRMSE_current_mat.append(average_NRMSE[index])
+            #average_NRMSE_current_mat.append(average_NRMSE[index])
         min_NRMSE = min(NRMSE_current_mat.copy())
         min_training_NRMSE = min(training_NRMSE_current_mat)
-        min_average_NRMSE = min(average_NRMSE_current_mat)
+        #min_average_NRMSE = min(average_NRMSE_current_mat)
 
         values["training_NRMSE"].append(round(min_training_NRMSE,4))
         values["NRMSE"].append(round(min_NRMSE,4))
-        values["average_NRMSE"].append(round(min_average_NRMSE,4))
+        #values["average_NRMSE"].append(round(min_average_NRMSE,4))
 
     x = np.arange(len(materials))  # the label locations
     width = 0.25  # the width of the bars
@@ -343,4 +342,7 @@ param_names = ["material:file", "dimensions:system-size-x", "dimensions:system-s
                "dimensions:system-size-z", "cells:macro-cell-size", "sim:applied-field-strength",
                "sim:applied-field-unit-vector", "sim:temperature","intrinsic magnetic damping",
                 "field intensity input scaling","iteration","training_NRMSE","NRMSE"]
-createPlotData( "/home/matteo/Desktop/VAMPIRE_TEST_RESULTS",param_names,all_NRMSEs=True)
+
+a = "/home/matteo/Desktop/VAMPIRE_TEST_RESULTS"
+b = "/home/matteo/Desktop/VAMPIRE_TEST_RESULTS/NARMA10_GRID49to99_0K/Iteration Files"
+createPlotData( b,param_names,all_NRMSEs=True)
