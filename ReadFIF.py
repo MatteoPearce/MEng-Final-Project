@@ -1,5 +1,6 @@
-
-import mne
+# https://www.dropbox.com/s/q58whpso2jt9tx0/Fiff.pdf?dl=0
+#https://openneuro.org/datasets/ds004837/versions/1.0.0
+import mne #https://github.com/mne-tools/mne-python/blob/main/tutorials/raw/10_raw_overview.py
 
 path = "/home/matteo/Downloads/raw.fif"
 

@@ -57,4 +57,4 @@ def recoupData(test_data_path: str, threshold: float = None, training: bool = Fa
 #----------------------------------------------------------------------------------------------------------------------#
 a = "/home/matteo/Desktop/VAMPIRE_TEST_RESULTS"
 b = "/home/matteo/Desktop/VAMPIRE_TEST_RESULTS/NARMA10_GRID49to99_0K/Iteration Files"
-recoupData( b,threshold=0.2)
+recoupData( a,threshold=0.3)

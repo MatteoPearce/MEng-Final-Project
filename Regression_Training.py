@@ -114,9 +114,9 @@ def train_cycle(training_X: np.ndarray,
                 testing_X: np.ndarray,
                 testing_y: np.ndarray) -> [float,float,np.ndarray,np.ndarray]:
 
-    output_node = Ridge(output_dim=testing_y.shape[1])  # , name="output_node ")
+    output_node = Ridge(output_dim=testing_y.shape[1],ridge=1e-50)  # , name="output_node ")
     try:
-        fitted_output = output_node.fit(training_X, training_y, warmup=0)
+        fitted_output = output_node.fit(training_X, training_y, warmup=10)
         prediction = fitted_output.run(testing_X)
         training_rerun = fitted_output.run(training_X)
 
@@ -130,6 +130,12 @@ def train_cycle(training_X: np.ndarray,
 
         NRMSE = robs.nrmse(clipped_testing_y, clipped_prediction)
         training_NRMSE = robs.nrmse(clipped_training_y,clipped_rerun)
+
+        """mse = np.mean(np.square(clipped_testing_y - clipped_prediction))
+        NRMSE = mse / (clipped_testing_y.max())# - clipped_testing_y.min())#np.var(clipped_testing_y)
+
+        mse = np.mean(np.square(clipped_training_y - clipped_rerun))
+        training_NRMSE = mse / np.var(clipped_training_y)"""
 
         del output_node
         del fitted_output

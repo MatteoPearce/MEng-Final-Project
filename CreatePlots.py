@@ -61,10 +61,10 @@ def createPlotData(file_path: str = None, parameter_names: list = None, plot_all
                             parameters[key][i] = 3
 
 
-        if plot_all_graphs:
+        if True: #plot_all_graphs:
             plotXY(file_path,parameters)
-        plotTable(file_path, parameters, all_NRMSEs)
-        plotMaterialComparison(file_path, parameters)
+        #plotTable(file_path, parameters, all_NRMSEs)
+        #plotMaterialComparison(file_path, parameters)
         #testBest(file_path,data)
 
 #-----------------------------------------------------------------------------------------------------------------------
@@ -345,4 +345,4 @@ param_names = ["material:file", "dimensions:system-size-x", "dimensions:system-s
 
 a = "/home/matteo/Desktop/VAMPIRE_TEST_RESULTS"
 b = "/home/matteo/Desktop/VAMPIRE_TEST_RESULTS/NARMA10_GRID49to99_0K/Iteration Files"
-createPlotData( b,param_names,all_NRMSEs=True)
+createPlotData(a,param_names,all_NRMSEs=True)

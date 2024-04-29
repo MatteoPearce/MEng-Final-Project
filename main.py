@@ -36,7 +36,7 @@ class Material_Evolution():
     base_workdir_path: str = "/home/matteo/Desktop/VAMPIRE_WORKDIR"
     base_materials_path: str = "/home/matteo/Desktop/VAMPIRE_WORKDIR/Materials"
     base_testdata_path: str = "/home/matteo/Desktop/VAMPIRE_TEST_RESULTS"
-    input_file_parameters: dict = { "material:file" : ["Co.mat"],#,"Fe.mat","Ni.mat"],#
+    input_file_parameters: dict = { "material:file" : ["Co.mat","Fe.mat","Ni.mat"],#
                               "dimensions:system-size-x" : [49],#149,199],
                               "dimensions:system-size-y" : [49],#,99,149,199],
                               "dimensions:system-size-z" : [0.1],#np.arange(0.1,1,0.1),
@@ -52,8 +52,8 @@ class Material_Evolution():
                               "sim:applied-field-strength" : " !T",
                               "sim:applied-field-unit-vector": "",
                               "sim:temperature" : ""}
-    other_sweep_parameters: dict = { "intrinsic magnetic damping" : [0.5],#0.001,0.01,0.1,0.5,1],
-                                   "field intensity input scaling": [-1]}#-2,-1.5,-1,-0.5,0.5,1,1.5,2]}
+    other_sweep_parameters: dict = { "intrinsic magnetic damping" : [0.001,0.01,0.1,0.5,1],
+                                   "field intensity input scaling": [-3e-12,-2e-12,-1e-12,1e-12,2e-12,3e-12]}
     all_sweep_parameters: dict = dict()
     new_input_file_parameters: dict = dict()
     new_other_sweep_parameters: dict = dict()
