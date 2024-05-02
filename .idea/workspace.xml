@@ -4,14 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a4dfd85d-b366-4c78-b6bd-200915180eb4" name="Changes" comment="Removed average NRMSE. created ReadFIF.py, but not functional yet">
+    <list default="true" id="a4dfd85d-b366-4c78-b6bd-200915180eb4" name="Changes" comment="Added RR">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CreatePlots.py" beforeDir="false" afterPath="$PROJECT_DIR$/CreatePlots.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ReadFIF.py" beforeDir="false" afterPath="$PROJECT_DIR$/ReadFIF.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecoupData.py" beforeDir="false" afterPath="$PROJECT_DIR$/RecoupData.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Regression_Training.py" beforeDir="false" afterPath="$PROJECT_DIR$/Regression_Training.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SaveData.py" beforeDir="false" afterPath="$PROJECT_DIR$/SaveData.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,7 +27,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="master" />
+        <entry key="$PROJECT_DIR$" value="updateMain" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -87,7 +81,7 @@
     &quot;Python.test2.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;updateMain&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
     &quot;last_opened_file_path&quot;: &quot;/home/matteo/pypy/pypy3.10-v7.3.15-linux64&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
@@ -119,8 +113,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-1d06a55b98c1-74d2a5396914-JavaScript-PY-241.14494.241" />
-        <option value="bundled-python-sdk-0509580d9d50-28c9f5db9ffe-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-241.14494.241" />
+        <option value="bundled-js-predefined-1d06a55b98c1-91d5c284f522-JavaScript-PY-241.15989.155" />
+        <option value="bundled-python-sdk-babbdf50b680-7c6932dee5e4-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-241.15989.155" />
       </set>
     </attachedChunks>
   </component>
@@ -151,7 +145,8 @@
       <workItem from="1713469159650" duration="8132000" />
       <workItem from="1713696381578" duration="21143000" />
       <workItem from="1714315955450" duration="244000" />
-      <workItem from="1714385278481" duration="8031000" />
+      <workItem from="1714385278481" duration="15237000" />
+      <workItem from="1714665334013" duration="12000" />
     </task>
     <task id="LOCAL-00001" summary="first commit">
       <option name="closed" value="true" />
@@ -505,7 +500,15 @@
       <option name="project" value="LOCAL" />
       <updated>1712787468357</updated>
     </task>
-    <option name="localTasksCounter" value="45" />
+    <task id="LOCAL-00045" summary="Added RR">
+      <option name="closed" value="true" />
+      <created>1714404363918</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1714404363918</updated>
+    </task>
+    <option name="localTasksCounter" value="46" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -524,7 +527,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="wrote script that performs grid search for best training split and returns split and NRMSE" />
     <MESSAGE value="writing main" />
     <MESSAGE value="finished main, running first test" />
     <MESSAGE value="Random Search fully functional" />
@@ -549,7 +551,8 @@
     <MESSAGE value="integrated ComputeIterations.py into main loop. UNTESTED" />
     <MESSAGE value="integrated ComputeIterations.py into main loop. TESTED" />
     <MESSAGE value="Removed average NRMSE. created ReadFIF.py, but not functional yet" />
-    <option name="LAST_COMMIT_MESSAGE" value="Removed average NRMSE. created ReadFIF.py, but not functional yet" />
+    <MESSAGE value="Added RR" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added RR" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/MEng_Project_Matteo_Pearce$GenerateTimeseries.coverage" NAME="GenerateTimeseries Coverage Results" MODIFIED="1712246796415" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
