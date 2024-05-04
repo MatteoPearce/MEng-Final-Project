@@ -4,8 +4,7 @@ import time
 
 
 def CallVAMPIRE(workdir_path: str = None, parallel: bool = False, debug_mode: bool = False, show_output: bool = False) -> None:
-    show_output = False
-    parallel = True
+
     if workdir_path is not None:
         if parallel:
             call_word = "vampire-parallel"
@@ -17,10 +16,10 @@ def CallVAMPIRE(workdir_path: str = None, parallel: bool = False, debug_mode: bo
 
         start_time = time.time()
         if show_output:
-            call(f'cd {workdir_path}; chmod +x {call_word}; mpirun -np 12 {call_word}', shell=True)
+            call(f'cd {workdir_path}; chmod +x {call_word}; ./{call_word}', shell=True)
         else:
             print("running simulation")
-            output = run(f'cd {workdir_path}; chmod +x {call_word}; mpirun -np 12 {call_word}', capture_output=True, shell=True).stdout
+            output = run(f'cd {workdir_path}; chmod +x {call_word}; mpirun ./{call_word}', capture_output=True, shell=True).stdout
             print("simulation done")
 
         end_time = time.time()

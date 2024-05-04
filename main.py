@@ -40,7 +40,7 @@ class Material_Evolution():
                               "dimensions:system-size-x" : [49],#149,199],
                               "dimensions:system-size-y" : [49],#,99,149,199],
                               "dimensions:system-size-z" : [0.1],#np.arange(0.1,1,0.1),
-                              "cells:macro-cell-size" : [5],#,10,15,20],
+                              "cells:macro-cell-size" : [5,10],#15,20],
                               "sim:applied-field-strength" : [0],#,1e-24,1e-12,1e-6],
                               "sim:applied-field-unit-vector": [(0,0,1)],#,(0,1,0),(1,0,0)],
                               "sim:temperature" : [309.65]} #MAKE SURE DEFAULT IS ALWAYS INDEX 0
@@ -53,7 +53,7 @@ class Material_Evolution():
                               "sim:applied-field-unit-vector": "",
                               "sim:temperature" : ""}
     other_sweep_parameters: dict = { "intrinsic magnetic damping" : [0.001,0.01,0.1,0.5,1],
-                                   "field intensity input scaling": [-3e-12,-2e-12,-1e-12,1e-12,2e-12,3e-12]}
+                                   "field intensity input scaling": [-3e-13,-2e-13,-1e-13,1e-13,2e-13,3e-13]}
     all_sweep_parameters: dict = dict()
     new_input_file_parameters: dict = dict()
     new_other_sweep_parameters: dict = dict()
