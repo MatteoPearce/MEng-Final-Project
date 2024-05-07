@@ -7,7 +7,8 @@ import numpy as np
 from tqdm import tqdm
 from ExtractReservoirIO import ExtractReservoirIO as ERO
 import os
-np.set_printoptions(threshold=np.inf)
+
+#np.set_printoptions(threshold=np.inf)
 reservoirpy.verbosity(0)
 
 def TrainGS(workdir_path: str = None) -> tuple[float,float,np.ndarray,np.ndarray]:
@@ -131,12 +132,6 @@ def train_cycle(training_X: np.ndarray,
         NRMSE = robs.nrmse(clipped_testing_y, clipped_prediction)
         training_NRMSE = robs.nrmse(clipped_training_y,clipped_rerun)
 
-        """mse = np.mean(np.square(clipped_testing_y - clipped_prediction))
-        NRMSE = mse / (clipped_testing_y.max())# - clipped_testing_y.min())#np.var(clipped_testing_y)
-
-        mse = np.mean(np.square(clipped_training_y - clipped_rerun))
-        training_NRMSE = mse / np.var(clipped_training_y)"""
-
         del output_node
         del fitted_output
 
@@ -145,14 +140,3 @@ def train_cycle(training_X: np.ndarray,
         return None, None, None, None
 
 #----------------------------------------------------------------------------------------------------------------------#
-
-"""best_r, best_t, y, y_pred = TrainGS("/home/matteo/Desktop/VAMPIRE_WORKDIR")
-print(f"best_result = {best_r}")
-print(f"best_training = {best_t}")
-
-plt.plot(np.arange(y_pred.shape[0]), y[:, 0], marker='o', markersize=1)  # , color='red')
-plt.plot(np.arange(y_pred.shape[0]), y_pred[:, 0], marker='o', markersize=1)
-plt.xlabel('Time')  # X-axis label
-plt.ylabel('Magnitude')  # Y-axis label
-plt.title('Prediction');  # title of the plot
-plt.show()"""

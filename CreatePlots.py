@@ -235,8 +235,6 @@ def plotMaterialComparison(save_path: str = None, data: dict = None) -> None:
             array_length = len(data[key])
             break
         labels = list()
-        for i in range(array_length):
-            labels.append("Ag.mat")  # INSERT NAME OF MATERIAL YOU TESTED IN ISOLATION
 
     NRMSE = data["NRMSE"].copy()
     training_NRMSE = data["training_NRMSE"].copy()
@@ -245,12 +243,7 @@ def plotMaterialComparison(save_path: str = None, data: dict = None) -> None:
                "NRMSE" : list()
              }
 
-    """average_NRMSE = list()
-    for i, j in zip(training_NRMSE, NRMSE):
-        average_NRMSE.append(round((i * j) ** 0.5, 4))"""
-
     for material in materials:
-        dict_to_plot = dict()
         index_list = list()
         for index, entry in enumerate(labels):
             if material == entry:
@@ -258,19 +251,18 @@ def plotMaterialComparison(save_path: str = None, data: dict = None) -> None:
 
         NRMSE_current_mat = list()
         training_NRMSE_current_mat = list()
-        #average_NRMSE_current_mat = list()
+
         min_NRMSE = None
         for index in index_list:
             NRMSE_current_mat.append(NRMSE[index])
             training_NRMSE_current_mat.append(training_NRMSE[index])
-            #average_NRMSE_current_mat.append(average_NRMSE[index])
+
         min_NRMSE = min(NRMSE_current_mat.copy())
         min_training_NRMSE = min(training_NRMSE_current_mat)
-        #min_average_NRMSE = min(average_NRMSE_current_mat)
+
 
         values["training_NRMSE"].append(round(min_training_NRMSE,4))
         values["NRMSE"].append(round(min_NRMSE,4))
-        #values["average_NRMSE"].append(round(min_average_NRMSE,4))
 
     x = np.arange(len(materials))  # the label locations
     width = 0.25  # the width of the bars
@@ -294,48 +286,7 @@ def plotMaterialComparison(save_path: str = None, data: dict = None) -> None:
     plt.grid(visible=True)
     plt.savefig(save_path + "/materials_comparison")
 
-    """plt.figure(figsize=(10, 5))
-    plt.title("materials comparison")
-    plt.xlabel("materials")
-    plt.ylabel("NRMSE")
-    plt.scatter(materials, values)
-    plt.grid(visible=True)
-    plt.savefig(save_path + "/materials_comparison")
-    plt.close()
-    #plt.show()"""
-
-# -----------------------------------------------------------------------------------------------------------------------
-
-def testBest(test_data_path: str = None,data:dict = None):
-
-    best_results = { "training_NRMSE" : list(),
-                     "NRMSE" : list(),
-                     "material" : list()
-                   }
-
-    for line in data:
-
-        if "training_NRMSE" in line:
-            best_results["training_NRMSE"].append(float(line.split(" = ")[1]))
-        if "NRMSE" in line:
-            best_results["NRMSE"].append(float(line.split(" = ")[1]))
-        if "material:file" in line:
-            best_results["material"].append(line.split(" = ")[1].strip(".mat\n"))
-
-    NRMSE_list = ["training_NRMSE", "NRMSE"]
-
-    for index, name in enumerate(NRMSE_list):
-
-        dummy_dict = best_results.copy()
-        for key, value in dummy_dict.items():
-            if key != name:
-                best_results[key] = [x for _, x in sorted(zip(dummy_dict[name], dummy_dict[key]))]
-
-        best_results[name].sort()
-
-        print(best_results)
-        input()
-
+#-----------------------------------------------------------------------------------------------------------------------
 #-----------------------------------------------------------------------------------------------------------------------
 
 param_names = ["material:file", "dimensions:system-size-x", "dimensions:system-size-y",

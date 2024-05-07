@@ -141,14 +141,11 @@ class MaterialEvolution():
 
             self.new_input_file_parameters = {}
             for key,value in self.input_file_parameters.items():
-
                 number = randint(0,len(value)-1)
                 self.new_input_file_parameters[key] = value[number]
 
             new_height = scaleHeight(self.base_materials_path,self.new_input_file_parameters["material:file"], self.new_input_file_parameters["dimensions:system-size-z"])
             self.new_input_file_parameters["dimensions:system-size-z"] = new_height
-
-
 
             new_x, new_y, new_grid = scaleGrid(x_dims=self.input_file_parameters["dimensions:system-size-x"],
                                                y_dims=self.input_file_parameters["dimensions:system-size-y"],

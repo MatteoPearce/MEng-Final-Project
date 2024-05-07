@@ -16,31 +16,24 @@ def computeIterations(workdir_path: str, input_file_parameters: dict, other_swee
 
             new_input_file_parameters = {}
             for key,value in input_file_parameters.items():
-                if (key == "dimensions:system-size-x" or key == "dimensions:system-size-y"):
-                    number = 0
-                elif (key == "cells:macro-cell-size"):
-                    number = 0
-                elif (key == "sim:temperature"):
-                    number = 0
-                else:
-                    number = randint(0,len(value)-1)
 
+                number = randint(0,len(value)-1)
                 new_input_file_parameters[key] = value[number]
 
             new_height = scaleHeight(workdir_path, new_input_file_parameters["dimensions:system-size-z"])
             new_input_file_parameters["dimensions:system-size-z"] = new_height
 
-            if True:
 
-                new_x, new_y, new_grid = scaleGrid(x_dims=input_file_parameters["dimensions:system-size-x"],
-                                                   y_dims=input_file_parameters["dimensions:system-size-y"],
-                                                   cell_dim=input_file_parameters["cells:macro-cell-size"],
-                                                   save_path=None,
-                                                   timeseries=None)
 
-                new_input_file_parameters["dimensions:system-size-x"] = new_x
-                new_input_file_parameters["dimensions:system-size-y"] = new_y
-                new_input_file_parameters["cells:macro-cell-size"] = new_grid
+            new_x, new_y, new_grid = scaleGrid(x_dims=input_file_parameters["dimensions:system-size-x"],
+                                               y_dims=input_file_parameters["dimensions:system-size-y"],
+                                               cell_dim=input_file_parameters["cells:macro-cell-size"],
+                                               save_path=None,
+                                               timeseries=None)
+
+            new_input_file_parameters["dimensions:system-size-x"] = new_x
+            new_input_file_parameters["dimensions:system-size-y"] = new_y
+            new_input_file_parameters["cells:macro-cell-size"] = new_grid
 
             for key, value in other_sweep_parameters.items():
                 number = randint(0, len(value) - 1)
@@ -60,8 +53,6 @@ def computeIterations(workdir_path: str, input_file_parameters: dict, other_swee
 
             if unique:
                 tried_combos.append(all_sweep_parameters.copy())
-                #searching_combo = False
-
 
             if attempts >= 10000:
                 searching_combo = False

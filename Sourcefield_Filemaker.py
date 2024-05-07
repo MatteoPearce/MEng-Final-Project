@@ -62,12 +62,7 @@ def filemaker(output_path: str,
                 row = np.repeat(element,columns)
                 row = np.append(row,index)
                 row = row.reshape((1, columns+1))
-                """
-                row = np.repeat(element, 30)
-                row = np.pad(row,((0, columns-30)))
-                row = np.append(row, index)
-                row = row.reshape((1, columns + 1))
-                """
+
                 if index == 0:
                     new_array = row
                 else:

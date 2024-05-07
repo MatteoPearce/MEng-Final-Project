@@ -19,7 +19,7 @@ def CallVAMPIRE(workdir_path: str = None, parallel: bool = False, debug_mode: bo
             call(f'cd {workdir_path}; chmod +x {call_word}; ./{call_word}', shell=True)
         else:
             print("running simulation")
-            output = run(f'cd {workdir_path}; chmod +x {call_word}; mpirun ./{call_word}', capture_output=True, shell=True).stdout
+            output = run(f'cd {workdir_path}; chmod +x {call_word}; ./{call_word}', capture_output=True, shell=True).stdout
             print("simulation done")
 
         end_time = time.time()
