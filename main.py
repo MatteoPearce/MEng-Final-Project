@@ -16,7 +16,7 @@ from ScaleHeight import scaleHeight
 from ComputeIterations import computeIterations as CI
 import os
 
-class Material_Evolution():
+class MaterialEvolution():
 
     sweep_grid_size: bool = True
     sweep_temperature: bool = False
@@ -39,7 +39,7 @@ class Material_Evolution():
     input_file_parameters: dict = { "material:file" : ["Co.mat","Fe.mat","Ni.mat"],#
                               "dimensions:system-size-x" : [49],#149,199],
                               "dimensions:system-size-y" : [49],#,99,149,199],
-                              "dimensions:system-size-z" : [0.1],#np.arange(0.1,1,0.1),
+                              "dimensions:system-size-z" : [4],#np.arange(0.1,1,0.1),
                               "cells:macro-cell-size" : [5,10],#15,20],
                               "sim:applied-field-strength" : [0],#,1e-24,1e-12,1e-6],
                               "sim:applied-field-unit-vector": [(0,0,1)],#,(0,1,0),(1,0,0)],
@@ -269,6 +269,6 @@ class Material_Evolution():
 def main() -> None:
 
     input_length = 500
-    start = Material_Evolution(input_length)
+    start = MaterialEvolution(input_length)
 
 if __name__ == "__main__": main()
