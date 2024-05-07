@@ -8,7 +8,7 @@ from random import randint
 import numpy as np
 from time import time
 from ScaleGrid import scaleGrid
-from GenerateTimeseries import GenerateTimeseries as GT #https://analyticsindiamag.com/guide-to-timesynth-a-python-library-for-synthetic-time-series-generation/#h-narma-series
+from GenerateTimeseries import GenerateTimeseries as GT
 from Sourcefield_Filemaker import filemaker
 from makeHeaders import makeHeaders
 from UdateMagneticDamping import updateDamping
@@ -16,19 +16,49 @@ from ScaleHeight import scaleHeight
 from ComputeIterations import computeIterations as CI
 import os
 
+"""
+MAIN CLASS FOR RANDOM SEARCH ALGORITHM.
+
+This project uses the university of York's in-house software package Vampire, a state-of-the-art atomistic simulator 
+for magnetic nanomaterials developed by Evans et al., (https://vampire.york.ac.uk/). 
+
+An arbitrary NARMA10 timeseries is generated with the timesynth library and saved to a sourcefield.txt file in the 
+working directory where the Vampire binary is housed. Subsequently, a random search algorithm generates an untested 
+configuration of simulation parameters, modifies an input.txt and material.mat file required by Vampire, invokes 
+Vampire, extracts the output from the reservoir_output.txt file and uses supervision learning to train a perceptron 
+layer with a ridge regression optimisation function. The objective is to find a combination of material and associated 
+physical parameters that can excel as a reservoir at body temperature with input fields of a magnitude as found 
+in biomagnetism.
+
+To change the exploration parameters modify the fields:
+
+    input_file_parameters
+    other_sweep_parameters
+    
+In order to run multiple random searches programatically, the constructor will have to be modified slightly to accept 
+these dictionaries at instantiation.
+
+The string fields:
+
+    base_workdir_path
+    base_materials_path
+    base_testdata_path
+    
+are integral to proper execution as they point to the working directory, materials library and data retention folders. 
+
+"""
+
 class MaterialEvolution():
 
-    sweep_grid_size: bool = True
-    sweep_temperature: bool = False
-    tried_combos: list = list()
-    max_attempts: float = 10e4
-    iteration_counter: int = 0
-    iterations_total: int = None
-    simulation_end: bool = False
-    current_best_result: float = np.inf
-    current_best_training: float = np.inf
+    tried_combos: list = list() # populates with sim params of each loop. Is compared to check for uniqueness of combos.
+    max_attempts: float = 10e4 # how many attempts before deciding all combos exhausted.
+    iteration_counter: int = 0 # for printing progress and saving data.
+    iterations_total: int = None # for printing progress.
+    simulation_end: bool = False # True when all combos tried.
+    current_best_result: float = np.inf # best NMSE on unseen data.
+    current_best_training: float = np.inf # best NMSE on unseen data.
     current_best_iteration: int = None
-    current_best_setup: dict = dict()
+    current_best_setup: dict = dict() # best param combination of unseen data.
     best_per_materials : list = list(dict())
     main_timer : float = None
     iteration_times : list = list()
@@ -39,7 +69,7 @@ class MaterialEvolution():
     input_file_parameters: dict = { "material:file" : ["Co.mat","Fe.mat","Ni.mat"],#
                               "dimensions:system-size-x" : [49],#149,199],
                               "dimensions:system-size-y" : [49],#,99,149,199],
-                              "dimensions:system-size-z" : [4],#np.arange(0.1,1,0.1),
+                              "dimensions:system-size-z" : [0.1],#np.arange(0.1,1,0.1),
                               "cells:macro-cell-size" : [5,10],#15,20],
                               "sim:applied-field-strength" : [0],#,1e-24,1e-12,1e-6],
                               "sim:applied-field-unit-vector": [(0,0,1)],#,(0,1,0),(1,0,0)],
@@ -119,31 +149,24 @@ class MaterialEvolution():
 
             self.new_input_file_parameters = {}
             for key,value in self.input_file_parameters.items():
-                if (key == "dimensions:system-size-x" or key == "dimensions:system-size-y"):
-                    number = 0
-                elif (key == "cells:macro-cell-size"):
-                    number = 0
-                elif (key == "sim:temperature") and not self.sweep_temperature:
-                    number = 0
-                else:
-                    number = randint(0,len(value)-1)
 
+                number = randint(0,len(value)-1)
                 self.new_input_file_parameters[key] = value[number]
 
             new_height = scaleHeight(self.base_materials_path,self.new_input_file_parameters["material:file"], self.new_input_file_parameters["dimensions:system-size-z"])
             self.new_input_file_parameters["dimensions:system-size-z"] = new_height
 
-            if self.sweep_grid_size:
 
-                new_x, new_y, new_grid = scaleGrid(x_dims=self.input_file_parameters["dimensions:system-size-x"],
-                                                   y_dims=self.input_file_parameters["dimensions:system-size-y"],
-                                                   cell_dim=self.input_file_parameters["cells:macro-cell-size"],
-                                                   save_path=self.base_workdir_path,
-                                                   timeseries=self.timeseries)
 
-                self.new_input_file_parameters["dimensions:system-size-x"] = new_x
-                self.new_input_file_parameters["dimensions:system-size-y"] = new_y
-                self.new_input_file_parameters["cells:macro-cell-size"] = new_grid
+            new_x, new_y, new_grid = scaleGrid(x_dims=self.input_file_parameters["dimensions:system-size-x"],
+                                               y_dims=self.input_file_parameters["dimensions:system-size-y"],
+                                               cell_dim=self.input_file_parameters["cells:macro-cell-size"],
+                                               save_path=self.base_workdir_path,
+                                               timeseries=self.timeseries)
+
+            self.new_input_file_parameters["dimensions:system-size-x"] = new_x
+            self.new_input_file_parameters["dimensions:system-size-y"] = new_y
+            self.new_input_file_parameters["cells:macro-cell-size"] = new_grid
 
             for key, value in self.other_sweep_parameters.items():
                 number = randint(0, len(value) - 1)
