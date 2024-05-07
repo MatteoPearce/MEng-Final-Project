@@ -59,7 +59,6 @@ class MaterialEvolution():
     current_best_training: float = np.inf # best NMSE on unseen data.
     current_best_iteration: int = None
     current_best_setup: dict = dict() # best param combination of unseen data.
-    best_per_materials : list = list(dict())
     main_timer : float = None
     iteration_times : list = list()
     timeseries: np.ndarray = None
@@ -126,17 +125,10 @@ class MaterialEvolution():
             print(f"\nelapsed time: {round((self.main_timer / 60) / 60, 2)} hours")
             print(f"\naverage time per iteration: {round(average_time, 2)} seconds")
 
-            with open(self.base_testdata_path + "/best_iteration.txt", "w") as file:
+            with open(self.base_testdata_path + "/sim_data.txt", "w") as file:
                 file.writelines(f"best iteration number: {self.current_best_iteration}\n")
                 file.writelines(f"total time : {round((self.main_timer / 60) / 60, 2)} hours\n")
                 file.writelines(f"average iteration time : {round(average_time, 2)} seconds \n\n")
-                file.writelines("#------------------------------------------------------------------------------------#\n\n")
-                file.writelines("best per material:\n\n")
-                for material in self.best_per_materials:
-                    for key in material.keys():
-                        file.writelines(str(key + " = " + str(material[key]) + "\n"))
-                    file.writelines("\n")
-                file.close()
 
 #----------------------------------------------------------------------------------------------------------------------#
 
@@ -256,20 +248,6 @@ class MaterialEvolution():
                 self.current_best_training = best_training
                 self.current_best_setup = self.all_sweep_parameters.copy()
                 self.current_best_iteration = self.iteration_counter
-
-            if len(self.best_per_materials) == 0:
-                self.best_per_materials.append(params)
-            else:
-                best_material_changed = False
-                for index,mat in enumerate(self.best_per_materials):
-                    if mat["material:file"] == self.all_sweep_parameters["material:file"]:
-                        if best_result < mat["NRMSE"]:
-                            self.best_per_materials[index] = params
-                            best_material_changed = True
-                            break
-
-                if not best_material_changed:
-                    self.best_per_materials.append(params)
 
             saveData(data=data_to_save,
                      dir_name="/" + str(self.iteration_counter),
