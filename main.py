@@ -149,9 +149,7 @@ class MaterialEvolution():
 
             new_x, new_y, new_grid = scaleGrid(x_dims=self.input_file_parameters["dimensions:system-size-x"],
                                                y_dims=self.input_file_parameters["dimensions:system-size-y"],
-                                               cell_dim=self.input_file_parameters["cells:macro-cell-size"],
-                                               save_path=self.base_workdir_path,
-                                               timeseries=self.timeseries)
+                                               cell_dim=self.input_file_parameters["cells:macro-cell-size"])
 
             self.new_input_file_parameters["dimensions:system-size-x"] = new_x
             self.new_input_file_parameters["dimensions:system-size-y"] = new_y

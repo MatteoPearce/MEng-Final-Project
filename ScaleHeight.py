@@ -5,7 +5,6 @@ def scaleHeight(file_path: str = None, material: str = None, height: float = Non
     for file in os.listdir(file_path):
         filename = os.fsdecode(file)
         if filename == material:
-            mat_file = file
             success = True
             with open(os.path.join(file_path, file), "r") as f:
                 data = f.readlines()

@@ -45,9 +45,6 @@ def modifyVampireInputFile(new_vals: dict = None, file_path : str = None) -> Non
     modifiable_params = dict(modifiable_params)
     file.close()
 
-    #for key, val in modifiable_params.items():
-    #    print(key, ":", val)
-
 #------------------------------------------------------------------ extract unit cell info
 
     for file in os.listdir(file_path):
@@ -74,16 +71,12 @@ def modifyVampireInputFile(new_vals: dict = None, file_path : str = None) -> Non
     if len_check < len(modifiable_params.items()):
         warnings.warn('YOU HAVE ADDED AN EXTRA PARAMETER')
 
-    #for key,val in modifiable_params.items():
-        #print(key,":",val)
-
 #------------------------------------------------------------------ write to input file
 
     for key in modifiable_params.keys():
         for index,line in enumerate(initial_data):
             if (key + " ") in line:
                 initial_data[index] = str(key + " = " + str(modifiable_params[key]).strip(")(") + "\n")
-                #initial_data[index].replace("(","")
                 break
 
     with open(VAMPIRE_input, "w") as file:

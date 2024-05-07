@@ -24,10 +24,6 @@ def makeHeaders(cells_perX: int, cells_perY: int) -> list:
 
     headers = [header1, header2]
 
-    #print(header1)
-    #print()
-    #print(header2)
-
     return headers
 
 #makeHeaders(5,10)

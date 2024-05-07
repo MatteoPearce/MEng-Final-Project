@@ -6,9 +6,7 @@ import numpy as np
 from GenerateTimeseries import GenerateTimeseries as GT
 def scaleGrid(x_dims: list = None,
               y_dims: list = None,
-              cell_dim: list = None,
-              save_path: str = None,
-              timeseries: np.ndarray = None) -> tuple[int | Any, int | Any, Any]:
+              cell_dim: list = None) -> tuple[int | Any, int | Any, Any]:
 
     valid_choice = False
     counter = 0

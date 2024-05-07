@@ -1,6 +1,5 @@
 import os
 
-
 def updateDamping(dir_path: str, magneticDamping: float):
 
     success = False

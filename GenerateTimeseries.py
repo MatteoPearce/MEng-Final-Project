@@ -14,12 +14,6 @@ def GenerateTimeseries(series_name: str = None, stop_time: int = None) -> np.nda
 
     samples = samples - np.average(samples)
 
-    """plt.plot(times, samples, marker='o', markersize=2)
-    plt.xlabel('Time')  # X-axis label
-    plt.ylabel('Magnitude')  # Y-axis label
-    plt.title('10th-order NARMA Series');  # title of the plot
-    plt.show()"""
-
     return samples
 
 #rows = 1000

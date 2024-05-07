@@ -14,7 +14,6 @@ def saveData(data: dict = None, dir_name: str = None, save_path: str = None, wor
 
         files_to_copy = list()
         files_to_copy.append(workdir_path + '/input')
-        #files_to_copy.append(workdir_path + '/output')
         files_to_copy.append(workdir_path + '/reservoir_output.txt')
         files_to_copy.append(workdir_path + f'/{mat_file}')
 
@@ -24,7 +23,6 @@ def saveData(data: dict = None, dir_name: str = None, save_path: str = None, wor
             shutil.rmtree(destination_directory)
         os.mkdir(destination_directory)
 
-        # shutil.copy2() preserves original metadata
         for file in files_to_copy:
             try:
                 shutil.copy(file, destination_directory)
