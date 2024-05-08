@@ -4,9 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a4dfd85d-b366-4c78-b6bd-200915180eb4" name="Changes" comment="tidied and commented RecoupData.py">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Regression_Training.py" beforeDir="false" afterPath="$PROJECT_DIR$/RegressionTraining.py" afterDir="false" />
+    <list default="true" id="a4dfd85d-b366-4c78-b6bd-200915180eb4" name="Changes" comment="tidied and commented SelectMaterialFile.py">
+      <change beforePath="$PROJECT_DIR$/GenerateTimeseries.py" beforeDir="false" afterPath="$PROJECT_DIR$/GenerateTimeseries.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sourcefield_Filemaker.py" beforeDir="false" afterPath="$PROJECT_DIR$/SourcefieldFilemaker.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -152,63 +152,7 @@
       <workItem from="1714665334013" duration="12000" />
       <workItem from="1714666674308" duration="165000" />
       <workItem from="1714811683381" duration="30547000" />
-      <workItem from="1715163002562" duration="17877000" />
-    </task>
-    <task id="LOCAL-00016" summary="Random Search fully functional">
-      <option name="closed" value="true" />
-      <created>1711612936979</created>
-      <option name="number" value="00016" />
-      <option name="presentableId" value="LOCAL-00016" />
-      <option name="project" value="LOCAL" />
-      <updated>1711612936979</updated>
-    </task>
-    <task id="LOCAL-00017" summary="Random Search fully functional">
-      <option name="closed" value="true" />
-      <created>1711640285510</created>
-      <option name="number" value="00017" />
-      <option name="presentableId" value="LOCAL-00017" />
-      <option name="project" value="LOCAL" />
-      <updated>1711640285510</updated>
-    </task>
-    <task id="LOCAL-00018" summary="Random Search fully functional">
-      <option name="closed" value="true" />
-      <created>1711640290598</created>
-      <option name="number" value="00018" />
-      <option name="presentableId" value="LOCAL-00018" />
-      <option name="project" value="LOCAL" />
-      <updated>1711640290598</updated>
-    </task>
-    <task id="LOCAL-00019" summary="CreatePlots, make plots callable anytime. uses best_iteration.txt">
-      <option name="closed" value="true" />
-      <created>1711894055001</created>
-      <option name="number" value="00019" />
-      <option name="presentableId" value="LOCAL-00019" />
-      <option name="project" value="LOCAL" />
-      <updated>1711894055001</updated>
-    </task>
-    <task id="LOCAL-00020" summary="CreatePlots, make plots callable anytime. uses best_iteration.txt">
-      <option name="closed" value="true" />
-      <created>1711896918403</created>
-      <option name="number" value="00020" />
-      <option name="presentableId" value="LOCAL-00020" />
-      <option name="project" value="LOCAL" />
-      <updated>1711896918403</updated>
-    </task>
-    <task id="LOCAL-00021" summary="Fixed Bugs in Main">
-      <option name="closed" value="true" />
-      <created>1711970347030</created>
-      <option name="number" value="00021" />
-      <option name="presentableId" value="LOCAL-00021" />
-      <option name="project" value="LOCAL" />
-      <updated>1711970347030</updated>
-    </task>
-    <task id="LOCAL-00022" summary="adding grid scaling">
-      <option name="closed" value="true" />
-      <created>1711977746948</created>
-      <option name="number" value="00022" />
-      <option name="presentableId" value="LOCAL-00022" />
-      <option name="project" value="LOCAL" />
-      <updated>1711977746948</updated>
+      <workItem from="1715163002562" duration="20584000" />
     </task>
     <task id="LOCAL-00023" summary="adding grid scaling">
       <option name="closed" value="true" />
@@ -546,7 +490,63 @@
       <option name="project" value="LOCAL" />
       <updated>1715189729290</updated>
     </task>
-    <option name="localTasksCounter" value="65" />
+    <task id="LOCAL-00065" summary="tidied and commented RegressionTraining.py">
+      <option name="closed" value="true" />
+      <created>1715192277771</created>
+      <option name="number" value="00065" />
+      <option name="presentableId" value="LOCAL-00065" />
+      <option name="project" value="LOCAL" />
+      <updated>1715192277771</updated>
+    </task>
+    <task id="LOCAL-00066" summary="tidied and commented RegressionTraining.py">
+      <option name="closed" value="true" />
+      <created>1715192296057</created>
+      <option name="number" value="00066" />
+      <option name="presentableId" value="LOCAL-00066" />
+      <option name="project" value="LOCAL" />
+      <updated>1715192296057</updated>
+    </task>
+    <task id="LOCAL-00067" summary="tidied and commented SaveData.py">
+      <option name="closed" value="true" />
+      <created>1715192636931</created>
+      <option name="number" value="00067" />
+      <option name="presentableId" value="LOCAL-00067" />
+      <option name="project" value="LOCAL" />
+      <updated>1715192636931</updated>
+    </task>
+    <task id="LOCAL-00068" summary="tidied and commented ScaleG&#10;rid.py">
+      <option name="closed" value="true" />
+      <created>1715193267369</created>
+      <option name="number" value="00068" />
+      <option name="presentableId" value="LOCAL-00068" />
+      <option name="project" value="LOCAL" />
+      <updated>1715193267369</updated>
+    </task>
+    <task id="LOCAL-00069" summary="tidied and commented ScaleG&#10;rid.py">
+      <option name="closed" value="true" />
+      <created>1715193273605</created>
+      <option name="number" value="00069" />
+      <option name="presentableId" value="LOCAL-00069" />
+      <option name="project" value="LOCAL" />
+      <updated>1715193273605</updated>
+    </task>
+    <task id="LOCAL-00070" summary="tidied and commented ScaleHeight.py">
+      <option name="closed" value="true" />
+      <created>1715193602123</created>
+      <option name="number" value="00070" />
+      <option name="presentableId" value="LOCAL-00070" />
+      <option name="project" value="LOCAL" />
+      <updated>1715193602123</updated>
+    </task>
+    <task id="LOCAL-00071" summary="tidied and commented SelectMaterialFile.py">
+      <option name="closed" value="true" />
+      <created>1715193757701</created>
+      <option name="number" value="00071" />
+      <option name="presentableId" value="LOCAL-00071" />
+      <option name="project" value="LOCAL" />
+      <updated>1715193757701</updated>
+    </task>
+    <option name="localTasksCounter" value="72" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -565,11 +565,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="added #!/usr/bin/env python3" />
-    <MESSAGE value="overhaul of RecoupData.py and CreatePlots.py" />
-    <MESSAGE value="Created ComputeIterations.py" />
-    <MESSAGE value="first commit of ScaledHeight.py" />
-    <MESSAGE value="integrated ScaledHeight.py into main. UNTESTED" />
     <MESSAGE value="integrated ComputeIterations.py into main loop. UNTESTED" />
     <MESSAGE value="integrated ComputeIterations.py into main loop. TESTED" />
     <MESSAGE value="Removed average NRMSE. created ReadFIF.py, but not functional yet" />
@@ -590,7 +585,12 @@
     <MESSAGE value="tidied and commented makeHeaders.py" />
     <MESSAGE value="tidied and commented ModifyVampireInputFile.py" />
     <MESSAGE value="tidied and commented RecoupData.py" />
-    <option name="LAST_COMMIT_MESSAGE" value="tidied and commented RecoupData.py" />
+    <MESSAGE value="tidied and commented RegressionTraining.py" />
+    <MESSAGE value="tidied and commented SaveData.py" />
+    <MESSAGE value="tidied and commented ScaleG&#10;rid.py" />
+    <MESSAGE value="tidied and commented ScaleHeight.py" />
+    <MESSAGE value="tidied and commented SelectMaterialFile.py" />
+    <option name="LAST_COMMIT_MESSAGE" value="tidied and commented SelectMaterialFile.py" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/MEng_Project_Matteo_Pearce$GenerateTimeseries.coverage" NAME="GenerateTimeseries Coverage Results" MODIFIED="1712246796415" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />

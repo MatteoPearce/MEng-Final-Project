@@ -1,7 +1,7 @@
 import timesynth as ts
 import numpy as np
 import matplotlib.pyplot as plt
-import Sourcefield_Filemaker as SF
+import SourcefieldFilemaker as SF
 
 """
 USES THE TIMESYNTH LIBRARY TO GENERATE NARMA10 SERIES

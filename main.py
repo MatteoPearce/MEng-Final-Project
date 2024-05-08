@@ -9,7 +9,7 @@ import numpy as np
 from time import time
 from ScaleGrid import scale_grid
 from GenerateTimeseries import generate_timeseries as GT
-from Sourcefield_Filemaker import filemaker
+from SourcefieldFilemaker import filemaker
 from makeHeaders import make_headers
 from UdateMagneticDamping import updateDamping
 from ScaleHeight import scale_height
