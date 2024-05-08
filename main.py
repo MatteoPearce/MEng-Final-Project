@@ -12,7 +12,7 @@ from GenerateTimeseries import generate_timeseries as GT
 from Sourcefield_Filemaker import filemaker
 from makeHeaders import make_headers
 from UdateMagneticDamping import updateDamping
-from ScaleHeight import scaleHeight
+from ScaleHeight import scale_height
 from ComputeIterations import compute_iterations as CI
 import os
 
@@ -144,7 +144,7 @@ class MaterialEvolution():
                 number = randint(0,len(value)-1)
                 self.new_input_file_parameters[key] = value[number]
 
-            new_height = scaleHeight(self.base_materials_path,self.new_input_file_parameters["material:file"], self.new_input_file_parameters["dimensions:system-size-z"])
+            new_height = scale_height(self.base_materials_path,self.new_input_file_parameters["material:file"], self.new_input_file_parameters["dimensions:system-size-z"])
             self.new_input_file_parameters["dimensions:system-size-z"] = new_height
 
             new_x, new_y, new_grid = scale_grid(x_dims=self.input_file_parameters["dimensions:system-size-x"],
