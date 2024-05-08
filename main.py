@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-from ModifyVampireInputFile import modifyVampireInputFile as mvif
+from ModifyVampireInputFile import modify_vampire_input as mvif
 from SelectMaterialFile import SelectMaterialFile as smf
 from SaveData import saveData
 from Regression_Training import TrainGS

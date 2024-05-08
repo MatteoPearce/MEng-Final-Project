@@ -1,20 +1,19 @@
-
-
-"""
-Compatible with VAMPIRE 6 input .txt files. Receives parameter names and new values
-with which to update VAMPIRE input file for each iteration of parameter sweep.
-"""
 import os
 import warnings
 
-def modifyVampireInputFile(new_vals: dict = None, file_path : str = None) -> None:
+"""
+Compatible with VAMPIRE 5.0.0 input.txt files. Receives parameter names and new values
+with which to update VAMPIRE input file for each iteration of parameter sweep.
+"""
+
+def modify_vampire_input(new_vals: dict = None, file_path : str = None) -> None:
 
 #------------------------------------------------------------------ check inputs
 
     if new_vals is None:
         raise ValueError('dictionary cannot be None')
 
-    if file_path is not None and os.path.exists(file_path):
+    if os.path.exists(file_path):
         if "input" in file_path:
             VAMPIRE_input = file_path
         else:
@@ -31,15 +30,15 @@ def modifyVampireInputFile(new_vals: dict = None, file_path : str = None) -> Non
         modifiable_params = list()
 
         for line in initial_data:
-            if line[0] == '#':
+            if line[0] == '#': # hash is a comment in vampire files.
                 pass
             else:
-                as_list = line.split("\n")
+                as_list = line.split("\n") # populate list, each line an entry
                 split_lines.append(as_list[0])
 
         for line in split_lines:
-            as_list = line.replace(" ","").split("=")
-            if len(as_list) == 2:
+            as_list = line.replace(" ","").split("=") # remove whitespace and separate into name and value
+            if len(as_list) == 2: # if not split, it's not a parameter
                 modifiable_params.append(as_list)
 
     modifiable_params = dict(modifiable_params)
@@ -47,6 +46,7 @@ def modifyVampireInputFile(new_vals: dict = None, file_path : str = None) -> Non
 
 #------------------------------------------------------------------ extract unit cell info
 
+    # grab .mat file
     for file in os.listdir(file_path):
         filename = os.fsdecode(file)
         if filename.endswith(".mat"):
@@ -55,6 +55,7 @@ def modifyVampireInputFile(new_vals: dict = None, file_path : str = None) -> Non
                 f.close()
             break
 
+    # cell structure and unit cell size are first two comments
     cell_structure = material_data[0].split(" = ")[1].strip("\n")
     cell_size = material_data[1].split(" = ")[1].strip("\n")
 
@@ -65,6 +66,7 @@ def modifyVampireInputFile(new_vals: dict = None, file_path : str = None) -> Non
 
 #------------------------------------------------------------------ modify parameters
 
+    # only modifiable parameters should be updated, if length increases then something has gone wrong
     len_check = len(modifiable_params.items())
     modifiable_params.update(new_vals)
 
@@ -88,6 +90,3 @@ def modifyVampireInputFile(new_vals: dict = None, file_path : str = None) -> Non
     print("#---------------------------------#\n")
     print(f"VALUES UPDATED:\n\n{new_vals}")
     print("\n#--------------------------------------------------------------#")
-
-#new_vals = {"sim:applied-field-unit-vector": (0,1,0)}
-#modifyVampireInputFile(new_vals, "/home/matteo/Desktop/VAMPIRE_WORKDIR")
