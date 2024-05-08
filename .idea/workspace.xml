@@ -4,10 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a4dfd85d-b366-4c78-b6bd-200915180eb4" name="Changes" comment="tidied and commented CreateCellPics.py">
+    <list default="true" id="a4dfd85d-b366-4c78-b6bd-200915180eb4" name="Changes" comment="tidied and commented CreateVideo.py">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CreatePlots.py" beforeDir="false" afterPath="$PROJECT_DIR$/CreatePlots.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecoupData.py" beforeDir="false" afterPath="$PROJECT_DIR$/RecoupData.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExtractReservoirIO.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExtractReservoirIO.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sourcefield_Filemaker.py" beforeDir="false" afterPath="$PROJECT_DIR$/Sourcefield_Filemaker.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,42 +64,43 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;Python.CallVAMPIRE.executor&quot;: &quot;Run&quot;,
-    &quot;Python.CreateCellPics.executor&quot;: &quot;Run&quot;,
-    &quot;Python.CreateGif.executor&quot;: &quot;Run&quot;,
-    &quot;Python.CreatePlots.executor&quot;: &quot;Run&quot;,
-    &quot;Python.GenerateTimeseries.executor&quot;: &quot;Run&quot;,
-    &quot;Python.ModifyVampireInputFile.executor&quot;: &quot;Run&quot;,
-    &quot;Python.RecoupData.executor&quot;: &quot;Debug&quot;,
-    &quot;Python.Regression_Training.executor&quot;: &quot;Run&quot;,
-    &quot;Python.ScaleGrid.executor&quot;: &quot;Run&quot;,
-    &quot;Python.Sourcefield_Filemaker.executor&quot;: &quot;Run&quot;,
-    &quot;Python.TrainCV.executor&quot;: &quot;Run&quot;,
-    &quot;Python.UdateMagneticDamping.executor&quot;: &quot;Run&quot;,
-    &quot;Python.main.executor&quot;: &quot;Run&quot;,
-    &quot;Python.makeHeaders.executor&quot;: &quot;Run&quot;,
-    &quot;Python.test2.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;Comment__All&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/matteo/pypy/pypy3.10-v7.3.15-linux64&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;configurable.group.tools&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "Python.CallVAMPIRE.executor": "Run",
+    "Python.CreateCellPics.executor": "Run",
+    "Python.CreateGif.executor": "Run",
+    "Python.CreatePlots.executor": "Run",
+    "Python.ExtractReservoirIO.executor": "Run",
+    "Python.GenerateTimeseries.executor": "Run",
+    "Python.ModifyVampireInputFile.executor": "Run",
+    "Python.RecoupData.executor": "Debug",
+    "Python.Regression_Training.executor": "Run",
+    "Python.ScaleGrid.executor": "Run",
+    "Python.Sourcefield_Filemaker.executor": "Run",
+    "Python.TrainCV.executor": "Run",
+    "Python.UdateMagneticDamping.executor": "Run",
+    "Python.main.executor": "Run",
+    "Python.makeHeaders.executor": "Run",
+    "Python.test2.executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "Comment__All",
+    "last_opened_file_path": "/home/matteo/pypy/pypy3.10-v7.3.15-linux64",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "configurable.group.tools",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;ChangesTree.GroupingKeys&quot;: [
-      &quot;directory&quot;
+  "keyToStringList": {
+    "ChangesTree.GroupingKeys": [
+      "directory"
     ]
   }
-}</component>
+}]]></component>
   <component name="PyConsoleOptionsProvider">
     <option name="myPythonConsoleState">
       <console-settings module-name="MEng_Project_Matteo_Pearce" is-module-sdk="true">
@@ -151,23 +153,7 @@
       <workItem from="1714665334013" duration="12000" />
       <workItem from="1714666674308" duration="165000" />
       <workItem from="1714811683381" duration="30547000" />
-      <workItem from="1715163002562" duration="8152000" />
-    </task>
-    <task id="LOCAL-00008" summary="CreateGif and CreateVideo">
-      <option name="closed" value="true" />
-      <created>1711045072070</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1711045072070</updated>
-    </task>
-    <task id="LOCAL-00009" summary="reservoir training. yields score of 0">
-      <option name="closed" value="true" />
-      <created>1711490738224</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1711490738224</updated>
+      <workItem from="1715163002562" duration="12554000" />
     </task>
     <task id="LOCAL-00010" summary="wrote script that calls vampire from console">
       <option name="closed" value="true" />
@@ -545,7 +531,23 @@
       <option name="project" value="LOCAL" />
       <updated>1715178889154</updated>
     </task>
-    <option name="localTasksCounter" value="57" />
+    <task id="LOCAL-00057" summary="tidied and commented CreatePlots">
+      <option name="closed" value="true" />
+      <created>1715184335448</created>
+      <option name="number" value="00057" />
+      <option name="presentableId" value="LOCAL-00057" />
+      <option name="project" value="LOCAL" />
+      <updated>1715184335448</updated>
+    </task>
+    <task id="LOCAL-00058" summary="tidied and commented CreateVideo.py">
+      <option name="closed" value="true" />
+      <created>1715184559132</created>
+      <option name="number" value="00058" />
+      <option name="presentableId" value="LOCAL-00058" />
+      <option name="project" value="LOCAL" />
+      <updated>1715184559132</updated>
+    </task>
+    <option name="localTasksCounter" value="59" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -564,8 +566,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="testing full setup with new makeheaders" />
-    <MESSAGE value="updated material files. added nickel. included code in MVIF to get crystal structure and unit cell size from material file and add to input file" />
     <MESSAGE value="created UpdateMagneticDamping.py and added an extra dict with other sweep parameters, containing magnetic damping and input scaling. have not implemented latter yet" />
     <MESSAGE value="added line for scaling input based on new_other_sweep_parameters dict value" />
     <MESSAGE value="small bug fix" />
@@ -589,7 +589,9 @@
     <MESSAGE value="CallVAMPIRE.py cleaned up and commented" />
     <MESSAGE value="tidied and commented ComputeIterations.py" />
     <MESSAGE value="tidied and commented CreateCellPics.py" />
-    <option name="LAST_COMMIT_MESSAGE" value="tidied and commented CreateCellPics.py" />
+    <MESSAGE value="tidied and commented CreatePlots" />
+    <MESSAGE value="tidied and commented CreateVideo.py" />
+    <option name="LAST_COMMIT_MESSAGE" value="tidied and commented CreateVideo.py" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/MEng_Project_Matteo_Pearce$GenerateTimeseries.coverage" NAME="GenerateTimeseries Coverage Results" MODIFIED="1712246796415" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
@@ -602,9 +604,10 @@
     <SUITE FILE_PATH="coverage/MEng_Project_Matteo_Pearce$Regression_Training.coverage" NAME="Regression_Training Coverage Results" MODIFIED="1713734243383" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/MEng_Project_Matteo_Pearce$TrainCV.coverage" NAME="TrainCV Coverage Results" MODIFIED="1711559629685" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/MEng_Project_Matteo_Pearce$makeHeaders.coverage" NAME="makeHeaders Coverage Results" MODIFIED="1712043005949" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/MEng_Project_Matteo_Pearce$ExtractReservoirIO.coverage" NAME="ExtractReservoirIO Coverage Results" MODIFIED="1715185490354" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/MEng_Project_Matteo_Pearce$test.coverage" NAME="test Coverage Results" MODIFIED="1711477053556" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/MEng_Project_Matteo_Pearce$CreateGif.coverage" NAME="CreateGif Coverage Results" MODIFIED="1711042816960" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/MEng_Project_Matteo_Pearce$main.coverage" NAME="main Coverage Results" MODIFIED="1715174880543" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/MEng_Project_Matteo_Pearce$main.coverage" NAME="main Coverage Results" MODIFIED="1715185403885" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/MEng_Project_Matteo_Pearce$UdateMagneticDamping.coverage" NAME="UdateMagneticDamping Coverage Results" MODIFIED="1712076215202" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/MEng_Project_Matteo_Pearce$ExtractReservoirOutput.coverage" NAME="ExtractReservoirOutput Coverage Results" MODIFIED="1711465564280" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/MEng_Project_Matteo_Pearce$CreateCellPics.coverage" NAME="CreateCellPics Coverage Results" MODIFIED="1711482736442" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />

@@ -69,7 +69,7 @@ class MaterialEvolution():
                               "dimensions:system-size-x" : [49],#149,199],
                               "dimensions:system-size-y" : [49],#,99,149,199],
                               "dimensions:system-size-z" : [0.1],#np.arange(0.1,1,0.1),
-                              "cells:macro-cell-size" : [5,10],#15,20],
+                              "cells:macro-cell-size" : [5],#15,20],
                               "sim:applied-field-strength" : [0],#,1e-24,1e-12,1e-6],
                               "sim:applied-field-unit-vector": [(0,0,1)],#,(0,1,0),(1,0,0)],
                               "sim:temperature" : [309.65]} #MAKE SURE DEFAULT IS ALWAYS INDEX 0

@@ -1,36 +1,46 @@
+import os
 import numpy as np
 
-def ExtractReservoirIO(file_path1: str,file_path2: str = None) -> np.ndarray:
+"""
+GRABS sourcefield.txt AND reservoir_output.txt AND CONVERTS TO NUMPY ARRAY
+"""
 
+def extract_reservoir_IO(file_path1: str,file_path2: str) -> np.ndarray:
+
+    # allows the files to be saved in different locations
     paths = [file_path1, file_path2]
     output_arrays = list()
-    if file_path2 is None:
-        paths.pop(1)
 
-    for file_path in paths:
+    if os.path.exists(file_path1) and os.path.exists(file_path2):
 
-        with open(file_path, "r") as file:
-            cell_num = len(file.readline().split(" "))-1
-            data = file.readlines()
-            file.close()
+        for file_path in paths:
 
-        for index, line in enumerate(data):
+            with open(file_path, "r") as file:
+                cell_num = len(file.readline().split(" "))-1 # sourcefield contains timestep label, reservoir_output an extra \n
+                data = file.readlines()
+                file.close()
 
-            dummy_list = line.strip().split(" ")
+            for index, line in enumerate(data):
 
-            if len(dummy_list) > cell_num:
-                dummy_list.pop(-1)
+                dummy_list = line.strip().split(" ")
 
-            dummy_array = np.asarray(dummy_list,dtype=np.float128)
-            dummy_array = dummy_array.reshape((1,len(dummy_list)))
+                # ensure only field strength data captured
+                if len(dummy_list) > cell_num:
+                    dummy_list.pop(-1)
 
-            if index == 0:
-                numpy_array = dummy_array
-            else:
-                numpy_array = np.concatenate((numpy_array,dummy_array),axis=0)
+                # convert current line to numpy array
+                dummy_array = np.asarray(dummy_list,dtype=np.float128)
+                dummy_array = dummy_array.reshape((1,len(dummy_list)))
 
-        output_arrays.append(numpy_array)
+                # stack lines of data on top of each other row-wise, acheiving matrix of size: timesteps x cells
+                if index == 0:
+                    numpy_array = dummy_array
+                else:
+                    numpy_array = np.concatenate((numpy_array,dummy_array),axis=0)
 
-    return output_arrays
+            output_arrays.append(numpy_array)
 
-#ExtractReservoirOutput("/home/matteo/Desktop/VAMPIRE_WORKDIR/reservoir_output.txt")
+        return output_arrays
+
+    else:
+        raise FileNotFoundError("IO NOT FOUND")
