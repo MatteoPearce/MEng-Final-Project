@@ -1,5 +1,3 @@
-from typing import Tuple, Any
-import matplotlib.pyplot as plt
 import reservoirpy
 from reservoirpy.nodes import Ridge
 from reservoirpy import observables as robs
