@@ -8,7 +8,7 @@ from random import randint
 import numpy as np
 from time import time
 from ScaleGrid import scaleGrid
-from GenerateTimeseries import GenerateTimeseries as GT
+from GenerateTimeseries import generate_timeseries as GT
 from Sourcefield_Filemaker import filemaker
 from makeHeaders import makeHeaders
 from UdateMagneticDamping import updateDamping
