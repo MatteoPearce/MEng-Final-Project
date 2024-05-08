@@ -10,7 +10,7 @@ from time import time
 from ScaleGrid import scaleGrid
 from GenerateTimeseries import generate_timeseries as GT
 from Sourcefield_Filemaker import filemaker
-from makeHeaders import makeHeaders
+from makeHeaders import make_headers
 from UdateMagneticDamping import updateDamping
 from ScaleHeight import scaleHeight
 from ComputeIterations import compute_iterations as CI
@@ -189,7 +189,7 @@ class MaterialEvolution():
         cells_perX = int((self.new_input_file_parameters["dimensions:system-size-x"] + 1)  / self.new_input_file_parameters["cells:macro-cell-size"])
         cells_perY = int((self.new_input_file_parameters["dimensions:system-size-y"] + 1)  / self.new_input_file_parameters["cells:macro-cell-size"])
 
-        headers = makeHeaders(cells_perX, cells_perY)
+        headers = make_headers(cells_perX, cells_perY)
 
         for key1, key2 in zip(self.new_input_file_parameters.keys(), self.input_file_units.keys()):
             self.new_input_file_parameters[key1] = str(self.new_input_file_parameters[key1]) + \

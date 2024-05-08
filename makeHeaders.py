@@ -1,5 +1,15 @@
 
-def makeHeaders(cells_perX: int, cells_perY: int) -> list:
+"""
+MAKE THE FIRST TWO LINES OF THE sourcefield.txt FILE ACCORDING TO GRID SIZE AND NUMBER OF CELLS
+
+the format of the header lines is always:
+
+    x x x y y y z z z -2
+    x y z x y z x y z -1
+
+cell numbers cannot be 0.
+"""
+def make_headers(cells_perX: int, cells_perY: int) -> list:
 
     header1 = str()
     header2 = str()
@@ -25,5 +35,3 @@ def makeHeaders(cells_perX: int, cells_perY: int) -> list:
     headers = [header1, header2]
 
     return headers
-
-#makeHeaders(5,10)
