@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 from ModifyVampireInputFile import modify_vampire_input as mvif
 from SelectMaterialFile import SelectMaterialFile as smf
-from SaveData import saveData
+from SaveData import save_data
 from RegressionTraining import train_ridge
 from CallVAMPIRE import call_vampire
 from random import randint
@@ -244,7 +244,7 @@ class MaterialEvolution():
                 self.current_best_setup = self.all_sweep_parameters.copy()
                 self.current_best_iteration = self.iteration_counter
 
-            saveData(data=data_to_save,
+            save_data(data=data_to_save,
                      dir_name="/" + str(self.iteration_counter),
                      save_path=self.base_testdata_path,
                      workdir_path=self.base_workdir_path)
@@ -254,7 +254,7 @@ class MaterialEvolution():
             print("FAILED ON:")
             print(self.all_sweep_parameters)
             data_to_save = self.all_sweep_parameters
-            saveData(data=data_to_save,
+            save_data(data=data_to_save,
                      dir_name="/" + str(self.iteration_counter) + " FAILED",
                      save_path=self.base_testdata_path,
                      workdir_path=self.base_workdir_path,

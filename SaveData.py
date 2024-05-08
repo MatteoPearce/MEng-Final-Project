@@ -2,16 +2,25 @@ import shutil
 import os
 import matplotlib.pyplot as plt
 import numpy as np
-def saveData(data: dict = None, dir_name: str = None, save_path: str = None, workdir_path: str = None, Failed : bool = False) -> None:
+
+"""
+CREATES A FOLDER IN THE TEST DATA PATH LABELED WITH THE ITERATION NUMBER. SAVES A TEXT FILE CALLED accuracy_scores.txt 
+CONTAINING ALL OF THE COMBINATION PARAMETERS FOR THE CURRENT TEST, CREATES A PLOT OF THE PREDICTION TRACE OVERLAID ON
+THE INPUT TRACE AND COPIES THE VAMPIRE SPECIFIC FILES TO THE DIRECTORY, SO THAT RESULTS ARE REPRODUCIBLE.
+"""
+
+def save_data(data: dict = None, dir_name: str = None, save_path: str = None, workdir_path: str = None, Failed : bool = False) -> None:
 
     if dir_name is not None and save_path is not None and workdir_path is not None:
 
+        # identify material file
         for file in os.listdir(workdir_path):
             filename = os.fsdecode(file)
             if filename.endswith(".mat"):
                 mat_file = file
                 break
 
+        # files for reproducibility
         files_to_copy = list()
         files_to_copy.append(workdir_path + '/input')
         files_to_copy.append(workdir_path + '/reservoir_output.txt')
@@ -19,10 +28,12 @@ def saveData(data: dict = None, dir_name: str = None, save_path: str = None, wor
 
         destination_directory = save_path + dir_name
 
+        # creates directory named after iteration number
         if os.path.exists(destination_directory):
             shutil.rmtree(destination_directory)
         os.mkdir(destination_directory)
 
+        # copies vampire files over to new directory
         for file in files_to_copy:
             try:
                 shutil.copy(file, destination_directory)
@@ -31,7 +42,7 @@ def saveData(data: dict = None, dir_name: str = None, save_path: str = None, wor
 
         if data is not None:
 
-            if not Failed:
+            if not Failed: # cannot plot prediction if training step failed.
 
                 plt.plot(np.arange(data['y_pred'].shape[0]), data['y'][:, 0], marker='o', markersize=1)  # , color='red')
                 plt.plot(np.arange(data['y_pred'].shape[0]), data['y_pred'][:, 0], marker='o', markersize=1)
