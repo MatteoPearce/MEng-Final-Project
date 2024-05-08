@@ -2,7 +2,7 @@
 from ModifyVampireInputFile import modify_vampire_input as mvif
 from SelectMaterialFile import SelectMaterialFile as smf
 from SaveData import saveData
-from Regression_Training import TrainGS
+from RegressionTraining import train_ridge
 from CallVAMPIRE import call_vampire
 from random import randint
 import numpy as np
@@ -223,7 +223,7 @@ class MaterialEvolution():
 
     def reservoir_computing(self):
 
-        best_result, best_training, y, y_pred = TrainGS(self.base_workdir_path)
+        best_result, best_training, y, y_pred = train_ridge(self.base_workdir_path)
 
         if best_result is not None:
             data_to_save = {"y": y,
