@@ -7,7 +7,7 @@ from CallVAMPIRE import call_vampire
 from random import randint
 import numpy as np
 from time import time
-from ScaleGrid import scaleGrid
+from ScaleGrid import scale_grid
 from GenerateTimeseries import generate_timeseries as GT
 from Sourcefield_Filemaker import filemaker
 from makeHeaders import make_headers
@@ -35,7 +35,7 @@ To change the exploration parameters modify the fields:
     input_file_parameters
     other_sweep_parameters
     
-In order to run multiple random searches programatically, the constructor will have to be modified slightly to accept 
+In order to run multiple random searches programmatically, the constructor will have to be modified slightly to accept 
 these dictionaries at instantiation.
 
 The string fields:
@@ -147,7 +147,7 @@ class MaterialEvolution():
             new_height = scaleHeight(self.base_materials_path,self.new_input_file_parameters["material:file"], self.new_input_file_parameters["dimensions:system-size-z"])
             self.new_input_file_parameters["dimensions:system-size-z"] = new_height
 
-            new_x, new_y, new_grid = scaleGrid(x_dims=self.input_file_parameters["dimensions:system-size-x"],
+            new_x, new_y, new_grid = scale_grid(x_dims=self.input_file_parameters["dimensions:system-size-x"],
                                                y_dims=self.input_file_parameters["dimensions:system-size-y"],
                                                cell_dim=self.input_file_parameters["cells:macro-cell-size"])
 
