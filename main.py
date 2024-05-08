@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from ModifyVampireInputFile import modify_vampire_input as mvif
-from SelectMaterialFile import SelectMaterialFile as smf
+from SelectMaterialFile import Select_material as smf
 from SaveData import save_data
 from RegressionTraining import train_ridge
 from CallVAMPIRE import call_vampire
