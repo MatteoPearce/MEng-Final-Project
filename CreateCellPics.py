@@ -6,42 +6,47 @@ from tkinter import filedialog
 from tqdm import tqdm
 from CreateVideo import CreateVideo
 
+"""
+CREATE A HEATMAP OF GRID POLARISATIONS FOR EVERY TIMESTEP
+
+reads the reservoir_output.txt file and for every line creates a heatmap with the polarisations.
+
+currently not automated, requires user. Can easily be easily integrated into main.
+"""
+
 def CreateCellPics(get_path: str = None,
-                   save_path: str = None,
-                   savefile: bool = False,
                    interactive: bool = False,
                    show: bool = False) -> list[plt.figure]:
 
-    filename = "reservoir_output.txt"
-
+    # uses tkinter to manually select reservoir_output.txt
     if interactive:
-
         main_win = tk.Tk()
         main_win.withdraw() # Hides Tk window
         main_win.geometry('0x0+0+0')
         main_win.deiconify()
         main_win.lift()
         main_win.focus_force()
-
         file = filedialog.askopenfilename(parent=main_win,
                                           initialdir=get_path,
                                           title= 'Please select file',
                                           filetypes=[('Text files', '*.txt')])
 
     with open(file, 'r') as f:
-
         all_lines = f.readlines()
         f.close()
 
-    frames =list()
+    frames =list() # list of frames
 
+    # make a frame from every line
     for linenum,lineval in tqdm(enumerate(all_lines)):
 
         current_line = lineval.split()
 
+        # convert str to float
         for index,line in enumerate(current_line):
             current_line[index] = float(line)
 
+        # plot heatmap
         grid_side = np.sqrt(len(current_line)).astype("int32")
         data = np.reshape(current_line,(grid_side,grid_side))
         fig = plt.figure()
@@ -55,21 +60,19 @@ def CreateCellPics(get_path: str = None,
         ax.set_title(f"frame: {linenum}")
         frames.append(fig)
 
-        if show:
+        if show: # for debugging
             plt.show()
             input("Press any key for next image")
 
-    #plt.savefig(save_path + f"{linenum+1}.png")
-        plt.close()
+        plt.close() # must be closed or matplotlib will treat all as same image
 
     return frames
 
-save_path = "/home/matteo/Desktop/VAMPIRE_WORKDIR/"
+save_path = "/home/matteo/Desktop/VAMPIRE_TEST_RESULTS/Cellpics"
 
-stuff = CreateCellPics(get_path="/home/matteo/Desktop/VAMPIRE_WORKDIR/",
+frames = CreateCellPics(get_path="/home/matteo/Desktop/VAMPIRE_WORKDIR/",
            save_path=save_path,
-           interactive=True,
-           show=0)
+           interactive=True)
 
-CreateVideo(save_path,stuff)
+CreateVideo(save_path,frames)
 
