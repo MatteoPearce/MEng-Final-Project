@@ -1,5 +1,5 @@
 import os
-def recoupData(test_data_path: str, threshold: float = None, training: bool = False):
+def recoup_data(test_data_path: str, threshold: float = None, training: bool = False):
 
     all_data = str()
 
@@ -57,4 +57,4 @@ def recoupData(test_data_path: str, threshold: float = None, training: bool = Fa
 #----------------------------------------------------------------------------------------------------------------------#
 a = "/home/matteo/Desktop/VAMPIRE_TEST_RESULTS"
 b = "/home/matteo/Desktop/VAMPIRE_TEST_RESULTS/NARMA10_GRID49to99_0K/Iteration Files"
-recoupData( a,threshold=0.3)
+recoup_data( a,threshold=0.3)

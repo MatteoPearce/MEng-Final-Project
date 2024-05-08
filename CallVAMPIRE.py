@@ -18,7 +18,7 @@ To speed up the simulation select show_output = False
 Failure criteria is not a catchall. If when simulation fails to start up it will do so in <1s. 
 """
 
-def CallVAMPIRE(workdir_path: str = None, parallel: bool = False, debug_mode: bool = False, show_output: bool = False) -> None:
+def call_vampire(workdir_path: str = None, parallel: bool = False, debug_mode: bool = False, show_output: bool = False) -> None:
 
     if os.path.exists(workdir_path): # working directory where vampire binary is located
         if parallel:

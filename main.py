@@ -3,7 +3,7 @@ from ModifyVampireInputFile import modifyVampireInputFile as mvif
 from SelectMaterialFile import SelectMaterialFile as smf
 from SaveData import saveData
 from Regression_Training import TrainGS
-from CallVAMPIRE import CallVAMPIRE
+from CallVAMPIRE import call_vampire
 from random import randint
 import numpy as np
 from time import time
@@ -13,7 +13,7 @@ from Sourcefield_Filemaker import filemaker
 from makeHeaders import makeHeaders
 from UdateMagneticDamping import updateDamping
 from ScaleHeight import scaleHeight
-from ComputeIterations import computeIterations as CI
+from ComputeIterations import compute_iterations as CI
 import os
 
 """
@@ -217,7 +217,7 @@ class MaterialEvolution():
 
     def run_simulation(self):
 
-        CallVAMPIRE(self.base_workdir_path,parallel=False,debug_mode=False)
+        call_vampire(self.base_workdir_path,parallel=False,debug_mode=False)
 
 #----------------------------------------------------------------------------------------------------------------------#
 

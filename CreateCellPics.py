@@ -3,7 +3,7 @@ import numpy as np
 import tkinter as tk
 from tkinter import filedialog
 from tqdm import tqdm
-from CreateVideo import CreateVideo
+from CreateVideo import create_video
 
 """
 CREATE A HEATMAP OF GRID POLARISATIONS FOR EVERY TIMESTEP
@@ -72,4 +72,4 @@ def create_cell_pics (get_path: str = None,
 
 frames = create_cell_pics(get_path="/home/matteo/Desktop/VAMPIRE_WORKDIR/" , interactive=True)
 save_path = "/home/matteo/Desktop/VAMPIRE_TEST_RESULTS/Cellpics"
-CreateVideo(save_path , frames)
+create_video(save_path , frames)

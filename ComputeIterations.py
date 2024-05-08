@@ -11,7 +11,7 @@ Tries a combo, checks a list of already tried combos, if not there add to list. 
 unique, quit and return number of combos. 
 """
 
-def computeIterations(workdir_path: str, input_file_parameters: dict, other_sweep_parameters: dict) -> int:
+def compute_iterations(workdir_path: str, input_file_parameters: dict, other_sweep_parameters: dict) -> int:
 
     all_sweep_parameters = dict() # combo of input file and other sweep params
     tried_combos = list() # list of unique combos
