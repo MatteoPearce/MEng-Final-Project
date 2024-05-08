@@ -65,7 +65,7 @@ class MaterialEvolution():
     base_workdir_path: str = "/home/matteo/Desktop/VAMPIRE_WORKDIR"
     base_materials_path: str = "/home/matteo/Desktop/VAMPIRE_WORKDIR/Materials"
     base_testdata_path: str = "/home/matteo/Desktop/VAMPIRE_TEST_RESULTS"
-    input_file_parameters: dict = { "material:file" : ["Co.mat","Fe.mat","Ni.mat"],#
+    input_file_parameters: dict = { "material:file" : ["Co.mat","Fe.mat","Ni.mat"],
                               "dimensions:system-size-x" : [49],#149,199],
                               "dimensions:system-size-y" : [49],#,99,149,199],
                               "dimensions:system-size-z" : [0.1],#np.arange(0.1,1,0.1),
