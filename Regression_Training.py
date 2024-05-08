@@ -5,7 +5,7 @@ from reservoirpy.nodes import Ridge
 from reservoirpy import observables as robs
 import numpy as np
 from tqdm import tqdm
-from ExtractReservoirIO import ExtractReservoirIO as ERO
+from ExtractReservoirIO import extract_reservoir_IO as ERO
 import os
 
 #np.set_printoptions(threshold=np.inf)
