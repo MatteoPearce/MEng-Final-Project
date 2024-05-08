@@ -11,7 +11,7 @@ from ScaleGrid import scale_grid
 from GenerateTimeseries import generate_timeseries as GT
 from SourcefieldFilemaker import filemaker
 from makeHeaders import make_headers
-from UdateMagneticDamping import updateDamping
+from UdateMagneticDamping import update_damping
 from ScaleHeight import scale_height
 from ComputeIterations import compute_iterations as CI
 import os
@@ -206,7 +206,7 @@ class MaterialEvolution():
 
         smf(self.new_input_file_parameters["material:file"], self.base_materials_path, self.base_workdir_path) #IMPORTANT THAT THIS GOES FIRST
         mvif(self.new_input_file_parameters.copy(), self.base_workdir_path)
-        updateDamping(self.base_workdir_path,self.new_other_sweep_parameters["intrinsic magnetic damping"])
+        update_damping(self.base_workdir_path,self.new_other_sweep_parameters["intrinsic magnetic damping"])
 
         for file in os.listdir(self.base_workdir_path):
             filename = os.fsdecode(file)
