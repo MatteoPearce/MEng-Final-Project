@@ -50,7 +50,7 @@ def recoupData(test_data_path: str, threshold: float = None, training: bool = Fa
 
 
 
-    with open(os.path.join(test_data_path, "best_iteration.txt"), "w") as f:
+    with open(os.path.join(test_data_path, "best_iterations.txt"), "w") as f:
         f.write(all_data)
         f.close()
 
