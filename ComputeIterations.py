@@ -27,9 +27,7 @@ def computeIterations(workdir_path: str, input_file_parameters: dict, other_swee
 
             new_x, new_y, new_grid = scaleGrid(x_dims=input_file_parameters["dimensions:system-size-x"],
                                                y_dims=input_file_parameters["dimensions:system-size-y"],
-                                               cell_dim=input_file_parameters["cells:macro-cell-size"],
-                                               save_path=None,
-                                               timeseries=None)
+                                               cell_dim=input_file_parameters["cells:macro-cell-size"])
 
             new_input_file_parameters["dimensions:system-size-x"] = new_x
             new_input_file_parameters["dimensions:system-size-y"] = new_y
