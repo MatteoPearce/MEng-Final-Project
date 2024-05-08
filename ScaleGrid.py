@@ -1,10 +1,12 @@
 from random import randint
 from typing import Tuple, Any
 
-from Sourcefield_Filemaker import filemaker
-import numpy as np
-from GenerateTimeseries import GenerateTimeseries as GT
-def scaleGrid(x_dims: list = None,
+"""
+RECEIVES THE LISTS OF FILM X,Y,CELL DIMENSIONS TO EXPLORE AND WORKS OUT RANDOM CONFIGURATION WHERE X,Y ARE MULTIPLES
+OF CELL DIM. IF NO COMBINATIONS ARE VALID IF RETURNS "DEFAULT" GRID OF 50nm x 50nm WITH 5nm CELL.
+"""
+
+def scale_grid(x_dims: list = None,
               y_dims: list = None,
               cell_dim: list = None) -> tuple[int | Any, int | Any, Any]:
 
@@ -27,7 +29,7 @@ def scaleGrid(x_dims: list = None,
         counter += 1
 
     if valid_choice:
-
+        # for simplicity, x dim is always chosen as the bigger dim, to avoid the same combinations being tested twice
         if dim_choiceX < dim_choiceY:
 
             dummy = dim_choiceX
@@ -37,6 +39,5 @@ def scaleGrid(x_dims: list = None,
         return dim_choiceX -1, dim_choiceY -1, dim_choiceCELL
 
     else:
-
         print("COULD NOT FIND ANY DIMENSIONS")
         return 49, 49, 5
