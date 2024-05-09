@@ -31,7 +31,7 @@ all arrays are of shape (timesteps, cells). The output arrays are always longer 
 requested simulation steps and therefore it needs to be clipped in dimension 0 to match the length of the input array.
 """
 
-def train_ridge(workdir_path: str = None) -> tuple[float,float,np.ndarray,np.ndarray]:
+def train_ridge(workdir_path: str = None, target: np.ndarray = None, signal_strength: float = 1.0) -> tuple[float,float,np.ndarray,np.ndarray]:
 
     if workdir_path is not None:
 
@@ -40,21 +40,23 @@ def train_ridge(workdir_path: str = None) -> tuple[float,float,np.ndarray,np.nda
         if not os.path.isfile(os.path.join(workdir_path,"reservoir_output.txt")):
             return None, None, None, None
         else:
-            input_array, output_array = ERO(workdir_path + "/sourcefield.txt",
+            throwaway, output_array = ERO(workdir_path + "/sourcefield.txt",
                                             workdir_path + "/reservoir_output.txt") # get input and output files
 
-            input_array = np.delete(input_array, 0, axis=0)
+            target = np.tile(target, (1,output_array.shape[1]))
             best_result = np.inf
             best_split = 0
+            target = target * (1/ signal_strength)
+            output_array = output_array * (1/ signal_strength)
 
             for split in tqdm(training_split):
 
-                lower_limit = int(split * input_array.shape[0])
-                upper_limit = input_array.shape[0]
+                lower_limit = int(split * target.shape[0])
+                upper_limit = target.shape[0]
 
-                training_y = input_array[:lower_limit, :]
+                training_y = target[:lower_limit, :]
                 training_X = output_array[:lower_limit, :]
-                testing_y = input_array[lower_limit:, :]
+                testing_y = target[lower_limit:, :]
                 testing_X = output_array[lower_limit:upper_limit, :]
 
                 try:
@@ -72,7 +74,10 @@ def train_ridge(workdir_path: str = None) -> tuple[float,float,np.ndarray,np.nda
 
                 print(f"\nbest split: {best_split}")
 
-                best_result, best_training, y, y_pred = loo_crossval(input_array, output_array, best_split)
+                best_result, best_training, y, y_pred = loo_crossval(target, output_array, best_split)
+
+                y = y * signal_strength
+                y_pred = y_pred * signal_strength
 
                 return best_result, best_training, y, y_pred
 
@@ -129,12 +134,11 @@ def train_cycle(training_X: np.ndarray,
                 testing_X: np.ndarray,
                 testing_y: np.ndarray) -> [float,float,np.ndarray,np.ndarray]:
 
-    output_node = Ridge(output_dim=testing_y.shape[1],ridge=1e-50)
+    output_node = Ridge(output_dim=testing_y.shape[1],ridge=1e-15)
     try: # sometimes vampire outputs are NAN. using try statement mitigates crashes and deems this combination a failure
         fitted_output = output_node.fit(training_X, training_y, warmup=10)
         prediction = fitted_output.run(testing_X)
         training_rerun = fitted_output.run(training_X)
-
         clip_size = 2 # last two datapoints are often massive offshoots
         new_limit = testing_y.shape[0] - clip_size
         clipped_prediction = prediction[:new_limit, :]
@@ -143,8 +147,8 @@ def train_cycle(training_X: np.ndarray,
         clipped_rerun = training_rerun[:new_limit, :]
         clipped_training_y = training_y[:new_limit, :]
 
-        NMSE = robs.nrmse(clipped_testing_y, clipped_prediction)
-        training_NMSE = robs.nrmse(clipped_training_y,clipped_rerun)
+        NMSE = robs.nrmse(clipped_testing_y.copy(), clipped_prediction.copy(),norm="var")
+        training_NMSE = robs.nrmse(clipped_training_y.copy(),clipped_rerun.copy(),norm="var")
 
         del output_node
         del fitted_output

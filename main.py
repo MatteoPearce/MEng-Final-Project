@@ -65,8 +65,10 @@ class MaterialEvolution():
     main_timer : float = None # tracks duration of entire random search
     iteration_counter: int = 0 # tracks progress
     iteration_times : list = list() # tracks duration of each iteration
-    timeseries: np.ndarray = None # NARMA10
+    narma_input: np.ndarray = None # NARMA10
+    narma_output: np.ndarray = None  # NARMA10
     simulation_end: bool = False
+    signal_strength: float = 1.0
     best_result = np.inf # current best, starts at "infinity", 0 being desirable
     base_workdir_path: str = "/home/matteo/Desktop/VAMPIRE_WORKDIR" # working directory with materials folder and vampire binary
     base_materials_path: str = "/home/matteo/Desktop/VAMPIRE_WORKDIR/Materials" # materials folder in working directory
@@ -88,18 +90,22 @@ class MaterialEvolution():
                               "sim:applied-field-unit-vector": "",
                               "sim:temperature" : ""} # default units for input file parameters. must mirror input_file_parameters keys
     other_sweep_parameters: dict = { "intrinsic magnetic damping" : [0.001,0.01,0.1,0.5,1],
-                                   "field intensity input scaling": [-3e-13,-2e-13,-1e-13,1e-13,2e-13,3e-13]} # non-input-file parameters to explore
+                                   "field intensity input scaling": [-3,-2,-1,1,2,3]} # non-input-file parameters to explore
     all_sweep_parameters: dict = dict() # collation of input_file_parameters and other_sweep_parameters
     new_input_file_parameters: dict = dict() # current combination of input file exploration parameters. new with every iteration
     new_other_sweep_parameters: dict = dict() # current combination of non-input-file exploration parameters. new with every iteration
 
 #----------------------------------------------------------------------------------------------------------------------#
 
-    def __init__(self , input_length):
+    def __init__(self , input_length,signal_strength):
 
+        if signal_strength is not None:
+            self.signal_strength = signal_strength
         self.main_timer = time() # search start time
         self.input_length = input_length # total simulation timesteps
-        self.timeseries = GT(stop_time=input_length) # generate NARMA10
+        self.narma_input , self.narma_output = GT(stop_time=input_length)# generate NARMA10
+        self.narma_input = self.narma_input * self.signal_strength
+        self.narma_output = self.narma_output * self.signal_strength
         self.iterations_total = CI(self.base_workdir_path,self.input_file_parameters,self.other_sweep_parameters) # compute number of iterations
         self.main_loop() # start search
 
@@ -210,12 +216,12 @@ class MaterialEvolution():
             self.new_input_file_parameters[key1] = str(self.new_input_file_parameters[key1]) + self.input_file_units[key2]
 
         # original timeseries never changes during a search, but gets scaled and rewritten if input scaling explored
-        scaled_timeseries = self.timeseries.copy() * self.new_other_sweep_parameters["field intensity input scaling"]
+        scaled_input = self.narma_input.copy() * self.new_other_sweep_parameters["field intensity input scaling"]
 
         # rewrite sourcefield.txt
         filemaker(output_path=self.base_workdir_path,
-                  rows=self.timeseries.shape[0],
-                  timeseries=scaled_timeseries,
+                  rows=scaled_input.shape[0],
+                  timeseries=scaled_input,
                   columns=int(cells_perX * cells_perY),
                   all_same=True,
                   headers=headers)
@@ -242,14 +248,15 @@ class MaterialEvolution():
     def reservoir_computing(self):
 
         # NMSE on unseen data, NMSE on seen data, unseen trace, prediction
-        best_result, training_result, y, y_pred = train_ridge(self.base_workdir_path)
+        best_result, training_result, y, y_pred = train_ridge(self.base_workdir_path,self.narma_output,self.signal_strength)
 
         # None is returned if failed to fit model. occurs if sim outputs NaNs
         if best_result is not None:
             data_to_save = {"y": y,
                             "y_pred":y_pred,
                             "training_NMSE":training_result,
-                            "NMSE": best_result}
+                            "NMSE": best_result,
+                            "signal_Strength": self.signal_strength}
 
             # exploration params and results
             data_to_save.update(self.all_sweep_parameters.copy())
@@ -280,8 +287,8 @@ class MaterialEvolution():
 #----------------------------------------------------------------------------------------------------------------------#
 
 def main() -> None:
-
+    signal_strenth = 1e-12
     input_length = 500
-    start = MaterialEvolution(input_length)
+    start = MaterialEvolution(input_length,signal_strenth)
 
 if __name__ == "__main__": main()
