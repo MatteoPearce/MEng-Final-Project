@@ -66,6 +66,8 @@ class MaterialEvolution():
     iteration_counter: int = 0 # tracks progress
     iteration_times : list = list() # tracks duration of each iteration
     timeseries: np.ndarray = None # NARMA10
+    simulation_end: bool = False
+    best_result = np.inf # current best, starts at "infinity", 0 being desirable
     base_workdir_path: str = "/home/matteo/Desktop/VAMPIRE_WORKDIR" # working directory with materials folder and vampire binary
     base_materials_path: str = "/home/matteo/Desktop/VAMPIRE_WORKDIR/Materials" # materials folder in working directory
     base_testdata_path: str = "/home/matteo/Desktop/VAMPIRE_TEST_RESULTS" # results depot
@@ -122,7 +124,6 @@ class MaterialEvolution():
             # communicate end, best run, save timing data
             print("SIMULATION ENDED, BEST SETUP AND RESULT:\n")
             print(self.current_best_setup)
-            print(f"best result: NMSE = {self.current_best_result}")
 
             end_time = time() # search end
             self.main_timer = end_time - self.main_timer # total search time
@@ -254,8 +255,8 @@ class MaterialEvolution():
             data_to_save.update(self.all_sweep_parameters.copy())
 
             # update best combo, considering only NMSE of prediction of unseen data
-            if best_result < self.current_best_setup["NMSE"]:
-                self.current_best_result = best_result
+            if best_result < self.best_result:
+                self.best_result = best_result
                 self.current_best_setup = self.all_sweep_parameters.copy()
                 self.current_best_iteration = self.iteration_counter
 

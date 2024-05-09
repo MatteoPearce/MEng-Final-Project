@@ -1,6 +1,6 @@
 from random import randint
-from ScaleGrid import scaleGrid
-from ScaleHeight import scaleHeight
+from ScaleGrid import scale_grid
+from ScaleHeight import scale_height
 
 """
 CHECK NUMBER OF UNIQUE PARAMETER COMBINATIONS
@@ -30,11 +30,11 @@ def compute_iterations(workdir_path: str, input_file_parameters: dict, other_swe
                 new_input_file_parameters[key] = value[number]
 
             # check that height is multiple of unit cell
-            new_height = scaleHeight(workdir_path, new_input_file_parameters["dimensions:system-size-z"])
+            new_height = scale_height(workdir_path, new_input_file_parameters["dimensions:system-size-z"])
             new_input_file_parameters["dimensions:system-size-z"] = new_height
 
             # check that x and y dims are multiple of cell length
-            new_x, new_y, new_grid = scaleGrid(x_dims=input_file_parameters["dimensions:system-size-x"],
+            new_x, new_y, new_grid = scale_grid(x_dims=input_file_parameters["dimensions:system-size-x"],
                                                y_dims=input_file_parameters["dimensions:system-size-y"],
                                                cell_dim=input_file_parameters["cells:macro-cell-size"])
 
