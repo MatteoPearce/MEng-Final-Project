@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a4dfd85d-b366-4c78-b6bd-200915180eb4" name="Changes" comment="tidied and commented SelectMaterialFile.py">
-      <change beforePath="$PROJECT_DIR$/GenerateTimeseries.py" beforeDir="false" afterPath="$PROJECT_DIR$/GenerateTimeseries.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Sourcefield_Filemaker.py" beforeDir="false" afterPath="$PROJECT_DIR$/SourcefieldFilemaker.py" afterDir="false" />
+    <list default="true" id="a4dfd85d-b366-4c78-b6bd-200915180eb4" name="Changes" comment="tidied and commented UpdateMagneticDamping.py">
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -152,23 +150,7 @@
       <workItem from="1714665334013" duration="12000" />
       <workItem from="1714666674308" duration="165000" />
       <workItem from="1714811683381" duration="30547000" />
-      <workItem from="1715163002562" duration="20584000" />
-    </task>
-    <task id="LOCAL-00023" summary="adding grid scaling">
-      <option name="closed" value="true" />
-      <created>1711977799114</created>
-      <option name="number" value="00023" />
-      <option name="presentableId" value="LOCAL-00023" />
-      <option name="project" value="LOCAL" />
-      <updated>1711977799114</updated>
-    </task>
-    <task id="LOCAL-00024" summary="adding grid scaling, needs serious refactor">
-      <option name="closed" value="true" />
-      <created>1711982542500</created>
-      <option name="number" value="00024" />
-      <option name="presentableId" value="LOCAL-00024" />
-      <option name="project" value="LOCAL" />
-      <updated>1711982542500</updated>
+      <workItem from="1715163002562" duration="22794000" />
     </task>
     <task id="LOCAL-00025" summary="adding grid scaling, needs serious refactor">
       <option name="closed" value="true" />
@@ -546,7 +528,23 @@
       <option name="project" value="LOCAL" />
       <updated>1715193757701</updated>
     </task>
-    <option name="localTasksCounter" value="72" />
+    <task id="LOCAL-00072" summary="tidied and commented SourcefieldFilemaker.py">
+      <option name="closed" value="true" />
+      <created>1715197924640</created>
+      <option name="number" value="00072" />
+      <option name="presentableId" value="LOCAL-00072" />
+      <option name="project" value="LOCAL" />
+      <updated>1715197924640</updated>
+    </task>
+    <task id="LOCAL-00073" summary="tidied and commented UpdateMagneticDamping.py">
+      <option name="closed" value="true" />
+      <created>1715198341347</created>
+      <option name="number" value="00073" />
+      <option name="presentableId" value="LOCAL-00073" />
+      <option name="project" value="LOCAL" />
+      <updated>1715198341347</updated>
+    </task>
+    <option name="localTasksCounter" value="74" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -565,8 +563,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="integrated ComputeIterations.py into main loop. UNTESTED" />
-    <MESSAGE value="integrated ComputeIterations.py into main loop. TESTED" />
     <MESSAGE value="Removed average NRMSE. created ReadFIF.py, but not functional yet" />
     <MESSAGE value="Added RR" />
     <MESSAGE value="quick change to CallVAMPIRE.py to allow parallel running tests" />
@@ -590,7 +586,9 @@
     <MESSAGE value="tidied and commented ScaleG&#10;rid.py" />
     <MESSAGE value="tidied and commented ScaleHeight.py" />
     <MESSAGE value="tidied and commented SelectMaterialFile.py" />
-    <option name="LAST_COMMIT_MESSAGE" value="tidied and commented SelectMaterialFile.py" />
+    <MESSAGE value="tidied and commented SourcefieldFilemaker.py" />
+    <MESSAGE value="tidied and commented UpdateMagneticDamping.py" />
+    <option name="LAST_COMMIT_MESSAGE" value="tidied and commented UpdateMagneticDamping.py" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/MEng_Project_Matteo_Pearce$GenerateTimeseries.coverage" NAME="GenerateTimeseries Coverage Results" MODIFIED="1712246796415" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />

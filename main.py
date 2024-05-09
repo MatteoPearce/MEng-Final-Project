@@ -46,33 +46,37 @@ The string fields:
     
 are integral to proper execution as they point to the working directory, materials library and data retention folders. 
 
+The order of processes is:
+
+0. generate NARMA10
+0. work out how many iterations 
+1. select parameters  <-----------,
+2. update input files             |
+3. run simulation                 |
+4. train model and compute NMSE   |
+5. save data _____________________/
 """
 
 class MaterialEvolution():
 
-    tried_combos: list = list() # populates with sim params of each loop. Is compared to check for uniqueness of combos.
-    max_attempts: float = 10e4 # how many attempts before deciding all combos exhausted.
-    iteration_counter: int = 0 # for printing progress and saving data.
-    iterations_total: int = None # for printing progress.
-    simulation_end: bool = False # True when all combos tried.
-    current_best_result: float = np.inf # best NMSE on unseen data.
-    current_best_training: float = np.inf # best NMSE on unseen data.
-    current_best_iteration: int = None
-    current_best_setup: dict = dict() # best param combination of unseen data.
-    main_timer : float = None
-    iteration_times : list = list()
-    timeseries: np.ndarray = None
-    base_workdir_path: str = "/home/matteo/Desktop/VAMPIRE_WORKDIR"
-    base_materials_path: str = "/home/matteo/Desktop/VAMPIRE_WORKDIR/Materials"
-    base_testdata_path: str = "/home/matteo/Desktop/VAMPIRE_TEST_RESULTS"
+    tried_combos: list = list() # populates with sim params of each loop. Is compared to check for uniqueness of combos
+    max_attempts: float = 10e4 # how many attempts
+    current_best_setup: dict = dict() # best param combination of unseen data
+    main_timer : float = None # tracks duration of entire random search
+    iteration_counter: int = 0 # tracks progress
+    iteration_times : list = list() # tracks duration of each iteration
+    timeseries: np.ndarray = None # NARMA10
+    base_workdir_path: str = "/home/matteo/Desktop/VAMPIRE_WORKDIR" # working directory with materials folder and vampire binary
+    base_materials_path: str = "/home/matteo/Desktop/VAMPIRE_WORKDIR/Materials" # materials folder in working directory
+    base_testdata_path: str = "/home/matteo/Desktop/VAMPIRE_TEST_RESULTS" # results depot
     input_file_parameters: dict = { "material:file" : ["Co.mat","Fe.mat","Ni.mat"],
-                              "dimensions:system-size-x" : [49],#149,199],
-                              "dimensions:system-size-y" : [49],#,99,149,199],
-                              "dimensions:system-size-z" : [0.1],#np.arange(0.1,1,0.1),
-                              "cells:macro-cell-size" : [5],#15,20],
-                              "sim:applied-field-strength" : [0],#,1e-24,1e-12,1e-6],
-                              "sim:applied-field-unit-vector": [(0,0,1)],#,(0,1,0),(1,0,0)],
-                              "sim:temperature" : [309.65]} #MAKE SURE DEFAULT IS ALWAYS INDEX 0
+                                    "dimensions:system-size-x" : [49],
+                                    "dimensions:system-size-y" : [49],
+                                    "dimensions:system-size-z" : [0.1],
+                                    "cells:macro-cell-size" : [5],
+                                    "sim:applied-field-strength" : [0],
+                                    "sim:applied-field-unit-vector": [(0,0,1)],
+                                    "sim:temperature" : [309.65]} # input file parameters and the values to explore.
     input_file_units: dict = { "material:file" : "",
                               "dimensions:system-size-x" : " !nm",
                               "dimensions:system-size-y" : " !nm",
@@ -80,47 +84,48 @@ class MaterialEvolution():
                               "cells:macro-cell-size" : " !nm",
                               "sim:applied-field-strength" : " !T",
                               "sim:applied-field-unit-vector": "",
-                              "sim:temperature" : ""}
+                              "sim:temperature" : ""} # default units for input file parameters. must mirror input_file_parameters keys
     other_sweep_parameters: dict = { "intrinsic magnetic damping" : [0.001,0.01,0.1,0.5,1],
-                                   "field intensity input scaling": [-3e-13,-2e-13,-1e-13,1e-13,2e-13,3e-13]}
-    all_sweep_parameters: dict = dict()
-    new_input_file_parameters: dict = dict()
-    new_other_sweep_parameters: dict = dict()
+                                   "field intensity input scaling": [-3e-13,-2e-13,-1e-13,1e-13,2e-13,3e-13]} # non-input-file parameters to explore
+    all_sweep_parameters: dict = dict() # collation of input_file_parameters and other_sweep_parameters
+    new_input_file_parameters: dict = dict() # current combination of input file exploration parameters. new with every iteration
+    new_other_sweep_parameters: dict = dict() # current combination of non-input-file exploration parameters. new with every iteration
 
 #----------------------------------------------------------------------------------------------------------------------#
 
     def __init__(self , input_length):
 
-        self.main_timer = time()
-        self.input_length = input_length
-        self.timeseries = GT(stop_time=input_length)
-        self.iterations_total = CI(self.base_workdir_path,self.input_file_parameters,self.other_sweep_parameters)
-        self.main_loop()
+        self.main_timer = time() # search start time
+        self.input_length = input_length # total simulation timesteps
+        self.timeseries = GT(stop_time=input_length) # generate NARMA10
+        self.iterations_total = CI(self.base_workdir_path,self.input_file_parameters,self.other_sweep_parameters) # compute number of iterations
+        self.main_loop() # start search
 
 #----------------------------------------------------------------------------------------------------------------------#
 
     def main_loop(self):
 
-            while not self.simulation_end:
+            while not self.simulation_end: # end when no unique combinations found
                 print(f"\n WORKING ON ITERATION {self.iteration_counter+1} / {self.iterations_total} \n")
-                start_time = time()
+                start_time = time() # time per iteration
                 self.select_parameters()
                 if self.simulation_end:
                     pass
                 else:
                     self.update_input_files()
                     self.run_simulation()
-                    self.reservoir_computing()
+                    self.reservoir_computing() # fitting, NMSE, save data
                     self.iteration_counter += 1
-                end_time = time()
-                self.iteration_times.append(end_time - start_time)
+                end_time = time() # time per iteration
+                self.iteration_times.append(end_time - start_time) # time of every iteration
 
+            # communicate end, best run, save timing data
             print("SIMULATION ENDED, BEST SETUP AND RESULT:\n")
             print(self.current_best_setup)
-            print(f"best result: NRMSE = {self.current_best_result}")
+            print(f"best result: NMSE = {self.current_best_result}")
 
-            end_time = time()
-            self.main_timer = end_time - self.main_timer
+            end_time = time() # search end
+            self.main_timer = end_time - self.main_timer # total search time
             average_time = sum(self.iteration_times) / len(self.iteration_times)
             print(f"\nelapsed time: {round((self.main_timer / 60) / 60, 2)} hours")
             print(f"\naverage time per iteration: {round(average_time, 2)} seconds")
@@ -135,18 +140,21 @@ class MaterialEvolution():
     def select_parameters(self):
 
         searching_combo = True
-        attempts = 0
+        attempts = 0 # counter for simulation end condition
 
         while searching_combo:
 
-            self.new_input_file_parameters = {}
+            self.new_input_file_parameters = dict()
+            # from each input param select one value at random
             for key,value in self.input_file_parameters.items():
                 number = randint(0,len(value)-1)
                 self.new_input_file_parameters[key] = value[number]
 
+            # convert height to nearest multiple of unit cell size
             new_height = scale_height(self.base_materials_path,self.new_input_file_parameters["material:file"], self.new_input_file_parameters["dimensions:system-size-z"])
             self.new_input_file_parameters["dimensions:system-size-z"] = new_height
 
+            # pick random compatible film and grid size
             new_x, new_y, new_grid = scale_grid(x_dims=self.input_file_parameters["dimensions:system-size-x"],
                                                y_dims=self.input_file_parameters["dimensions:system-size-y"],
                                                cell_dim=self.input_file_parameters["cells:macro-cell-size"])
@@ -155,30 +163,34 @@ class MaterialEvolution():
             self.new_input_file_parameters["dimensions:system-size-y"] = new_y
             self.new_input_file_parameters["cells:macro-cell-size"] = new_grid
 
+            # from each other param select one value at random
             for key, value in self.other_sweep_parameters.items():
                 number = randint(0, len(value) - 1)
                 self.new_other_sweep_parameters[key] = value[number]
 
+            # collate input and other parameters
             self.all_sweep_parameters.update(self.new_input_file_parameters)
             self.all_sweep_parameters.update(self.new_other_sweep_parameters)
 
+            # combo is assumed unique until disproven
             if len(self.tried_combos) == 0:
                 unique = True
             else:
                 unique = True
+                # check all tried combos, if match found, not unique
                 for combo in self.tried_combos:
                     if combo == self.all_sweep_parameters:
                         unique = False
                         break
 
-            if unique:
-                self.tried_combos.append(self.all_sweep_parameters.copy())
-                searching_combo = False
+            if unique: # combo found
+                self.tried_combos.append(self.all_sweep_parameters.copy()) # record combo
+                searching_combo = False # exit loop and run sim
 
 
-            if attempts >= self.max_attempts:
-                searching_combo = False
-                self.simulation_end = True
+            if attempts >= self.max_attempts: # max attempts = 10e4
+                searching_combo = False # exit loop
+                self.simulation_end = True # end search
 
             attempts += 1
 
@@ -186,17 +198,20 @@ class MaterialEvolution():
 
     def update_input_files(self):
 
+        # calc how many cells for each dim, for constructing sourcefield.txt headers
         cells_perX = int((self.new_input_file_parameters["dimensions:system-size-x"] + 1)  / self.new_input_file_parameters["cells:macro-cell-size"])
         cells_perY = int((self.new_input_file_parameters["dimensions:system-size-y"] + 1)  / self.new_input_file_parameters["cells:macro-cell-size"])
 
         headers = make_headers(cells_perX, cells_perY)
 
+        # convert all exploration params to string and add units
         for key1, key2 in zip(self.new_input_file_parameters.keys(), self.input_file_units.keys()):
-            self.new_input_file_parameters[key1] = str(self.new_input_file_parameters[key1]) + \
-                                                   self.input_file_units[key2]
+            self.new_input_file_parameters[key1] = str(self.new_input_file_parameters[key1]) + self.input_file_units[key2]
 
+        # original timeseries never changes during a search, but gets scaled and rewritten if input scaling explored
         scaled_timeseries = self.timeseries.copy() * self.new_other_sweep_parameters["field intensity input scaling"]
 
+        # rewrite sourcefield.txt
         filemaker(output_path=self.base_workdir_path,
                   rows=self.timeseries.shape[0],
                   timeseries=scaled_timeseries,
@@ -204,10 +219,12 @@ class MaterialEvolution():
                   all_same=True,
                   headers=headers)
 
+        # copy material file to workdir, modify input file, change magnetic damping in .mat file
         smf(self.new_input_file_parameters["material:file"], self.base_materials_path, self.base_workdir_path) #IMPORTANT THAT THIS GOES FIRST
         mvif(self.new_input_file_parameters.copy(), self.base_workdir_path)
         update_damping(self.base_workdir_path,self.new_other_sweep_parameters["intrinsic magnetic damping"])
 
+        # remove reservoir_output.txt. ensures that if there is a failure, the previous iteration output isn't used
         for file in os.listdir(self.base_workdir_path):
             filename = os.fsdecode(file)
             if filename == "reservoir_output.txt":
@@ -223,34 +240,33 @@ class MaterialEvolution():
 
     def reservoir_computing(self):
 
-        best_result, best_training, y, y_pred = train_ridge(self.base_workdir_path)
+        # NMSE on unseen data, NMSE on seen data, unseen trace, prediction
+        best_result, training_result, y, y_pred = train_ridge(self.base_workdir_path)
 
+        # None is returned if failed to fit model. occurs if sim outputs NaNs
         if best_result is not None:
             data_to_save = {"y": y,
                             "y_pred":y_pred,
-                            "training_NRMSE":best_training,
-                            "NRMSE": best_result}
+                            "training_NMSE":training_result,
+                            "NMSE": best_result}
 
-            params = self.all_sweep_parameters.copy()
-            params["iteration"] = self.iteration_counter
-            params["training_NRMSE"] = best_training
-            params["NRMSE"] = best_result
-
+            # exploration params and results
             data_to_save.update(self.all_sweep_parameters.copy())
 
-            if best_result < self.current_best_result:
+            # update best combo, considering only NMSE of prediction of unseen data
+            if best_result < self.current_best_setup["NMSE"]:
                 self.current_best_result = best_result
-                self.current_best_training = best_training
                 self.current_best_setup = self.all_sweep_parameters.copy()
                 self.current_best_iteration = self.iteration_counter
 
+            # saves input files, plot of prediction, accuracy scores
             save_data(data=data_to_save,
                      dir_name="/" + str(self.iteration_counter),
                      save_path=self.base_testdata_path,
                      workdir_path=self.base_workdir_path)
 
         else:
-
+            # input files and exploration params of failures are saved so failure can be replicated
             print("FAILED ON:")
             print(self.all_sweep_parameters)
             data_to_save = self.all_sweep_parameters
