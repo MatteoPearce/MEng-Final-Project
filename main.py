@@ -68,6 +68,7 @@ class MaterialEvolution():
     narma_input: np.ndarray = None # NARMA10
     narma_output: np.ndarray = None  # NARMA10
     simulation_end: bool = False
+    random_scaling: bool = False
     signal_strength: float = 1.0
     best_result = np.inf # current best, starts at "infinity", 0 being desirable
     base_workdir_path: str = "/home/matteo/Desktop/VAMPIRE_WORKDIR" # working directory with materials folder and vampire binary
@@ -89,18 +90,20 @@ class MaterialEvolution():
                               "sim:applied-field-strength" : " !T",
                               "sim:applied-field-unit-vector": "",
                               "sim:temperature" : ""} # default units for input file parameters. must mirror input_file_parameters keys
-    other_sweep_parameters: dict = { "intrinsic magnetic damping" : [0.001,0.01,0.1,0.5,1],
-                                   "field intensity input scaling": [-3,-2,-1,1,2,3]} # non-input-file parameters to explore
+    other_sweep_parameters: dict = { "intrinsic magnetic damping" : [0.001,0.005,0.01,0.05,0.1,0.5,1],
+                                   "field intensity input scaling": [-3,-2.5,-2,-1.5,-1,-0.5,0.5,1,1.5,2,2.5,3]} # non-input-file parameters to explore
     all_sweep_parameters: dict = dict() # collation of input_file_parameters and other_sweep_parameters
     new_input_file_parameters: dict = dict() # current combination of input file exploration parameters. new with every iteration
     new_other_sweep_parameters: dict = dict() # current combination of non-input-file exploration parameters. new with every iteration
 
 #----------------------------------------------------------------------------------------------------------------------#
 
-    def __init__(self , input_length,signal_strength):
+    def __init__(self , input_length,signal_strength,random_scaling):
 
         if signal_strength is not None:
             self.signal_strength = signal_strength
+        if random_scaling is not None:
+            self.random_scaling = random_scaling
         self.main_timer = time() # search start time
         self.input_length = input_length # total simulation timesteps
         self.narma_input , self.narma_output = GT(stop_time=input_length)# generate NARMA10
@@ -216,7 +219,14 @@ class MaterialEvolution():
             self.new_input_file_parameters[key1] = str(self.new_input_file_parameters[key1]) + self.input_file_units[key2]
 
         # original timeseries never changes during a search, but gets scaled and rewritten if input scaling explored
-        scaled_input = self.narma_input.copy() * self.new_other_sweep_parameters["field intensity input scaling"]
+        if self.random_scaling:
+            print(self.narma_input.copy())
+            input()
+            scaled_input = self.narma_input.copy() * np.random.rand(self.input_length,) * self.new_other_sweep_parameters["field intensity input scaling"]
+            print(scaled_input)
+            input()
+        else:
+            scaled_input = self.narma_input.copy() * self.new_other_sweep_parameters["field intensity input scaling"]
 
         # rewrite sourcefield.txt
         filemaker(output_path=self.base_workdir_path,
@@ -288,7 +298,8 @@ class MaterialEvolution():
 
 def main() -> None:
     signal_strenth = 1
+    random_scaling = True
     input_length = 500
-    start = MaterialEvolution(input_length,signal_strenth)
+    start = MaterialEvolution(input_length,signal_strenth,random_scaling)
 
 if __name__ == "__main__": main()
