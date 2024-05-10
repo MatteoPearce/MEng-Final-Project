@@ -76,11 +76,11 @@ class MaterialEvolution():
     input_file_parameters: dict = { "material:file" : ["Co.mat","Fe.mat","Ni.mat"],
                                     "dimensions:system-size-x" : [49],
                                     "dimensions:system-size-y" : [49],
-                                    "dimensions:system-size-z" : [0.1],
+                                    "dimensions:system-size-z" : [4],
                                     "cells:macro-cell-size" : [5],
                                     "sim:applied-field-strength" : [0],
                                     "sim:applied-field-unit-vector": [(0,0,1)],
-                                    "sim:temperature" : [309.65]} # input file parameters and the values to explore.
+                                    "sim:temperature" : [0]} # input file parameters and the values to explore.
     input_file_units: dict = { "material:file" : "",
                               "dimensions:system-size-x" : " !nm",
                               "dimensions:system-size-y" : " !nm",
@@ -256,7 +256,7 @@ class MaterialEvolution():
                             "y_pred":y_pred,
                             "training_NMSE":training_result,
                             "NMSE": best_result,
-                            "signal_Strength": self.signal_strength}
+                            "signal_strength": self.signal_strength}
 
             # exploration params and results
             data_to_save.update(self.all_sweep_parameters.copy())
@@ -287,7 +287,7 @@ class MaterialEvolution():
 #----------------------------------------------------------------------------------------------------------------------#
 
 def main() -> None:
-    signal_strenth = 1e-12
+    signal_strenth = 1
     input_length = 500
     start = MaterialEvolution(input_length,signal_strenth)
 

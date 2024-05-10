@@ -43,11 +43,13 @@ def train_ridge(workdir_path: str = None, target: np.ndarray = None, signal_stre
             throwaway, output_array = ERO(workdir_path + "/sourcefield.txt",
                                             workdir_path + "/reservoir_output.txt") # get input and output files
 
-            target = np.tile(target, (1,output_array.shape[1]))
+            # MIN-MAX normalisation step. RR works poorly on really small values
+            target = (target - target.min()) / (target.max() - target.min())
+            target = np.tile(target, (1, output_array.shape[1]))  # repeat timeseries for every cell
+            output_array = (output_array - output_array.min()) / (output_array.max() - output_array.min())
+
             best_result = np.inf
             best_split = 0
-            target = target * (1/ signal_strength)
-            output_array = output_array * (1/ signal_strength)
 
             for split in tqdm(training_split):
 
@@ -76,8 +78,8 @@ def train_ridge(workdir_path: str = None, target: np.ndarray = None, signal_stre
 
                 best_result, best_training, y, y_pred = loo_crossval(target, output_array, best_split)
 
-                y = y * signal_strength
-                y_pred = y_pred * signal_strength
+                y = y - 0.5 # centre around 0
+                y_pred = y_pred - 0.5
 
                 return best_result, best_training, y, y_pred
 

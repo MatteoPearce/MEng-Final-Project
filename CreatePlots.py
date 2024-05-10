@@ -307,7 +307,7 @@ def plot_material_comparison(save_path: str = None, data: dict = None) -> None:
 param_names = ["material:file", "dimensions:system-size-x", "dimensions:system-size-y",
                "dimensions:system-size-z", "cells:macro-cell-size", "sim:applied-field-strength",
                "sim:applied-field-unit-vector", "sim:temperature","intrinsic magnetic damping",
-                "field intensity input scaling","iteration","training_NMSE","NMSE"]
+                "field intensity input scaling","iteration","training_NMSE","NMSE","signal_strength"]
 
 dir = "/home/matteo/Desktop/VAMPIRE_TEST_RESULTS"
 create_plot_data(dir,param_names)
