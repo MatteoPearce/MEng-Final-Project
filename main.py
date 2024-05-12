@@ -220,11 +220,7 @@ class MaterialEvolution():
 
         # original timeseries never changes during a search, but gets scaled and rewritten if input scaling explored
         if self.random_scaling:
-            print(self.narma_input.copy())
-            input()
             scaled_input = self.narma_input.copy() * np.random.rand(self.input_length,) * self.new_other_sweep_parameters["field intensity input scaling"]
-            print(scaled_input)
-            input()
         else:
             scaled_input = self.narma_input.copy() * self.new_other_sweep_parameters["field intensity input scaling"]
 

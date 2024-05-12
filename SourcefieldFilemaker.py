@@ -70,7 +70,7 @@ def filemaker(output_path: str,
 
                 row = np.repeat(element,columns)
                 row = np.append(row,index)
-                row = row.reshape((1, columns+1)) # extra column for timestep label
+                row = row.reshape((1, columns+1)) # extra column for timestep label ****************************
 
                 if index == 0:
                     new_array = row
@@ -80,6 +80,21 @@ def filemaker(output_path: str,
         else:
             if timeseries.shape != (rows,columns):
                 timeseries = timeseries.reshape((rows,columns))
+
+##################################################################################################
+
+        zeros = np.zeros((rows, columns+1))
+        y1 = random.randint(0, columns - 1)
+        y2 = random.randint(0, columns - 1)
+
+        for index, row in enumerate(zeros):
+            zeros[index, y1] = 1
+            zeros[index, y2] = 1
+            zeros[index, columns] = 1
+
+        new_array = new_array * zeros
+
+##################################################################################################
 
         np.set_printoptions(threshold=sys.maxsize) # improves legibility when debugging or testing
         data = np.array2string(new_array,  precision=4, separator=' ',max_line_width=columns**2)
