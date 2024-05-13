@@ -8,6 +8,7 @@ from SelectMaterialFile import Select_material as smf
 from makeHeaders import make_headers
 from SourcefieldFilemaker import filemaker
 from UdateMagneticDamping import update_damping
+from ScaleHeight import scale_height
 from CallVAMPIRE import call_vampire
 from RegressionTraining import train_ridge
 class TrialBest():
@@ -60,6 +61,10 @@ class TrialBest():
 
         for trial in range(self.trials):
 
+            print("#------------------------------------------------------------------------------#")
+            print("#------------------------------------------------------------------------------#")
+            print("#------------------------------------------------------------------------------#")
+            print("#------------------------------------------------------------------------------#\n")
             self.NARMA_input, self.NARMA_output = GT(self.trial_length)
             print(f"WORKING ON TRIAL: {trial}\n")
 
@@ -114,16 +119,21 @@ class TrialBest():
                   all_same=True,
                   headers=headers)
 
-        material["dimensions:system-size-x"] = str(material["dimensions:system-size-x"]) + " !nm"
-        material["dimensions:system-size-y"] = str(material["dimensions:system-size-y"]) + " !nm"
-        material["dimensions:system-size-z"] = str(material["dimensions:system-size-z"]) + " !nm"
-        material["cells:macro-cell-size"] = str(material["cells:macro-cell-size"]) + " !nm"
+        new_height = scale_height(self.base_materials_path, material["material:file"], material["dimensions:system-size-z"])
+        material["dimensions:system-size-z"] = new_height
+
+        material_as_string = material.copy()
+
+        material_as_string["dimensions:system-size-x"] = str(material["dimensions:system-size-x"]) + " !nm"
+        material_as_string["dimensions:system-size-y"] = str(material["dimensions:system-size-y"]) + " !nm"
+        material_as_string["dimensions:system-size-z"] = str(material["dimensions:system-size-z"]) + " !A"
+        material_as_string["cells:macro-cell-size"] = str(material["cells:macro-cell-size"]) + " !nm"
 
         # copy material file to workdir, modify input file, change magnetic damping in .mat file
-        smf(material["material:file"], self.base_materials_path,
+        smf(material_as_string["material:file"], self.base_materials_path,
             self.base_workdir_path)  # IMPORTANT THAT THIS GOES FIRST
-        mvif(material.copy(), self.base_workdir_path)
-        update_damping(self.base_workdir_path, material["intrinsic magnetic damping"])
+        mvif(material_as_string.copy(), self.base_workdir_path)
+        update_damping(self.base_workdir_path, material_as_string["intrinsic magnetic damping"])
 
         # remove reservoir_output.txt. ensures that if there is a failure, the previous iteration output isn't used
         for file in os.listdir(self.base_workdir_path):
@@ -159,7 +169,8 @@ class TrialBest():
         material_dir = self.base_testdata_path + "/" + material["material:file"][0:2]
         trial_dir = material_dir + "/" + str(trial)
 
-        os.mkdir(material_dir)
+        if not os.path.exists(material_dir):
+            os.mkdir(material_dir)
         os.mkdir(trial_dir)
 
         plt.plot(np.arange(self.current_data['y_pred'].shape[0]), self.current_data['y'][:, 0], marker='o', markersize=1)
@@ -184,7 +195,9 @@ class TrialBest():
 
         data = [self.Fe_list["NMSE"],self.Co_list["NMSE"], self.Ni_list["NMSE"]]
         plt.title("NMSEs of Best Runs")
+        plt.xlabel("NMSE")
         plt.boxplot(data, notch='True', patch_artist=True, labels=['Fe', 'Co', 'Ni'])
+        plt.grid(visible=True)
         plt.show()
 
 #----------------------------------------------------------------------------------------------------------------------#
@@ -197,8 +210,8 @@ def main() -> None:
                                    "dimensions:system-size-z": 4,
                                    "cells:macro-cell-size": 5,
                                    "sim:temperature": 0,
-                                   "intrinsic magnetic damping": 1,
-                                   "field intensity input scaling": 1}
+                                   "intrinsic magnetic damping": 0.1,
+                                   "field intensity input scaling": -0.5}
 
     best_fe: dict = {"material:file": "Fe.mat",
                      "dimensions:system-size-x": 49,
@@ -206,8 +219,8 @@ def main() -> None:
                      "dimensions:system-size-z": 4,
                      "cells:macro-cell-size": 5,
                      "sim:temperature": 0,
-                     "intrinsic magnetic damping": 1,
-                     "field intensity input scaling": 1}
+                     "intrinsic magnetic damping": 0.5,
+                     "field intensity input scaling": 2}
 
     best_ni: dict = {"material:file": "Ni.mat",
                      "dimensions:system-size-x": 49,
@@ -215,8 +228,8 @@ def main() -> None:
                      "dimensions:system-size-z": 4,
                      "cells:macro-cell-size": 5,
                      "sim:temperature": 0,
-                     "intrinsic magnetic damping": 1,
-                     "field intensity input scaling": 1}
+                     "intrinsic magnetic damping": 0.5,
+                     "field intensity input scaling": -0.5}
 
     signal_strenth = 1
     random_scaling = False
@@ -224,7 +237,7 @@ def main() -> None:
     start = TrialBest(best_Co=best_co,
                       best_Fe=best_fe,
                       best_Ni=best_ni,
-                      trials=2,
+                      trials=20,
                       trial_length= input_length,
                       random_scaling= random_scaling,
                       signal_strength=signal_strenth)
