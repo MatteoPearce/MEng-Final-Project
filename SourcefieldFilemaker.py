@@ -17,7 +17,7 @@ If being used independently of MaterialEvolution class, the film must be square 
 square root or the file won't be generated properly. 
 """
 
-def filemaker(output_path: str,
+def write_sourcefield(output_path: str,
               rows: int,
               columns: int,
               field_threshold: float = None,

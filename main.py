@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from ModifyVampireInputFile import modify_vampire_input as mvif
-from SelectMaterialFile import Select_material as smf
+from SelectMaterialFile import select_material as smf
 from SaveData import save_data
 from RegressionTraining import train_ridge
 from CallVAMPIRE import call_vampire
@@ -9,7 +9,7 @@ import numpy as np
 from time import time
 from ScaleGrid import scale_grid
 from GenerateTimeseries import generate_timeseries as GT
-from SourcefieldFilemaker import filemaker
+from SourcefieldFilemaker import write_sourcefield
 from makeHeaders import make_headers
 from UdateMagneticDamping import update_damping
 from ScaleHeight import scale_height
@@ -160,6 +160,11 @@ class MaterialEvolution():
                 number = randint(0,len(value)-1)
                 self.new_input_file_parameters[key] = value[number]
 
+            # from each other param select one value at random
+            for key, value in self.other_sweep_parameters.items():
+                number = randint(0, len(value) - 1)
+                self.new_other_sweep_parameters[key] = value[number]
+
             # convert height to nearest multiple of unit cell size
             new_height = scale_height(self.base_materials_path,self.new_input_file_parameters["material:file"], self.new_input_file_parameters["dimensions:system-size-z"])
             self.new_input_file_parameters["dimensions:system-size-z"] = new_height
@@ -172,11 +177,6 @@ class MaterialEvolution():
             self.new_input_file_parameters["dimensions:system-size-x"] = new_x
             self.new_input_file_parameters["dimensions:system-size-y"] = new_y
             self.new_input_file_parameters["cells:macro-cell-size"] = new_grid
-
-            # from each other param select one value at random
-            for key, value in self.other_sweep_parameters.items():
-                number = randint(0, len(value) - 1)
-                self.new_other_sweep_parameters[key] = value[number]
 
             # collate input and other parameters
             self.all_sweep_parameters.update(self.new_input_file_parameters)
@@ -225,12 +225,12 @@ class MaterialEvolution():
             scaled_input = self.narma_input.copy() * self.new_other_sweep_parameters["field intensity input scaling"]
 
         # rewrite sourcefield.txt
-        filemaker(output_path=self.base_workdir_path,
-                  rows=scaled_input.shape[0],
-                  timeseries=scaled_input,
-                  columns=int(cells_perX * cells_perY),
-                  all_same=True,
-                  headers=headers)
+        write_sourcefield(output_path=self.base_workdir_path,
+                          rows=scaled_input.shape[0],
+                          timeseries=scaled_input,
+                          columns=int(cells_perX * cells_perY),
+                          all_same=True,
+                          headers=headers)
 
         # copy material file to workdir, modify input file, change magnetic damping in .mat file
         smf(self.new_input_file_parameters["material:file"], self.base_materials_path, self.base_workdir_path) #IMPORTANT THAT THIS GOES FIRST

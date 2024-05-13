@@ -195,10 +195,12 @@ class TrialBest():
 
         data = [self.Fe_list["NMSE"],self.Co_list["NMSE"], self.Ni_list["NMSE"]]
         plt.title("NMSEs of Best Runs")
-        plt.xlabel("NMSE")
+        plt.ylabel("NMSE")
         plt.boxplot(data, notch='True', patch_artist=True, labels=['Fe', 'Co', 'Ni'])
         plt.grid(visible=True)
+        plt.savefig(self.base_testdata_path + "/box_plot.png")
         plt.show()
+        plt.close()
 
 #----------------------------------------------------------------------------------------------------------------------#
 

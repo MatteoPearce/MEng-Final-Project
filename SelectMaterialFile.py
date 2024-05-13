@@ -4,7 +4,7 @@ import os
 RECEIVES DESIRED MATERIAL FILE NAME, PARSES THE MATERIALS FOLDER IN THE WORKING DIRECTORY AND COPIES THE CORRECT FILE 
 TO THE WORKING DIRECTORY AFTER HAVING REMOVED THE EXISTING MATERIAL FILE.
 """
-def Select_material(file_name: str = None, file_path: str = None, workdir_path: str = None) -> None:
+def select_material(file_name: str = None, file_path: str = None, workdir_path: str = None) -> None:
 
     if file_path is not None and file_name is not None and workdir_path is not None:
         if file_path == workdir_path:

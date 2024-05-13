@@ -6,7 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="a4dfd85d-b366-4c78-b6bd-200915180eb4" name="Changes" comment="Created Trial Best">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SelectMaterialFile.py" beforeDir="false" afterPath="$PROJECT_DIR$/SelectMaterialFile.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SourcefieldFilemaker.py" beforeDir="false" afterPath="$PROJECT_DIR$/SourcefieldFilemaker.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/TrialBest.py" beforeDir="false" afterPath="$PROJECT_DIR$/TrialBest.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -157,15 +160,7 @@
       <workItem from="1715163002562" duration="22794000" />
       <workItem from="1715234810703" duration="4423000" />
       <workItem from="1715455577863" duration="10404000" />
-      <workItem from="1715593981321" duration="17081000" />
-    </task>
-    <task id="LOCAL-00032" summary="made makeHeaders.py">
-      <option name="closed" value="true" />
-      <created>1712043053167</created>
-      <option name="number" value="00032" />
-      <option name="presentableId" value="LOCAL-00032" />
-      <option name="project" value="LOCAL" />
-      <updated>1712043053167</updated>
+      <workItem from="1715593981321" duration="25716000" />
     </task>
     <task id="LOCAL-00033" summary="testing full setup with new makeheaders">
       <option name="closed" value="true" />
@@ -551,7 +546,15 @@
       <option name="project" value="LOCAL" />
       <updated>1715609035666</updated>
     </task>
-    <option name="localTasksCounter" value="81" />
+    <task id="LOCAL-00081" summary="Created Trial Best">
+      <option name="closed" value="true" />
+      <created>1715613177463</created>
+      <option name="number" value="00081" />
+      <option name="presentableId" value="LOCAL-00081" />
+      <option name="project" value="LOCAL" />
+      <updated>1715613177463</updated>
+    </task>
+    <option name="localTasksCounter" value="82" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -598,7 +601,7 @@
     <option name="LAST_COMMIT_MESSAGE" value="Created Trial Best" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/MEng_Project_Matteo_Pearce$TrialBest.coverage" NAME="TrialBest Coverage Results" MODIFIED="1715611891022" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/MEng_Project_Matteo_Pearce$TrialBest.coverage" NAME="TrialBest Coverage Results" MODIFIED="1715620158892" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/MEng_Project_Matteo_Pearce$ComputeIterations.coverage" NAME="ComputeIterations Coverage Results" MODIFIED="1713356572337" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/MEng_Project_Matteo_Pearce$GenerateTimeseries.coverage" NAME="GenerateTimeseries Coverage Results" MODIFIED="1715351440296" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/MEng_Project_Matteo_Pearce$ScaleHeight.coverage" NAME="ScaleHeight Coverage Results" MODIFIED="1713349255238" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
