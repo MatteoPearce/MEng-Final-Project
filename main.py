@@ -90,7 +90,7 @@ class MaterialEvolution():
                               "sim:applied-field-strength" : " !T",
                               "sim:applied-field-unit-vector": "",
                               "sim:temperature" : ""} # default units for input file parameters. must mirror input_file_parameters keys
-    other_sweep_parameters: dict = { "intrinsic magnetic damping" : [0.001,0.005,0.01,0.05,0.1,0.5,1],
+    other_sweep_parameters: dict = { "intrinsic magnetic damping" : [0.001,0.01,0.1],
                                    "field intensity input scaling": [-3,-2.5,-2,-1.5,-1,-0.5,0.5,1,1.5,2,2.5,3]} # non-input-file parameters to explore
     all_sweep_parameters: dict = dict() # collation of input_file_parameters and other_sweep_parameters
     new_input_file_parameters: dict = dict() # current combination of input file exploration parameters. new with every iteration
@@ -117,7 +117,7 @@ class MaterialEvolution():
     def main_loop(self):
 
             while not self.simulation_end: # end when no unique combinations found
-                print(f"\n WORKING ON ITERATION {self.iteration_counter+1} / {self.iterations_total} \n")
+                print(f"\n WORKING ON ITERATION {self.iteration_counter} / {self.iterations_total} \n")
                 start_time = time() # time per iteration
                 self.select_parameters()
                 if self.simulation_end:

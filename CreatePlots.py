@@ -296,7 +296,7 @@ def plot_material_comparison(save_path: str = None, data: dict = None) -> None:
     ax.set_title('best NMSEs by material')
     ax.set_xticks(x + width, materials)
     ax.legend(loc='upper left', ncols=3)
-    ax.set_ylim(0, 0.4)
+    ax.set_ylim(0, 10)
 
     plt.grid(visible=True)
     plt.savefig(save_path + "/materials_comparison")
@@ -309,5 +309,5 @@ param_names = ["material:file", "dimensions:system-size-x", "dimensions:system-s
                "sim:applied-field-unit-vector", "sim:temperature","intrinsic magnetic damping",
                 "field intensity input scaling","iteration","training_NMSE","NMSE","signal_strength"]
 
-dir = "/home/matteo/Desktop/VAMPIRE_TEST_RESULTS"
+dir = "/home/matteo/Desktop/VAMPIRE_TEST_RESULTS/A4"
 create_plot_data(dir,param_names)
