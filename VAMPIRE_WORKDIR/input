@@ -4,8 +4,8 @@ dimensions:unit-cell-size = 3.524 !A
 material:file = Ni.mat
  
 #system size 
-dimensions:system-size-x = 199 !nm
-dimensions:system-size-y = 199 !nm
+dimensions:system-size-x = 49 !nm
+dimensions:system-size-y = 49 !nm
 dimensions:system-size-z = 0.1 !A
  
 #define cell size 
@@ -21,10 +21,10 @@ sim:integrator = llg-heun
 micromagnetic:integrator = llg
  
 #program/simulation parameters - same as atomistic vampire. 
-sim:time-step= 1 !fs 
-sim:time-steps-increment = 1000
+sim:time-step= 20 !ps
+sim:time-steps-increment = 25
 sim:temperature = 0
-sim:total-time-steps = 500000
+sim:total-time-steps = 25000
 sim:applied-field-strength = 0 !T
 sim:applied-field-unit-vector = 0, 0, 1
 dipole:solver=tensor 

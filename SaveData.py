@@ -44,8 +44,8 @@ def save_data(data: dict = None, dir_name: str = None, save_path: str = None, wo
 
             if not Failed: # cannot plot prediction if training step failed.
 
-                plt.plot(np.arange(data['y_pred'].shape[0]), data['y'][:, 0], marker='o', markersize=1)  # , color='red')
-                plt.plot(np.arange(data['y_pred'].shape[0]), data['y_pred'][:, 0], marker='o', markersize=1)
+                plt.plot(np.arange(data['y_pred'].shape[0]), data['y'], marker='o', markersize=1)
+                plt.plot(np.arange(data['y_pred'].shape[0]), data['y_pred'], marker='o', markersize=1)
                 plt.xlabel('Time')  # X-axis label
                 plt.ylabel('Magnitude')  # Y-axis label
                 plt.title('Prediction')  # title of the plot

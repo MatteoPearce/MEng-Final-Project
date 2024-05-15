@@ -69,6 +69,7 @@ class MaterialEvolution():
     narma_output: np.ndarray = None  # NARMA10
     simulation_end: bool = False
     random_scaling: bool = False
+    random_input_locs: bool = False
     signal_strength: float = 1.0
     best_result = np.inf # current best, starts at "infinity", 0 being desirable
     base_workdir_path: str = "/home/matteo/Desktop/VAMPIRE_WORKDIR" # working directory with materials folder and vampire binary
@@ -98,12 +99,14 @@ class MaterialEvolution():
 
 #----------------------------------------------------------------------------------------------------------------------#
 
-    def __init__(self , input_length,signal_strength,random_scaling):
+    def __init__(self , input_length,signal_strength,random_scaling,random_input_locs):
 
         if signal_strength is not None:
             self.signal_strength = signal_strength
         if random_scaling is not None:
             self.random_scaling = random_scaling
+        if random_input_locs is not None:
+            self.random_input_locs = random_input_locs
         self.main_timer = time() # search start time
         self.input_length = input_length # total simulation timesteps
         self.narma_input , self.narma_output = GT(stop_time=input_length)# generate NARMA10
@@ -230,7 +233,8 @@ class MaterialEvolution():
                           timeseries=scaled_input,
                           columns=int(cells_perX * cells_perY),
                           all_same=True,
-                          headers=headers)
+                          headers=headers,
+                          random_input_locs=self.random_input_locs)
 
         # copy material file to workdir, modify input file, change magnetic damping in .mat file
         smf(self.new_input_file_parameters["material:file"], self.base_materials_path, self.base_workdir_path) #IMPORTANT THAT THIS GOES FIRST
@@ -254,7 +258,7 @@ class MaterialEvolution():
     def reservoir_computing(self):
 
         # NMSE on unseen data, NMSE on seen data, unseen trace, prediction
-        best_result, training_result, y, y_pred = train_ridge(self.base_workdir_path,self.narma_output,self.signal_strength)
+        best_result, training_result, y, y_pred = train_ridge(self.base_workdir_path,self.narma_output)
 
         # None is returned if failed to fit model. occurs if sim outputs NaNs
         if best_result is not None:
@@ -295,7 +299,11 @@ class MaterialEvolution():
 def main() -> None:
     signal_strenth = 1
     random_scaling = True
-    input_length = 500
-    start = MaterialEvolution(input_length,signal_strenth,random_scaling)
+    random_input_locs = True
+    input_length = 1000
+    start = MaterialEvolution(input_length=input_length,
+                              signal_strength=signal_strenth,
+                              random_scaling=random_scaling,
+                              random_input_locs=random_input_locs)
 
 if __name__ == "__main__": main()

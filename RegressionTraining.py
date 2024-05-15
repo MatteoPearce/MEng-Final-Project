@@ -31,7 +31,7 @@ all arrays are of shape (timesteps, cells). The output arrays are always longer 
 requested simulation steps and therefore it needs to be clipped in dimension 0 to match the length of the input array.
 """
 
-def train_ridge(workdir_path: str = None, target: np.ndarray = None, signal_strength: float = 1.0) -> tuple[float,float,np.ndarray,np.ndarray]:
+def train_ridge(workdir_path: str = None, target: np.ndarray = None) -> tuple[float,float,np.ndarray,np.ndarray]:
 
     if workdir_path is not None:
 
@@ -45,7 +45,7 @@ def train_ridge(workdir_path: str = None, target: np.ndarray = None, signal_stre
 
             # MIN-MAX normalisation step. RR works poorly on really small values
             target = (target - target.min()) / (target.max() - target.min())
-            target = np.tile(target, (1, output_array.shape[1]))  # repeat timeseries for every cell
+            #target = np.tile(target, (1, output_array.shape[1]))  # repeat timeseries for every cell
             output_array = (output_array - output_array.min()) / (output_array.max() - output_array.min())
 
             best_result = np.inf
@@ -56,9 +56,9 @@ def train_ridge(workdir_path: str = None, target: np.ndarray = None, signal_stre
                 lower_limit = int(split * target.shape[0])
                 upper_limit = target.shape[0]
 
-                training_y = target[:lower_limit, :]
+                training_y = target[:lower_limit]
                 training_X = output_array[:lower_limit, :]
-                testing_y = target[lower_limit:, :]
+                testing_y = target[lower_limit:]
                 testing_X = output_array[lower_limit:upper_limit, :]
 
                 try:
@@ -70,65 +70,22 @@ def train_ridge(workdir_path: str = None, target: np.ndarray = None, signal_stre
                 if NMSE is not None:
                     if NMSE < best_result:
                         best_result = NMSE
+                        best_training = training_NMSE
+                        best_y = y
+                        best_y_pred = y_pred
                         best_split = split
 
             if NMSE is not None:
 
                 print(f"\nbest split: {best_split}")
 
-                best_result, best_training, y, y_pred = loo_crossval(target, output_array, best_split)
+                best_y = best_y - 0.5 # centre around 0
+                best_y_pred = best_y_pred - 0.5
 
-                y = y - 0.5 # centre around 0
-                y_pred = y_pred - 0.5
-
-                return best_result, best_training, y, y_pred
+                return best_result, best_training, best_y, best_y_pred
 
             else:
                 return None, None, None, None
-
-#----------------------------------------------------------------------------------------------------------------------#
-def loo_crossval(input_array: np.ndarray,
-                 output_array: np.ndarray,
-                 split: float = None) -> [float,float,np.ndarray,np.ndarray]:
-
-    if split is not None:
-
-        best_result = np.inf
-        best_training = np.inf
-        updated = False
-
-        intervals = int(round(1 / (1- split),1))
-
-        for i in tqdm(range(intervals)):
-
-            step = int(input_array.shape[0] / intervals)
-
-            testing_y = input_array[i * step:(i+1) * step,:]
-            testing_X = output_array[i * step:(i+1) * step,:]
-            rows = np.arange(i * step,(i+1) * step)
-            training_y = np.delete(input_array,rows,axis=0)
-            training_X = output_array[:input_array.shape[0], :]
-            training_X = np.delete(training_X,rows,axis=0)
-
-            try:
-                NMSE, training_NMSE, y, y_pred = train_cycle(training_X, training_y, testing_X, testing_y)
-            except np.linalg.LinAlgError:
-                return None, None, None, None
-
-
-            if NMSE is not None:
-                if NMSE < best_result:
-                    updated = True
-                    best_result = NMSE
-                    best_training = training_NMSE
-                    best_y = y
-                    best_y_pred = y_pred
-
-        if updated:
-            return best_result, best_training, best_y, best_y_pred
-
-        else:
-            return None, None, None, None
 
 #----------------------------------------------------------------------------------------------------------------------#
 def train_cycle(training_X: np.ndarray,
@@ -136,27 +93,43 @@ def train_cycle(training_X: np.ndarray,
                 testing_X: np.ndarray,
                 testing_y: np.ndarray) -> [float,float,np.ndarray,np.ndarray]:
 
-    output_node = Ridge(output_dim=testing_y.shape[1],ridge=1e-15)
-    try: # sometimes vampire outputs are NAN. using try statement mitigates crashes and deems this combination a failure
-        fitted_output = output_node.fit(training_X, training_y, warmup=10)
-        prediction = fitted_output.run(testing_X)
-        training_rerun = fitted_output.run(training_X)
-        clip_size = 2 # last two datapoints are often massive offshoots
-        new_limit = testing_y.shape[0] - clip_size
-        clipped_prediction = prediction[:new_limit, :]
-        clipped_testing_y = testing_y[:new_limit, :]
+    ridges = [10e0,10e-1,10e-2,10e-3,10e-4,10e-5,10e-6,10e-7,10e-8,10e-9,10e-10,10e-11,10e-12,10e-13,10e-14,10e-15]
 
-        clipped_rerun = training_rerun[:new_limit, :]
-        clipped_training_y = training_y[:new_limit, :]
+    best = np.inf
+    best_training = None
+    best_y = None
+    best_pred = None
 
-        NMSE = robs.nrmse(clipped_testing_y.copy(), clipped_prediction.copy(),norm="var")
-        training_NMSE = robs.nrmse(clipped_training_y.copy(),clipped_rerun.copy(),norm="var")
+    for ridge in ridges:
 
-        del output_node
-        del fitted_output
+        output_node = Ridge(output_dim=testing_y.shape[1],ridge=ridge)
+        try: # sometimes vampire outputs are NAN. using try statement mitigates crashes and deems this combination a failure
+            fitted_output = output_node.fit(training_X, training_y, warmup=200)
+            prediction = fitted_output.run(testing_X)
+            training_rerun = fitted_output.run(training_X)
+            clip_size = 2 # last two datapoints are often massive offshoots
+            new_limit = testing_y.shape[0] - clip_size
+            clipped_prediction = prediction[:new_limit, :]
+            clipped_testing_y = testing_y[:new_limit, :]
 
-        return NMSE, training_NMSE, clipped_testing_y, clipped_prediction
-    except ValueError:
-        return None, None, None, None
+            clipped_rerun = training_rerun[:new_limit, :]
+            clipped_training_y = training_y[:new_limit, :]
+
+            NMSE = robs.nrmse(testing_y.copy(), prediction.copy(),norm="var")
+            training_NMSE = robs.nrmse(training_y.copy(),training_rerun.copy(),norm="var")
+
+            del output_node
+            del fitted_output
+
+            if NMSE < best:
+                best = NMSE
+                best_training = training_NMSE
+                best_pred = prediction
+                best_y = testing_y
+
+        except ValueError:
+            return None, None, None, None
+
+    return best, best_training, best_y, best_pred
 
 #----------------------------------------------------------------------------------------------------------------------#

@@ -4,9 +4,9 @@ import os
 import matplotlib.pyplot as plt
 from GenerateTimeseries import generate_timeseries as GT
 from ModifyVampireInputFile import modify_vampire_input as mvif
-from SelectMaterialFile import Select_material as smf
+from SelectMaterialFile import select_material as smf
 from makeHeaders import make_headers
-from SourcefieldFilemaker import filemaker
+from SourcefieldFilemaker import write_sourcefield
 from UdateMagneticDamping import update_damping
 from ScaleHeight import scale_height
 from CallVAMPIRE import call_vampire
@@ -33,7 +33,7 @@ class TrialBest():
 
     base_workdir_path: str = "/home/matteo/Desktop/VAMPIRE_WORKDIR"  # working directory with materials folder and vampire binary
     base_materials_path: str = "/home/matteo/Desktop/VAMPIRE_WORKDIR/Materials"  # materials folder in working directory
-    base_testdata_path: str = "/home/matteo/Desktop/VAMPIRE_TEST_RESULTS/A1/best test"  # results depot
+    base_testdata_path: str = "/home/matteo/Desktop/VAMPIRE_TEST_RESULTS/B1/best test"  # results depot
 
 #----------------------------------------------------------------------------------------------------------------------#
 
@@ -112,7 +112,7 @@ class TrialBest():
             scaled_input = self.NARMA_input.copy() * material["field intensity input scaling"]
 
         # rewrite sourcefield.txt
-        filemaker(output_path=self.base_workdir_path,
+        write_sourcefield(output_path=self.base_workdir_path,
                   rows=scaled_input.shape[0],
                   timeseries=scaled_input,
                   columns=int(cells_perX * cells_perY),
@@ -152,7 +152,7 @@ class TrialBest():
     def reservoir_computing(self):
 
         # NMSE on unseen data, NMSE on seen data, unseen trace, prediction
-        best_result, training_result, y, y_pred = train_ridge(self.base_workdir_path,self.NARMA_output,self.signal_strength)
+        best_result, training_result, y, y_pred = train_ridge(self.base_workdir_path,self.NARMA_output)
 
         # None is returned if failed to fit model. occurs if sim outputs NaNs
         if best_result is not None:
@@ -211,29 +211,29 @@ def main() -> None:
                                    "dimensions:system-size-y": 49,
                                    "dimensions:system-size-z": 4,
                                    "cells:macro-cell-size": 5,
-                                   "sim:temperature": 0,
-                                   "intrinsic magnetic damping": 0.1,
-                                   "field intensity input scaling": -0.5}
+                                   "sim:temperature": 309.65,
+                                   "intrinsic magnetic damping": 0.5,
+                                   "field intensity input scaling": 1}
 
     best_fe: dict = {"material:file": "Fe.mat",
                      "dimensions:system-size-x": 49,
                      "dimensions:system-size-y": 49,
                      "dimensions:system-size-z": 4,
                      "cells:macro-cell-size": 5,
-                     "sim:temperature": 0,
-                     "intrinsic magnetic damping": 0.5,
-                     "field intensity input scaling": 2}
+                     "sim:temperature": 309.65,
+                     "intrinsic magnetic damping": 1,
+                     "field intensity input scaling": 1}
 
     best_ni: dict = {"material:file": "Ni.mat",
                      "dimensions:system-size-x": 49,
                      "dimensions:system-size-y": 49,
                      "dimensions:system-size-z": 4,
                      "cells:macro-cell-size": 5,
-                     "sim:temperature": 0,
-                     "intrinsic magnetic damping": 0.5,
-                     "field intensity input scaling": -0.5}
+                     "sim:temperature": 309.65,
+                     "intrinsic magnetic damping": 0.001,
+                     "field intensity input scaling": 1}
 
-    signal_strenth = 1
+    signal_strength = 2e-12
     random_scaling = False
     input_length = 500
     start = TrialBest(best_Co=best_co,
@@ -242,6 +242,6 @@ def main() -> None:
                       trials=20,
                       trial_length= input_length,
                       random_scaling= random_scaling,
-                      signal_strength=signal_strenth)
+                      signal_strength=signal_strength)
 
 if __name__ == "__main__": main()
