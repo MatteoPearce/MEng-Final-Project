@@ -27,6 +27,7 @@ class TrialBest():
     signal_strength: float = 1e-13
 
     random_scaling: bool = False
+    random_input_locs: bool = False
 
     NARMA_input: np.ndarray
     NARMA_output: np.ndarray
@@ -37,7 +38,7 @@ class TrialBest():
 
 #----------------------------------------------------------------------------------------------------------------------#
 
-    def __init__(self, best_Fe, best_Ni, best_Co, trials, trial_length, random_scaling, signal_strength):
+    def __init__(self, best_Fe, best_Ni, best_Co, trials, trial_length, random_scaling, signal_strength,random_input_locs):
         self.best_Fe = best_Fe
         self.best_Ni = best_Ni
         self.best_Co = best_Co
@@ -51,6 +52,8 @@ class TrialBest():
             self.random_scaling = random_scaling
         if signal_strength is not None:
             self.signal_strength = signal_strength
+        if random_input_locs is not None:
+            self.random_input_locs = random_input_locs
 
         os.mkdir(self.base_testdata_path)
         self.run_trials()
@@ -117,6 +120,7 @@ class TrialBest():
                   timeseries=scaled_input,
                   columns=int(cells_perX * cells_perY),
                   all_same=True,
+                  random_input_locs=self.random_input_locs,
                   headers=headers)
 
         new_height = scale_height(self.base_materials_path, material["material:file"], material["dimensions:system-size-z"])
@@ -235,13 +239,15 @@ def main() -> None:
 
     signal_strength = 2e-12
     random_scaling = False
-    input_length = 500
+    input_length = 1000
+    random_input_locs = False
     start = TrialBest(best_Co=best_co,
                       best_Fe=best_fe,
                       best_Ni=best_ni,
                       trials=20,
                       trial_length= input_length,
                       random_scaling= random_scaling,
+                      random_input_locs=random_input_locs,
                       signal_strength=signal_strength)
 
 if __name__ == "__main__": main()
