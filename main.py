@@ -53,7 +53,7 @@ The order of processes is:
 1. select parameters  <-----------,
 2. update input files             |
 3. run simulation                 |
-4. train model and compute NMSE   |
+4. train model and compute NRMSE   |
 5. save data _____________________/
 """
 
@@ -128,7 +128,7 @@ class MaterialEvolution():
                 else:
                     self.update_input_files()
                     self.run_simulation()
-                    self.reservoir_computing() # fitting, NMSE, save data
+                    self.reservoir_computing() # fitting, NRMSE, save data
                     self.iteration_counter += 1
                 end_time = time() # time per iteration
                 self.iteration_times.append(end_time - start_time) # time of every iteration
@@ -257,21 +257,21 @@ class MaterialEvolution():
 
     def reservoir_computing(self):
 
-        # NMSE on unseen data, NMSE on seen data, unseen trace, prediction
+        # NRMSE on unseen data, NRMSE on seen data, unseen trace, prediction
         best_result, training_result, y, y_pred = train_ridge(self.base_workdir_path,self.narma_output)
 
         # None is returned if failed to fit model. occurs if sim outputs NaNs
         if best_result is not None:
             data_to_save = {"y": y,
                             "y_pred":y_pred,
-                            "training_NMSE":training_result,
-                            "NMSE": best_result,
+                            "training_NRMSE":training_result,
+                            "NRMSE": best_result,
                             "signal_strength": self.signal_strength}
 
             # exploration params and results
             data_to_save.update(self.all_sweep_parameters.copy())
 
-            # update best combo, considering only NMSE of prediction of unseen data
+            # update best combo, considering only NRMSE of prediction of unseen data
             if best_result < self.best_result:
                 self.best_result = best_result
                 self.current_best_setup = self.all_sweep_parameters.copy()

@@ -11,13 +11,13 @@ reservoirpy.verbosity(0)
 INSTANTIATE RIDGE LAYER OF NEURONS EQUAL TO NUMBER OF CELLS. TRIAL DIFFERENT TRAINING SPLITS AND THEN PERFORM A 
 LEAVE-ONE-OUT CROSS VALIDATION. THE ASSESSMENT IS A PREDICTION TASK AND THE OPTIMISATION FUNCTION IS A RIDGE REGRESSION 
 
-The ridge instantiation, data fitting and calculating the NMSE are performed with wrapper functions from the
+The ridge instantiation, data fitting and calculating the NRMSE are performed with wrapper functions from the
 reservoirpy package (https://reservoirpy.readthedocs.io/en/latest/#).
 
-The highest NMSE achieved on unseen data is preserved and compared to each new data split. after the optimal data split 
-is found, a leave-one-out cross validation is performed to see if the NMSE can further be improved.
+The highest NRMSE achieved on unseen data is preserved and compared to each new data split. after the optimal data split 
+is found, a leave-one-out cross validation is performed to see if the NRMSE can further be improved.
 
-The best NMSE, the NMSE achieved on the training data and the traces of the prediction and original trace are returned. 
+The best NRMSE, the NRMSE achieved on the training data and the traces of the prediction and original trace are returned. 
 Both training functions call the train_cyle method for the actual training step and returns None for all if anything 
 fails. 
 
@@ -25,7 +25,7 @@ The respective links to each calculation can be found here:
 
 ridge:                  https://reservoirpy.readthedocs.io/en/latest/api/generated/reservoirpy.nodes.Ridge.html
 ridge regression:       https://reservoirpy.readthedocs.io/en/latest/api/generated/reservoirpy.compat.regression_models.RidgeRegression.html
-NMSE:                   https://reservoirpy.readthedocs.io/en/latest/api/generated/reservoirpy.observables.nrmse.html#reservoirpy.observables.nrmse
+NRMSE:                   https://reservoirpy.readthedocs.io/en/latest/api/generated/reservoirpy.observables.nrmse.html#reservoirpy.observables.nrmse
 
 all arrays are of shape (timesteps, cells). The output arrays are always longer because vampire simulates beyond the 
 requested simulation steps and therefore it needs to be clipped in dimension 0 to match the length of the input array.
@@ -62,20 +62,20 @@ def train_ridge(workdir_path: str = None, target: np.ndarray = None) -> tuple[fl
                 testing_X = output_array[lower_limit:upper_limit, :]
 
                 try:
-                    NMSE, training_NMSE, y, y_pred = train_cycle( training_X, training_y, testing_X, testing_y)
+                    NRMSE, training_NRMSE, y, y_pred = train_cycle( training_X, training_y, testing_X, testing_y)
                 except np.linalg.LinAlgError:
-                    NMSE, training_NMSE, y, y_pred = None, None, None, None
+                    NRMSE, training_NRMSE, y, y_pred = None, None, None, None
                     break
 
-                if NMSE is not None:
-                    if NMSE < best_result:
-                        best_result = NMSE
-                        best_training = training_NMSE
+                if NRMSE is not None:
+                    if NRMSE < best_result:
+                        best_result = NRMSE
+                        best_training = training_NRMSE
                         best_y = y
                         best_y_pred = y_pred
                         best_split = split
 
-            if NMSE is not None:
+            if NRMSE is not None:
 
                 print(f"\nbest split: {best_split}")
 
@@ -115,15 +115,15 @@ def train_cycle(training_X: np.ndarray,
             clipped_rerun = training_rerun[:new_limit, :]
             clipped_training_y = training_y[:new_limit, :]
 
-            NMSE = robs.nrmse(testing_y.copy(), prediction.copy(),norm="var")
-            training_NMSE = robs.nrmse(training_y.copy(),training_rerun.copy(),norm="var")
+            NRMSE = robs.nrmse(testing_y.copy(), prediction.copy(),norm="var")
+            training_NRMSE = robs.nrmse(training_y.copy(),training_rerun.copy(),norm="var")
 
             del output_node
             del fitted_output
 
-            if NMSE < best:
-                best = NMSE
-                best_training = training_NMSE
+            if NRMSE < best:
+                best = NRMSE
+                best_training = training_NRMSE
                 best_pred = prediction
                 best_y = testing_y
 

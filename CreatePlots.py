@@ -12,7 +12,7 @@ create_plot_data extracts the data from best_iterations.txt and converts strings
 3 types of plot available:
 
     XY - goes through every combination of explored params and creates cartesian plot. Currently only showed in IDE and not saved as not useful.
-    Table - parameters on X axis, best iteration number on Y axis, arranged in order of best NMSE for untested data or tested data.
+    Table - parameters on X axis, best iteration number on Y axis, arranged in order of best NRMSE for untested data or tested data.
     Material Comparison - shows comparison of best run per material via bar plots.
     
 The params to plot are passed to create_plot_data, so that plots can be easily customised.
@@ -112,17 +112,17 @@ def plot_XY(save_path: str = None, data: dict = None, variable_pair: tuple = Non
         param_combos = list(product(data_copy.keys(), repeat=2))  # itertools.permutations does not allow repititions
         param_combos = list(np.unique(param_combos, axis=0))  # remove repeated events
 
-        # remove all combos which don't contain NMSE or are only NMSE
+        # remove all combos which don't contain NRMSE or are only NRMSE
         to_delete = list()
         for index,combo in enumerate(param_combos):
-            if combo[0] != "NMSE" and combo[1] != "NMSE":
+            if combo[0] != "NRMSE" and combo[1] != "NRMSE":
                 to_delete.append(index)
-            elif combo[0] == "NMSE" and combo[1] == "NMSE":
+            elif combo[0] == "NRMSE" and combo[1] == "NRMSE":
                 to_delete.append(index)
 
             param_combos[index] = list(combo) # convert tuple to list
 
-        # # remove all combos which don't contain NMSE or are only NMSE
+        # # remove all combos which don't contain NRMSE or are only NRMSE
         for index in reversed(to_delete):
             param_combos.pop(index)
 
@@ -139,8 +139,8 @@ def plot_XY(save_path: str = None, data: dict = None, variable_pair: tuple = Non
             plt.figure(figsize=(10, 5))
             plt.title(material)
 
-            # makes sure NMSE is always on the Y axis
-            if combo[0] == 'NMSE':
+            # makes sure NRMSE is always on the Y axis
+            if combo[0] == 'NRMSE':
 
                 plt.xlabel(combo[1])
                 plt.ylabel(combo[0])
@@ -178,25 +178,25 @@ def plot_table(save_path: str = None, data: dict = None, bool = False) -> None:
             for index in index_list:
                 dict_to_plot[key].append(data_copy[key][index])
 
-        # rounds NMSE values to 4 decimal places
-        for index, item in enumerate(dict_to_plot["NMSE"]):
-            dict_to_plot["NMSE"][index] = round(item,4)
+        # rounds NRMSE values to 4 decimal places
+        for index, item in enumerate(dict_to_plot["NRMSE"]):
+            dict_to_plot["NRMSE"][index] = round(item,4)
 
-        for index, item in enumerate(dict_to_plot["training_NMSE"]):
-            dict_to_plot["training_NMSE"][index] = round(item, 4)
+        for index, item in enumerate(dict_to_plot["training_NRMSE"]):
+            dict_to_plot["training_NRMSE"][index] = round(item, 4)
 
-        # one table for NMSE on unseen data and one for NMSE on training data
-        NRMSE_list = ["training_NMSE","NMSE"]
+        # one table for NRMSE on unseen data and one for NRMSE on training data
+        NRMSE_list = ["training_NRMSE","NRMSE"]
         for index, name in enumerate(NRMSE_list):
 
-            # IMPORTANT - sorts all dict items to be in order of ascending NMSE
+            # IMPORTANT - sorts all dict items to be in order of ascending NRMSE
             dummy_dict = dict_to_plot.copy()
             for key, value in dummy_dict.items():
                 if key != name:
-                    # use NMSE as template and sort accordingly
+                    # use NRMSE as template and sort accordingly
                     dict_to_plot[key] = [x for _, x in sorted(zip(dummy_dict[name], dummy_dict[key]))]
 
-            # after sorting all other items, sort NMSE
+            # after sorting all other items, sort NRMSE
             dict_to_plot[name].sort()
 
             # iteration number is the row label and saved in separate list
@@ -246,37 +246,37 @@ def plot_table(save_path: str = None, data: dict = None, bool = False) -> None:
 
 def plot_material_comparison(save_path: str = None, data: dict = None) -> None:
 
-    # the only data needed is NMSE and material name
-    NMSE = data["NMSE"].copy()
-    training_NMSE = data["training_NMSE"].copy()
+    # the only data needed is NRMSE and material name
+    NRMSE = data["NRMSE"].copy()
+    training_NRMSE = data["training_NRMSE"].copy()
 
     labels = data["material:file"].copy()
     materials = list(Counter(labels).keys())  # extracts each material name
 
-    values = { "training_NMSE" : list(),
-               "NMSE" : list()
+    values = { "training_NRMSE" : list(),
+               "NRMSE" : list()
              }
 
-    # for every material, extract all NMSE data, find lowest and append to values dict
+    # for every material, extract all NRMSE data, find lowest and append to values dict
     for material in materials:
         index_list = list()
         for index, entry in enumerate(labels):
             if material == entry:
                 index_list.append(index)
 
-        NMSE_current_mat = list()
-        training_NMSE_current_mat = list()
+        NRMSE_current_mat = list()
+        training_NRMSE_current_mat = list()
 
         for index in index_list:
-            NMSE_current_mat.append(NMSE[index])
-            training_NMSE_current_mat.append(training_NMSE[index])
+            NRMSE_current_mat.append(NRMSE[index])
+            training_NRMSE_current_mat.append(training_NRMSE[index])
 
-        min_NMSE = min(NMSE_current_mat.copy())
-        min_training_NMSE = min(training_NMSE_current_mat)
+        min_NRMSE = min(NRMSE_current_mat.copy())
+        min_training_NRMSE = min(training_NRMSE_current_mat)
 
-        # rounds NMSE values to 4 decimal places
-        values["training_NMSE"].append(round(min_training_NMSE,4))
-        values["NMSE"].append(round(min_NMSE,4))
+        # rounds NRMSE values to 4 decimal places
+        values["training_NRMSE"].append(round(min_training_NRMSE,4))
+        values["NRMSE"].append(round(min_NRMSE,4))
 
     x = np.arange(len(materials))  # the label locations
     width = 0.25  # the width of the bars
@@ -293,7 +293,7 @@ def plot_material_comparison(save_path: str = None, data: dict = None) -> None:
 
     # add text for labels, title and custom x-axis tick labels, etc.
     ax.set_ylabel('error')
-    ax.set_title('best NMSEs by material')
+    ax.set_title('best NRMSEs by material')
     ax.set_xticks(x + width, materials)
     ax.legend(loc='upper left', ncols=3)
     ax.set_ylim(0, 10)
@@ -307,7 +307,7 @@ def plot_material_comparison(save_path: str = None, data: dict = None) -> None:
 param_names = ["material:file", "dimensions:system-size-x", "dimensions:system-size-y",
                "dimensions:system-size-z", "cells:macro-cell-size", "sim:applied-field-strength",
                "sim:applied-field-unit-vector", "sim:temperature","intrinsic magnetic damping",
-                "field intensity input scaling","iteration","training_NMSE","NMSE","signal_strength"]
+                "field intensity input scaling","iteration","training_NRMSE","NRMSE","signal_strength"]
 
 dir = "/home/matteo/Desktop/VAMPIRE_TEST_RESULTS/"
 create_plot_data(dir,param_names)

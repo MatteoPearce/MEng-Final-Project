@@ -18,9 +18,9 @@ class TrialBest():
     best_Co: dict = dict()
     current_data: dict = dict()
     materials: list = list()
-    Fe_list: dict = {"NMSE": list(), "training_NMSE": list()}
-    Ni_list: dict = {"NMSE": list(), "training_NMSE": list()}
-    Co_list: dict = {"NMSE": list(), "training_NMSE": list()}
+    Fe_list: dict = {"NRMSE": list(), "training_NRMSE": list()}
+    Ni_list: dict = {"NRMSE": list(), "training_NRMSE": list()}
+    Co_list: dict = {"NRMSE": list(), "training_NRMSE": list()}
 
     trials:int = 10
     trial_length = 500
@@ -81,16 +81,16 @@ class TrialBest():
                 self.save_data(material,trial)
 
                 if material["material:file"] == "Fe.mat":
-                    self.Fe_list["NMSE"].append(self.current_data["NMSE"])
-                    self.Fe_list["training_NMSE"].append(self.current_data["training_NMSE"])
+                    self.Fe_list["NRMSE"].append(self.current_data["NRMSE"])
+                    self.Fe_list["training_NRMSE"].append(self.current_data["training_NRMSE"])
 
                 elif material["material:file"] == "Co.mat":
-                    self.Co_list["NMSE"].append(self.current_data["NMSE"])
-                    self.Co_list["training_NMSE"].append(self.current_data["training_NMSE"])
+                    self.Co_list["NRMSE"].append(self.current_data["NRMSE"])
+                    self.Co_list["training_NRMSE"].append(self.current_data["training_NRMSE"])
 
                 elif material["material:file"] == "Ni.mat":
-                    self.Ni_list["NMSE"].append(self.current_data["NMSE"])
-                    self.Ni_list["training_NMSE"].append(self.current_data["training_NMSE"])
+                    self.Ni_list["NRMSE"].append(self.current_data["NRMSE"])
+                    self.Ni_list["training_NRMSE"].append(self.current_data["training_NRMSE"])
 
                 print("DONE")
                 print("#------------------------------------------------------------------------------#")
@@ -155,7 +155,7 @@ class TrialBest():
 
     def reservoir_computing(self):
 
-        # NMSE on unseen data, NMSE on seen data, unseen trace, prediction
+        # NRMSE on unseen data, NRMSE on seen data, unseen trace, prediction
         best_result, training_result, y, y_pred = train_ridge(self.base_workdir_path,self.NARMA_output)
 
         # None is returned if failed to fit model. occurs if sim outputs NaNs
@@ -163,8 +163,8 @@ class TrialBest():
             self.current_data = dict()
             self.current_data = {"y": y,
                                 "y_pred":y_pred,
-                                "training_NMSE":training_result,
-                                "NMSE": best_result}
+                                "training_NRMSE":training_result,
+                                "NRMSE": best_result}
 
 #----------------------------------------------------------------------------------------------------------------------#
 
@@ -197,9 +197,9 @@ class TrialBest():
 
     def make_box_plots(self):
 
-        data = [self.Fe_list["NMSE"],self.Co_list["NMSE"], self.Ni_list["NMSE"]]
-        plt.title("NMSEs of Best Runs")
-        plt.ylabel("NMSE")
+        data = [self.Fe_list["NRMSE"],self.Co_list["NRMSE"], self.Ni_list["NRMSE"]]
+        plt.title("NRMSEs of Best Runs")
+        plt.ylabel("NRMSE")
         plt.boxplot(data, notch='True', patch_artist=True, labels=['Fe', 'Co', 'Ni'])
         plt.grid(visible=True)
         plt.savefig(self.base_testdata_path + "/box_plot.png")

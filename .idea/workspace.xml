@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a4dfd85d-b366-4c78-b6bd-200915180eb4" name="Changes" comment="BIG UPDATE, FIXED REGRESSION, FIXED RIDGE, FIXED SOURCEFIELD, CHANGED INPUT">
+    <list default="true" id="a4dfd85d-b366-4c78-b6bd-200915180eb4" name="Changes" comment="Updated trial best in line with big update">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -158,15 +158,7 @@
       <workItem from="1715455577863" duration="10404000" />
       <workItem from="1715593981321" duration="26448000" />
       <workItem from="1715639712439" duration="19857000" />
-      <workItem from="1715730015229" duration="15029000" />
-    </task>
-    <task id="LOCAL-00035" summary="created UpdateMagneticDamping.py and added an extra dict with other sweep parameters, containing magnetic damping and input scaling. have not implemented latter yet">
-      <option name="closed" value="true" />
-      <created>1712076927625</created>
-      <option name="number" value="00035" />
-      <option name="presentableId" value="LOCAL-00035" />
-      <option name="project" value="LOCAL" />
-      <updated>1712076927625</updated>
+      <workItem from="1715730015229" duration="18581000" />
     </task>
     <task id="LOCAL-00036" summary="added line for scaling input based on new_other_sweep_parameters dict value">
       <option name="closed" value="true" />
@@ -552,7 +544,15 @@
       <option name="project" value="LOCAL" />
       <updated>1715782676114</updated>
     </task>
-    <option name="localTasksCounter" value="84" />
+    <task id="LOCAL-00084" summary="Updated trial best in line with big update">
+      <option name="closed" value="true" />
+      <created>1715788534347</created>
+      <option name="number" value="00084" />
+      <option name="presentableId" value="LOCAL-00084" />
+      <option name="project" value="LOCAL" />
+      <updated>1715788534347</updated>
+    </task>
+    <option name="localTasksCounter" value="85" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -571,7 +571,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="tidied and commented ComputeIterations.py" />
     <MESSAGE value="tidied and commented CreateCellPics.py" />
     <MESSAGE value="tidied and commented CreatePlots" />
     <MESSAGE value="tidied and commented CreateVideo.py" />
@@ -596,7 +595,8 @@
     <MESSAGE value="Created Trial Best" />
     <MESSAGE value="changed a few function names" />
     <MESSAGE value="BIG UPDATE, FIXED REGRESSION, FIXED RIDGE, FIXED SOURCEFIELD, CHANGED INPUT" />
-    <option name="LAST_COMMIT_MESSAGE" value="BIG UPDATE, FIXED REGRESSION, FIXED RIDGE, FIXED SOURCEFIELD, CHANGED INPUT" />
+    <MESSAGE value="Updated trial best in line with big update" />
+    <option name="LAST_COMMIT_MESSAGE" value="Updated trial best in line with big update" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/MEng_Project_Matteo_Pearce$TrialBest.coverage" NAME="TrialBest Coverage Results" MODIFIED="1715756132018" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />

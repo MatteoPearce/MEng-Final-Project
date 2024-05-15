@@ -2,7 +2,7 @@ import os
 
 """
 EXTRACTS DATA FROM ALL ACCURACY SCORES FILES AND WRITES TO best_iterations.txt, WHICH IS USED BY CreatePlots.py TO
-PLOT NMSE DATA.
+PLOT NRMSE DATA.
 
 threshold set manually to modify depth of data.
 """
@@ -29,12 +29,12 @@ def recoup_data(test_data_path: str, threshold: float = None, training: bool = F
 
                         for line in new_data:
                             if training:
-                                if "training_NMSE" in line:
+                                if "training_NRMSE" in line:
                                     nmse = float(line.split(": ")[1])
                                     break
                             else:
-                                if "NMSE" in line :
-                                    if "training_NMSE" in line:
+                                if "NRMSE" in line :
+                                    if "training_NRMSE" in line:
                                         pass
                                     else:
                                         nmse = float(line.split(": ")[1])
