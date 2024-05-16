@@ -44,9 +44,12 @@ def train_ridge(workdir_path: str = None, target: np.ndarray = None) -> tuple[fl
                                             workdir_path + "/reservoir_output.txt") # get input and output files
 
             # MIN-MAX normalisation step. RR works poorly on really small values
-            target = (target - target.min()) / (target.max() - target.min())
-            #target = np.tile(target, (1, output_array.shape[1]))  # repeat timeseries for every cell
-            output_array = (output_array - output_array.min()) / (output_array.max() - output_array.min())
+
+            log_target = np.log1p(target)  # Logarithmic transformation with added 1 to handle zeros
+            log_training = np.log1p(output_array)
+
+            standardized_target = (log_target - np.mean(log_target)) / np.std(log_target)
+            standardized_training = (log_training - np.mean(log_training)) / np.std(log_training)
 
             best_result = np.inf
             best_split = 0
@@ -56,10 +59,11 @@ def train_ridge(workdir_path: str = None, target: np.ndarray = None) -> tuple[fl
                 lower_limit = int(split * target.shape[0])
                 upper_limit = target.shape[0]
 
-                training_y = target[:lower_limit]
-                training_X = output_array[:lower_limit, :]
-                testing_y = target[lower_limit:]
-                testing_X = output_array[lower_limit:upper_limit, :]
+                training_y = standardized_target[:lower_limit]
+                training_X = standardized_training[1:lower_limit, :] # shift by 1 to ensure causality
+                training_X = np.insert(training_X, 0,0, axis=0)
+                testing_y = standardized_target[lower_limit:]
+                testing_X = standardized_training[lower_limit:upper_limit, :]
 
                 try:
                     NRMSE, training_NRMSE, y, y_pred = train_cycle( training_X, training_y, testing_X, testing_y)
@@ -79,9 +83,6 @@ def train_ridge(workdir_path: str = None, target: np.ndarray = None) -> tuple[fl
 
                 print(f"\nbest split: {best_split}")
 
-                best_y = best_y - 0.5 # centre around 0
-                best_y_pred = best_y_pred - 0.5
-
                 return best_result, best_training, best_y, best_y_pred
 
             else:
@@ -93,7 +94,7 @@ def train_cycle(training_X: np.ndarray,
                 testing_X: np.ndarray,
                 testing_y: np.ndarray) -> [float,float,np.ndarray,np.ndarray]:
 
-    ridges = [10e0,10e-1,10e-2,10e-3,10e-4,10e-5,10e-6,10e-7,10e-8,10e-9,10e-10,10e-11,10e-12,10e-13,10e-14,10e-15]
+    ridges = [0]#[10e0,10e-1,10e-2,10e-3,10e-4,10e-5,10e-6,10e-7,10e-8,10e-9,10e-10,10e-11,10e-12,10e-13,10e-14,10e-15]
 
     best = np.inf
     best_training = None
@@ -104,16 +105,9 @@ def train_cycle(training_X: np.ndarray,
 
         output_node = Ridge(output_dim=testing_y.shape[1],ridge=ridge)
         try: # sometimes vampire outputs are NAN. using try statement mitigates crashes and deems this combination a failure
-            fitted_output = output_node.fit(training_X, training_y, warmup=200)
+            fitted_output = output_node.fit(training_X, training_y, warmup=500)
             prediction = fitted_output.run(testing_X)
             training_rerun = fitted_output.run(training_X)
-            clip_size = 2 # last two datapoints are often massive offshoots
-            new_limit = testing_y.shape[0] - clip_size
-            clipped_prediction = prediction[:new_limit, :]
-            clipped_testing_y = testing_y[:new_limit, :]
-
-            clipped_rerun = training_rerun[:new_limit, :]
-            clipped_training_y = training_y[:new_limit, :]
 
             NRMSE = robs.nrmse(testing_y.copy(), prediction.copy(),norm="var")
             training_NRMSE = robs.nrmse(training_y.copy(),training_rerun.copy(),norm="var")
@@ -126,9 +120,13 @@ def train_cycle(training_X: np.ndarray,
                 best_training = training_NRMSE
                 best_pred = prediction
                 best_y = testing_y
+                best_ridge = ridge
 
-        except ValueError:
+        except ValueError as e:
+            print(e)
             return None, None, None, None
+
+    print(f"\nbest ridge: {best_ridge}")
 
     return best, best_training, best_y, best_pred
 

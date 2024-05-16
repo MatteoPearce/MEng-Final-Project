@@ -79,7 +79,7 @@ class MaterialEvolution():
                                     "dimensions:system-size-x" : [49],
                                     "dimensions:system-size-y" : [49],
                                     "dimensions:system-size-z" : [4],
-                                    "cells:macro-cell-size" : [5],
+                                    "cells:macro-cell-size" : [5,10],
                                     "sim:applied-field-strength" : [0],
                                     "sim:applied-field-unit-vector": [(0,0,1)],
                                     "sim:temperature" : [0]} # input file parameters and the values to explore.
@@ -91,8 +91,8 @@ class MaterialEvolution():
                               "sim:applied-field-strength" : " !T",
                               "sim:applied-field-unit-vector": "",
                               "sim:temperature" : ""} # default units for input file parameters. must mirror input_file_parameters keys
-    other_sweep_parameters: dict = { "intrinsic magnetic damping" : [0.001,0.01,0.1],
-                                   "field intensity input scaling": [-3,-2.5,-2,-1.5,-1,-0.5,0.5,1,1.5,2,2.5,3]} # non-input-file parameters to explore
+    other_sweep_parameters: dict = { "intrinsic magnetic damping" : [0.001,0.005,0.01,0.05,0.1,0.2,0.3,0.4,0.5],
+                                   "field intensity input scaling": [1,-2.5,-2,-1.5,-1,-0.5,0.5,1,1.5,2,2.5,3]} # non-input-file parameters to explore
     all_sweep_parameters: dict = dict() # collation of input_file_parameters and other_sweep_parameters
     new_input_file_parameters: dict = dict() # current combination of input file exploration parameters. new with every iteration
     new_other_sweep_parameters: dict = dict() # current combination of non-input-file exploration parameters. new with every iteration
