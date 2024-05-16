@@ -105,7 +105,7 @@ def train_cycle(training_X: np.ndarray,
 
         output_node = Ridge(output_dim=testing_y.shape[1],ridge=ridge)
         try: # sometimes vampire outputs are NAN. using try statement mitigates crashes and deems this combination a failure
-            fitted_output = output_node.fit(training_X, training_y, warmup=500)
+            fitted_output = output_node.fit(training_X, training_y, warmup=int(training_y.shape[0]/5))
             prediction = fitted_output.run(testing_X)
             training_rerun = fitted_output.run(training_X)
 
