@@ -296,7 +296,7 @@ def plot_material_comparison(save_path: str = None, data: dict = None) -> None:
     ax.set_title('best NRMSEs by material')
     ax.set_xticks(x + width, materials)
     ax.legend(loc='upper left', ncols=3)
-    ax.set_ylim(0, 10)
+    ax.set_ylim(0, 3)
 
     plt.grid(visible=True)
     plt.savefig(save_path + "/materials_comparison")

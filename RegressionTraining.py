@@ -94,7 +94,7 @@ def train_cycle(training_X: np.ndarray,
                 testing_X: np.ndarray,
                 testing_y: np.ndarray) -> [float,float,np.ndarray,np.ndarray]:
 
-    ridges = [0,10e0,10e-1,10e-2,10e-3,10e-4,10e-5,10e-6,10e-7,10e-8,10e-9,10e-10,10e-11,10e-12,10e-13,10e-14,10e-15]
+    ridges = [10e-1,10e-2,10e-3,0]
 
     best = np.inf
     best_training = None
@@ -122,11 +122,12 @@ def train_cycle(training_X: np.ndarray,
                 best_y = testing_y
                 best_ridge = ridge
 
+
         except ValueError as e:
             print(e)
             return None, None, None, None
 
-    print(f"\nbest ridge: {best_ridge}")
+    #print(f"\nbest ridge: {best_ridge}")
 
     return best, best_training, best_y, best_pred
 
