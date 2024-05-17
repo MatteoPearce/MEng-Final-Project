@@ -94,7 +94,7 @@ def train_cycle(training_X: np.ndarray,
                 testing_X: np.ndarray,
                 testing_y: np.ndarray) -> [float,float,np.ndarray,np.ndarray]:
 
-    ridges = [10e-1,10e-2,10e-3,0]
+    ridges = [0]#[10e-2,10e-3,10e-4,0]
 
     best = np.inf
     best_training = None

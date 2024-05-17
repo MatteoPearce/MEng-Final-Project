@@ -198,10 +198,14 @@ def plot_table(save_path: str = None, data: dict = None, bool = False) -> None:
 
             # after sorting all other items, sort NRMSE
             dict_to_plot[name].sort()
+            dummy_dict_to_plot = dict()
+
+            for index, key in enumerate(dict_to_plot.keys()):
+                dummy_dict_to_plot[key] = dict_to_plot[key][:10]
 
             # iteration number is the row label and saved in separate list
-            iterations = dict_to_plot["iteration"].copy()
-            dummy_dict_to_plot = dict_to_plot.copy()
+            iterations = dummy_dict_to_plot["iteration"].copy()
+            #dummy_dict_to_plot = dict_to_plot.copy()
             dummy_dict_to_plot.pop("iteration")
 
             # create table in the form of a matrix
@@ -210,7 +214,7 @@ def plot_table(save_path: str = None, data: dict = None, bool = False) -> None:
             # reshape into rows and columns of size: N_datapoints x params
             for index,key in enumerate(dummy_dict_to_plot.keys()):
                 row = np.array(dummy_dict_to_plot[key])
-                row = row.reshape((len(index_list),1))
+                row = row.reshape((10,1))
                 if index == 0:
                     matrix = row
                 else:
@@ -229,7 +233,7 @@ def plot_table(save_path: str = None, data: dict = None, bool = False) -> None:
                      rotation_mode="anchor") # rotate names to fit
 
             # Loop over data dimensions and create text annotations.
-            for i in range(len(iterations)):
+            for i in range(10):
                 for j in range(len(valid_fields)):
                     text = ax.text(j, i, str(matrix[i, j]),
                                    ha="center", va="center", color="w")
@@ -309,5 +313,5 @@ param_names = ["material:file", "dimensions:system-size-x", "dimensions:system-s
                "sim:applied-field-unit-vector", "sim:temperature","intrinsic magnetic damping",
                 "field intensity input scaling","iteration","training_NRMSE","NRMSE","signal_strength"]
 
-dir = "/home/matteo/Desktop/VAMPIRE_TEST_RESULTS/"
+dir = "/home/matteo/Desktop/VAMPIRE_TEST_RESULTS"
 create_plot_data(dir,param_names)

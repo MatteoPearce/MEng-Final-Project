@@ -62,5 +62,5 @@ def recoup_data(test_data_path: str, threshold: float = None, training: bool = F
 
 #----------------------------------------------------------------------------------------------------------------------#
 
-dir = "/home/matteo/Desktop/VAMPIRE_TEST_RESULTS/"
-recoup_data(dir , threshold=10)
+dir = "/home/matteo/Desktop/VAMPIRE_TEST_RESULTS"
+recoup_data(dir , threshold=None)

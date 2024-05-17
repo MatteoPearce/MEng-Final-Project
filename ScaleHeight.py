@@ -30,4 +30,5 @@ def scale_height(file_path: str = None, material: str = None, height: float = No
             return height
         else:
             scaled_height = int(height / unit_cell_size) * unit_cell_size # return multiple.
+            scaled_height = round(scaled_height, 4)
             return scaled_height

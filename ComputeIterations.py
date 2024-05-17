@@ -13,9 +13,7 @@ unique, quit and return number of combos.
 
 def compute_iterations(workdir_path: str, input_file_parameters: dict, other_sweep_parameters: dict) -> int:
 
-    all_sweep_parameters = dict() # combo of input file and other sweep params
     tried_combos = list() # list of unique combos
-
     searching_combos = True # False when no unique combos found
     attempts = 0 # counter
 
@@ -24,13 +22,14 @@ def compute_iterations(workdir_path: str, input_file_parameters: dict, other_swe
             # will populate with randomly generated selection of params
             new_input_file_parameters = dict()
             new_other_sweep_parameters = dict()
+            all_sweep_parameters = dict()  # combo of input file and other sweep params
 
             for key,value in input_file_parameters.items():
                 number = randint(0,len(value)-1) # populate with random values from available params
                 new_input_file_parameters[key] = value[number]
 
             # check that height is multiple of unit cell
-            new_height = scale_height(workdir_path, new_input_file_parameters["dimensions:system-size-z"])
+            new_height = scale_height(workdir_path,new_input_file_parameters["material:file"], new_input_file_parameters["dimensions:system-size-z"])
             new_input_file_parameters["dimensions:system-size-z"] = new_height
 
             # check that x and y dims are multiple of cell length
@@ -61,10 +60,11 @@ def compute_iterations(workdir_path: str, input_file_parameters: dict, other_swe
 
             if unique:
                 tried_combos.append(all_sweep_parameters.copy())
+                attempts = 0
+            else:
+                attempts += 1
 
             if attempts >= 10000: #10k is arbitrary, might need to be more if very large search
                 searching_combos = False
-
-            attempts += 1
 
     return len(tried_combos)
