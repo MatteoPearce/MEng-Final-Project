@@ -72,13 +72,13 @@ class MaterialEvolution():
     random_input_locs: bool = False
     signal_strength: float = 1.0
     best_result = np.inf # current best, starts at "infinity", 0 being desirable
-    base_workdir_path: str = "/users/mp1432/scratch/VAMPIRE_WORKDIR2" # working directory with materials folder and vampire binary "/home/matteo/Desktop/VAMPIRE_WORKDIR"
-    base_materials_path: str = "/users/mp1432/scratch/VAMPIRE_WORKDIR2/Materials" # materials folder in working directory "/home/matteo/Desktop/VAMPIRE_WORKDIR/Materials"
-    base_testdata_path: str = "/users/mp1432/scratch/VAMPIRE_TEST_RESULTS2" # results depot "/home/matteo/Desktop/VAMPIRE_TEST_RESULTS"
-    input_file_parameters: dict = { "material:file" : ["Ni.mat"], #"Fe.mat"], #"Co.mat"],#,"Fe.mat","Ni.mat"],
+    base_workdir_path: str = "/users/mp1432/scratch/VAMPIRE_WORKDIR3" # working directory with materials folder and vampire binary "/home/matteo/Desktop/VAMPIRE_WORKDIR"
+    base_materials_path: str = "/users/mp1432/scratch/VAMPIRE_WORKDIR3/Materials" # materials folder in working directory "/home/matteo/Desktop/VAMPIRE_WORKDIR/Materials"
+    base_testdata_path: str = "/users/mp1432/scratch/VAMPIRE_TEST_RESULTS3" # results depot "/home/matteo/Desktop/VAMPIRE_TEST_RESULTS"
+    input_file_parameters: dict = { "material:file" : ["Fe.mat"], #"Co.mat"],#,"Fe.mat","Ni.mat"],
                                     "dimensions:system-size-x" : [49],
                                     "dimensions:system-size-y" : [49],
-                                    "dimensions:system-size-z" : [3.524,7.048],
+                                    "dimensions:system-size-z" : [2.866,5.732],
                                     "cells:macro-cell-size" : [2,2.5],
                                     "sim:applied-field-strength" : [0],
                                     "sim:applied-field-unit-vector": [(0,0,1)],
