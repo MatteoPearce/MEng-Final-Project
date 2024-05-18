@@ -57,10 +57,11 @@ def create_plot_data(test_path: str = None, parameter_names: list = None, plot_a
         for key in parameters.keys():
             counter = 0
             for i in range(len(parameters[key])-1):
-                if parameters[key][i] != parameters[key][i+1]: # if even 1 difference between two iterations, keep param
-                    break
-                else:
-                    counter += 1 # counter increments every time two param data are the same
+                if key != "material:file": # without this single materials can't be plotted
+                    if parameters[key][i] != parameters[key][i+1]: # if even 1 difference between two iterations, keep param
+                        break
+                    else:
+                        counter += 1 # counter increments every time two param data are the same
 
             if counter == len(parameters[key])-1: # if counter == length of data for one param -> all same
                 to_delete.append(key) # delete that param
@@ -300,7 +301,7 @@ def plot_material_comparison(save_path: str = None, data: dict = None) -> None:
     ax.set_title('best NRMSEs by material')
     ax.set_xticks(x + width, materials)
     ax.legend(loc='upper left', ncols=3)
-    ax.set_ylim(0, 3)
+    ax.set_ylim(0, 20)
 
     plt.grid(visible=True)
     plt.savefig(save_path + "/materials_comparison")
@@ -313,5 +314,6 @@ param_names = ["material:file", "dimensions:system-size-x", "dimensions:system-s
                "sim:applied-field-unit-vector", "sim:temperature","intrinsic magnetic damping",
                 "field intensity input scaling","iteration","training_NRMSE","NRMSE","signal_strength"]
 
-dir = "/home/matteo/Desktop/VAMPIRE_TEST_RESULTS/C2"
+dir = "/home/matteo/Desktop/VAMPIRE_TEST_RESULTS/"
+dir = "/home/matteo/Downloads/testMEng/"
 create_plot_data(dir,param_names)
