@@ -48,7 +48,7 @@ def train_ridge(workdir_path: str = None, target: np.ndarray = None) -> tuple[fl
             log_target = np.log1p(target)  # Logarithmic transformation with added 1 to handle zeros
             log_training = np.log1p(output_array)
 
-            standardized_target = (log_target - np.mean(log_target)) / np.std(log_target)
+            standardized_target = (log_target - np.mean(log_training)) / np.std(log_training) #(log_target - np.mean(log_target)) / np.std(log_target)
             standardized_training = (log_training - np.mean(log_training)) / np.std(log_training)
 
             best_result = np.inf
@@ -59,9 +59,10 @@ def train_ridge(workdir_path: str = None, target: np.ndarray = None) -> tuple[fl
                 lower_limit = int(split * target.shape[0])
                 upper_limit = target.shape[0]
 
-                training_y = standardized_target[:lower_limit]
-                training_X = standardized_training[1:lower_limit, :] # shift by 1 to ensure causality
-                training_X = np.insert(training_X, 0,0, axis=0)
+                training_y = standardized_target[1:lower_limit]
+                training_y = np.insert(training_y, 0, 0, axis=0)
+                training_X = standardized_training[:lower_limit, :] # shift by 1 to ensure causality
+                #training_X = np.insert(training_X, 0,0, axis=0)
                 testing_y = standardized_target[lower_limit:]
                 testing_X = standardized_training[lower_limit:upper_limit, :]
 
@@ -94,7 +95,7 @@ def train_cycle(training_X: np.ndarray,
                 testing_X: np.ndarray,
                 testing_y: np.ndarray) -> [float,float,np.ndarray,np.ndarray]:
 
-    ridges = [0]#[10e-2,10e-3,10e-4,0]
+    ridges = [1e-15]#[10e-2,10e-3,10e-4,0]
 
     best = np.inf
     best_training = None
@@ -103,9 +104,10 @@ def train_cycle(training_X: np.ndarray,
 
     for ridge in ridges:
 
-        output_node = Ridge(output_dim=testing_y.shape[1],ridge=ridge)
+        output_node = Ridge() #Ridge(output_dim=testing_y.shape[1],ridge=ridge)
         try: # sometimes vampire outputs are NAN. using try statement mitigates crashes and deems this combination a failure
             fitted_output = output_node.fit(training_X, training_y, warmup=int(training_y.shape[0]/5))
+
             prediction = fitted_output.run(testing_X)
             training_rerun = fitted_output.run(training_X)
 

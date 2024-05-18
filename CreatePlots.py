@@ -313,5 +313,5 @@ param_names = ["material:file", "dimensions:system-size-x", "dimensions:system-s
                "sim:applied-field-unit-vector", "sim:temperature","intrinsic magnetic damping",
                 "field intensity input scaling","iteration","training_NRMSE","NRMSE","signal_strength"]
 
-dir = "/home/matteo/Desktop/VAMPIRE_TEST_RESULTS"
+dir = "/home/matteo/Desktop/VAMPIRE_TEST_RESULTS/C2"
 create_plot_data(dir,param_names)

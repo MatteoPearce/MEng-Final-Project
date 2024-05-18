@@ -78,7 +78,7 @@ class MaterialEvolution():
     input_file_parameters: dict = { "material:file" : ["Co.mat","Fe.mat","Ni.mat"],
                                     "dimensions:system-size-x" : [49],
                                     "dimensions:system-size-y" : [49],
-                                    "dimensions:system-size-z" : [4,8],
+                                    "dimensions:system-size-z" : [4],
                                     "cells:macro-cell-size" : [5,10],
                                     "sim:applied-field-strength" : [0],
                                     "sim:applied-field-unit-vector": [(0,0,1)],

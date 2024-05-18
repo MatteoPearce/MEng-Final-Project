@@ -34,7 +34,7 @@ class TrialBest():
 
     base_workdir_path: str = "/home/matteo/Desktop/VAMPIRE_WORKDIR"  # working directory with materials folder and vampire binary
     base_materials_path: str = "/home/matteo/Desktop/VAMPIRE_WORKDIR/Materials"  # materials folder in working directory
-    base_testdata_path: str = "/home/matteo/Desktop/VAMPIRE_TEST_RESULTS/A1/best test"  # results depot
+    base_testdata_path: str = "/home/matteo/Desktop/VAMPIRE_TEST_RESULTS/A2/best test"  # results depot
 
 #----------------------------------------------------------------------------------------------------------------------#
 
@@ -213,11 +213,11 @@ def main() -> None:
     best_co: dict = {"material:file": "Co.mat",
                                    "dimensions:system-size-x": 49,
                                    "dimensions:system-size-y": 49,
-                                   "dimensions:system-size-z": 2.507,
+                                   "dimensions:system-size-z": 7.521,
                                    "cells:macro-cell-size": 10,
                                    "sim:temperature": 0,
                                    "intrinsic magnetic damping": 0.001,
-                                   "field intensity input scaling": -2.5}
+                                   "field intensity input scaling": 2.5}
 
     best_fe: dict = {"material:file": "Fe.mat",
                      "dimensions:system-size-x": 49,
@@ -225,7 +225,7 @@ def main() -> None:
                      "dimensions:system-size-z": 2.866,
                      "cells:macro-cell-size": 10,
                      "sim:temperature": 0,
-                     "intrinsic magnetic damping": 0.3,
+                     "intrinsic magnetic damping": 0.05,
                      "field intensity input scaling": 2.0}
 
     best_ni: dict = {"material:file": "Ni.mat",
@@ -234,17 +234,17 @@ def main() -> None:
                      "dimensions:system-size-z": 3.524,
                      "cells:macro-cell-size": 10,
                      "sim:temperature": 0,
-                     "intrinsic magnetic damping": 0.5,
-                     "field intensity input scaling": -2}
+                     "intrinsic magnetic damping": 0.001,
+                     "field intensity input scaling": 3.0}
 
     signal_strength = 1
-    random_scaling = True
+    random_scaling = False
     input_length = 1000
-    random_input_locs = True
+    random_input_locs = False
     start = TrialBest(best_Co=best_co,
                       best_Fe=best_fe,
                       best_Ni=best_ni,
-                      trials=20,
+                      trials=40,
                       trial_length= input_length,
                       random_scaling= random_scaling,
                       random_input_locs=random_input_locs,
