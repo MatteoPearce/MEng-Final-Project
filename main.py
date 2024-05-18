@@ -72,9 +72,9 @@ class MaterialEvolution():
     random_input_locs: bool = False
     signal_strength: float = 1.0
     best_result = np.inf # current best, starts at "infinity", 0 being desirable
-    base_workdir_path: str = "/users/mp1432/scratch/VAMPIRE_WORKDIR2" # working directory with materials folder and vampire binary "/home/matteo/Desktop/VAMPIRE_WORKDIR"
-    base_materials_path: str = "/users/mp1432/scratch/VAMPIRE_WORKDIR2/Materials" # materials folder in working directory "/home/matteo/Desktop/VAMPIRE_WORKDIR/Materials"
-    base_testdata_path: str = "/users/mp1432/scratch/VAMPIRE_TEST_RESULTS2" # results depot "/home/matteo/Desktop/VAMPIRE_TEST_RESULTS"
+    base_workdir_path: str = "/users/mp1432/scratch/VAMPIRE_WORKDIR5" # working directory with materials folder and vampire binary "/home/matteo/Desktop/VAMPIRE_WORKDIR"
+    base_materials_path: str = "/users/mp1432/scratch/VAMPIRE_WORKDIR5/Materials" # materials folder in working directory "/home/matteo/Desktop/VAMPIRE_WORKDIR/Materials"
+    base_testdata_path: str = "/users/mp1432/scratch/VAMPIRE_TEST_RESULTS5" # results depot "/home/matteo/Desktop/VAMPIRE_TEST_RESULTS"
     input_file_parameters: dict = { "material:file" : ["Co.mat"], #,"Fe.mat","Ni.mat"],
                                     "dimensions:system-size-x" : [49],
                                     "dimensions:system-size-y" : [49],
@@ -82,7 +82,7 @@ class MaterialEvolution():
                                     "cells:macro-cell-size" : [2,2.5],
                                     "sim:applied-field-strength" : [0],
                                     "sim:applied-field-unit-vector": [(0,0,1)],
-                                    "sim:temperature" : [0]} # input file parameters and the values to explore.
+                                    "sim:temperature" : [309.65]} # input file parameters and the values to explore.
     input_file_units: dict = { "material:file" : "",
                               "dimensions:system-size-x" : " !nm",
                               "dimensions:system-size-y" : " !nm",
