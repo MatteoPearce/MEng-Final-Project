@@ -1,11 +1,7 @@
-import reservoirpy
-from reservoirpy.nodes import Ridge
-from reservoirpy import observables as robs
 import numpy as np
 from tqdm import tqdm
 from ExtractReservoirIO import extract_reservoir_IO as ERO
 import os
-reservoirpy.verbosity(0)
 
 """
 INSTANTIATE RIDGE LAYER OF NEURONS EQUAL TO NUMBER OF CELLS. TRIAL DIFFERENT TRAINING SPLITS AND THEN PERFORM A 
@@ -21,17 +17,11 @@ The best NRMSE, the NRMSE achieved on the training data and the traces of the pr
 Both training functions call the train_cyle method for the actual training step and returns None for all if anything 
 fails. 
 
-The respective links to each calculation can be found here:
-
-ridge:                  https://reservoirpy.readthedocs.io/en/latest/api/generated/reservoirpy.nodes.Ridge.html
-ridge regression:       https://reservoirpy.readthedocs.io/en/latest/api/generated/reservoirpy.compat.regression_models.RidgeRegression.html
-NRMSE:                   https://reservoirpy.readthedocs.io/en/latest/api/generated/reservoirpy.observables.nrmse.html#reservoirpy.observables.nrmse
-
 all arrays are of shape (timesteps, cells). The output arrays are always longer because vampire simulates beyond the 
 requested simulation steps and therefore it needs to be clipped in dimension 0 to match the length of the input array.
 """
 
-def train_ridge(workdir_path: str = None, target: np.ndarray = None) -> tuple[float,float,np.ndarray,np.ndarray]:
+def train_ridge(workdir_path: str = None, target: np.ndarray = None, signal_strength: float = None) -> tuple[any,any,any,any]:
 
     if workdir_path is not None:
 
@@ -43,16 +33,7 @@ def train_ridge(workdir_path: str = None, target: np.ndarray = None) -> tuple[fl
             throwaway, output_array = ERO(workdir_path + "/sourcefield.txt",
                                             workdir_path + "/reservoir_output.txt") # get input and output files
 
-            # MIN-MAX normalisation step. RR works poorly on really small values
-
-            log_target = np.log1p(target)  # Logarithmic transformation with added 1 to handle zeros
-            log_training = np.log1p(output_array)
-
-            standardized_target = (log_target - np.mean(log_training)) / np.std(log_training) #(log_target - np.mean(log_target)) / np.std(log_target)
-            standardized_training = (log_training - np.mean(log_training)) / np.std(log_training)
-
-            a = np.mean(log_training)
-            b = np.std(log_training)
+            output_array = (output_array / signal_strength)
 
             best_result = np.inf
             best_split = 0
@@ -62,15 +43,14 @@ def train_ridge(workdir_path: str = None, target: np.ndarray = None) -> tuple[fl
                 lower_limit = int(split * target.shape[0])
                 upper_limit = target.shape[0]
 
-                training_y = standardized_target[1:lower_limit]
-                training_y = np.insert(training_y, 0, 0, axis=0)
-                training_X = standardized_training[:lower_limit, :] # shift by 1 to ensure causality
-                #training_X = np.insert(training_X, 0,0, axis=0)
-                testing_y = standardized_target[lower_limit:]
-                testing_X = standardized_training[lower_limit:upper_limit, :]
+                training_y = target[1:lower_limit]
+                training_y = np.insert(training_y, 0, 0, axis=0)  # shift by 1 to ensure causality
+                training_X = output_array[:lower_limit, :]
+                testing_y = target[lower_limit:]
+                testing_X = output_array[lower_limit:upper_limit, :]
 
                 try:
-                    NRMSE, training_NRMSE, y, y_pred = train_cycle( training_X, training_y, testing_X, testing_y,a,b)
+                    NRMSE, training_NRMSE, y, y_pred = train_cycle( training_X, training_y, testing_X, testing_y,signal_strength)
                 except np.linalg.LinAlgError:
                     NRMSE, training_NRMSE, y, y_pred = None, None, None, None
                     break
@@ -86,8 +66,10 @@ def train_ridge(workdir_path: str = None, target: np.ndarray = None) -> tuple[fl
             if NRMSE is not None:
 
                 print(f"\nbest split: {best_split}")
-
-                return best_result, best_training, best_y, best_y_pred
+                try:
+                    return best_result, best_training, best_y, best_y_pred
+                except:
+                    return None, None, None, None
 
             else:
                 return None, None, None, None
@@ -96,9 +78,10 @@ def train_ridge(workdir_path: str = None, target: np.ndarray = None) -> tuple[fl
 def train_cycle(training_X: np.ndarray,
                 training_y: np.ndarray,
                 testing_X: np.ndarray,
-                testing_y: np.ndarray,a,b) -> [float,float,np.ndarray,np.ndarray]:
+                testing_y: np.ndarray,
+                signal_strength: float) -> [float,float,np.ndarray,np.ndarray]:
 
-    stop = training_X.shape[1]
+    stop = signal_strength * training_X.shape[1]
     ridges = np.linspace(0,stop,10,endpoint=True)
 
     best = np.inf
@@ -106,37 +89,36 @@ def train_cycle(training_X: np.ndarray,
     best_y = None
     best_pred = None
 
-    for ridge in ridges:
+    for RIDGE in ridges:
 
-        output_node = Ridge(ridge=ridge)
         try: # sometimes vampire outputs are NAN. using try statement mitigates crashes and deems this combination a failure
-            fitted_output = output_node.fit(training_X, training_y, warmup=int(training_y.shape[0]/5))
 
-            prediction = fitted_output.run(testing_X)
-            training_rerun = fitted_output.run(training_X)
+            term1 = np.dot(training_y.transpose(), training_X)
+            term1_5 = np.dot(training_X.transpose(), training_X).astype(np.float64)
+            identity_Size = term1_5.shape
+            term2 = np.linalg.inv(term1_5 + np.dot(RIDGE,np.ones(identity_Size)))
+            Wout = np.dot(term1,term2)
 
-            PREDICTION = (prediction * b) + a
-            TEST_Y = (testing_y * b) + a
-            RERUN = (training_rerun * b) + a
-            TRAIN_Y = (training_y * b) + a
+            prediction = np.dot(testing_X , Wout.transpose())
+            training_rerun = np.dot(training_X, Wout.transpose())
 
-            NRMSE = robs.nrmse(TEST_Y.copy(), PREDICTION.copy(),norm="var")
-            training_NRMSE = robs.nrmse(TRAIN_Y.copy(),RERUN.copy(),norm="var")
-
-            del output_node
-            del fitted_output
+            NRMSE = np.sqrt( (np.mean((prediction.copy() - testing_y.copy()) ** 2)) / np.var(testing_y))
+            training_NRMSE = np.sqrt( (np.mean((training_rerun.copy() - training_y.copy()) ** 2)) / np.var(training_y))
 
             if NRMSE < best:
                 best = NRMSE
                 best_training = training_NRMSE
-                best_pred = PREDICTION
-                best_y = TEST_Y
-                best_ridge = ridge
+                best_pred = prediction.copy()
+                best_y = testing_y.copy()
+                best_ridge = RIDGE
 
 
         except ValueError as e:
             print(e)
-            return None, None, None, None
+            if best is not None:
+                return best, best_training, best_y, best_pred
+            else:
+                return None, None, None, None
 
     print(f"\nbest ridge: {best_ridge}")
 

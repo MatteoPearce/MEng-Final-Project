@@ -7,7 +7,7 @@ PLOT NRMSE DATA.
 threshold set manually to modify depth of data.
 """
 
-def recoup_data(test_data_path: str, threshold: float = None, training: bool = False):
+def recoup_data(test_data_path: str, threshold: float = None):
 
     all_data = str()
 
@@ -28,17 +28,13 @@ def recoup_data(test_data_path: str, threshold: float = None, training: bool = F
                     if threshold is not None: # if threshold is specified, check
 
                         for line in new_data:
-                            if training:
+
+                            if "NRMSE" in line :
                                 if "training_NRMSE" in line:
+                                    pass
+                                else:
                                     nmse = float(line.split(": ")[1])
                                     break
-                            else:
-                                if "NRMSE" in line :
-                                    if "training_NRMSE" in line:
-                                        pass
-                                    else:
-                                        nmse = float(line.split(": ")[1])
-                                        break
 
                         if nmse < threshold:
 
@@ -63,5 +59,4 @@ def recoup_data(test_data_path: str, threshold: float = None, training: bool = F
 #----------------------------------------------------------------------------------------------------------------------#
 
 dir = "/home/matteo/Desktop/VAMPIRE_TEST_RESULTS/"
-dir = "/home/matteo/Downloads/testMEng/"
 recoup_data(dir , threshold=None)

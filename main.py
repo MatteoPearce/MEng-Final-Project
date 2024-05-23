@@ -72,17 +72,17 @@ class MaterialEvolution():
     random_input_locs: bool = False
     signal_strength: float = 1.0
     best_result = np.inf # current best, starts at "infinity", 0 being desirable
-    base_workdir_path: str = "/users/mp1432/scratch/VAMPIRE_WORKDIR7" # working directory with materials folder and vampire binary "/home/matteo/Desktop/VAMPIRE_WORKDIR"
-    base_materials_path: str = "/users/mp1432/scratch/VAMPIRE_WORKDIR7/Materials" # materials folder in working directory "/home/matteo/Desktop/VAMPIRE_WORKDIR/Materials"
-    base_testdata_path: str = "/users/mp1432/scratch/VAMPIRE_TEST_RESULTS7" # results depot "/home/matteo/Desktop/VAMPIRE_TEST_RESULTS"
-    input_file_parameters: dict = { "material:file" : ["Ni.mat"],
+    base_workdir_path: str = "/home/matteo/Desktop/VAMPIRE_WORKDIR" # working directory with materials folder and vampire binary "/home/matteo/Desktop/VAMPIRE_WORKDIR"
+    base_materials_path: str = "/home/matteo/Desktop/VAMPIRE_WORKDIR/Materials" # materials folder in working directory "/home/matteo/Desktop/VAMPIRE_WORKDIR/Materials"
+    base_testdata_path: str = "/home/matteo/Desktop/VAMPIRE_TEST_RESULTS" # results depot "/home/matteo/Desktop/VAMPIRE_TEST_RESULTS"
+    input_file_parameters: dict = { "material:file" : ["Co.mat","Fe.mat","Ni.mat"],
                                     "dimensions:system-size-x" : [49],
                                     "dimensions:system-size-y" : [49],
-                                    "dimensions:system-size-z" : [3.524,7.048],
-                                    "cells:macro-cell-size" : [2,2.5],
+                                    "dimensions:system-size-z" : [3.524],
+                                    "cells:macro-cell-size" : [2.5,5,7.5],
                                     "sim:applied-field-strength" : [0],
                                     "sim:applied-field-unit-vector": [(0,0,1)],
-                                    "sim:temperature" : [309.65]} # input file parameters and the values to explore.
+                                    "sim:temperature" : [0]} # input file parameters and the values to explore.
     input_file_units: dict = { "material:file" : "",
                               "dimensions:system-size-x" : " !nm",
                               "dimensions:system-size-y" : " !nm",
@@ -91,8 +91,8 @@ class MaterialEvolution():
                               "sim:applied-field-strength" : " !T",
                               "sim:applied-field-unit-vector": "",
                               "sim:temperature" : ""} # default units for input file parameters. must mirror input_file_parameters keys
-    other_sweep_parameters: dict = { "intrinsic magnetic damping" : np.arange(0.001,0.501,0.05),#[0.001,0.005,0.01,0.05,0.1,0.2,0.3,0.4,0.5],
-                                   "field intensity input scaling": np.arange(0.1,2,0.1)}#[-3,-2.5,-2,-1.5,-1,-0.5,0.5,1,1.5,2,2.5,3]} # non-input-file parameters to explore
+    other_sweep_parameters: dict = { "intrinsic magnetic damping" : np.linspace(0.001,0.501,20),#[0.001,0.005,0.01,0.05,0.1,0.2,0.3,0.4,0.5],
+                                   "field intensity input scaling": np.linspace(0.1,2,5)}#[-3,-2.5,-2,-1.5,-1,-0.5,0.5,1,1.5,2,2.5,3]} # non-input-file parameters to explore
     all_sweep_parameters: dict = dict() # collation of input_file_parameters and other_sweep_parameters
     new_input_file_parameters: dict = dict() # current combination of input file exploration parameters. new with every iteration
     new_other_sweep_parameters: dict = dict() # current combination of non-input-file exploration parameters. new with every iteration
@@ -258,7 +258,7 @@ class MaterialEvolution():
     def reservoir_computing(self):
 
         # NRMSE on unseen data, NRMSE on seen data, unseen trace, prediction
-        best_result, training_result, y, y_pred = train_ridge(self.base_workdir_path,self.narma_output)
+        best_result, training_result, y, y_pred = train_ridge(self.base_workdir_path,self.narma_output, self.signal_strength)
 
         # None is returned if failed to fit model. occurs if sim outputs NaNs
         if best_result is not None:
@@ -297,12 +297,12 @@ class MaterialEvolution():
 #----------------------------------------------------------------------------------------------------------------------#
 
 def main() -> None:
-    signal_strenth = 1
-    random_scaling = False
-    random_input_locs = False
+    signal_strength = 1
+    random_scaling = True
+    random_input_locs = True
     input_length = 1000
     start = MaterialEvolution(input_length=input_length,
-                              signal_strength=signal_strenth,
+                              signal_strength=signal_strength,
                               random_scaling=random_scaling,
                               random_input_locs=random_input_locs)
 

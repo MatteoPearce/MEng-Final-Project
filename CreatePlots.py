@@ -74,7 +74,7 @@ def create_plot_data(test_path: str = None, parameter_names: list = None, plot_a
             if key != "material:file":
                 if key != "sim:applied-field-unit-vector":
                     for i in range(len(parameters[key])):
-                        parameters[key][i] = float(parameters[key][i])
+                        parameters[key][i] = round(float(parameters[key][i]) ,4)
                 else: # only relevant if static field applied and part of search.
                     for i in range(len(parameters[key])): # field vector converted to 1,2,3 so can be treated mathematically
                         if parameters[key][i][1] != '0':
@@ -301,7 +301,7 @@ def plot_material_comparison(save_path: str = None, data: dict = None) -> None:
     ax.set_title('best NRMSEs by material')
     ax.set_xticks(x + width, materials)
     ax.legend(loc='upper left', ncols=3)
-    ax.set_ylim(0, 20)
+    ax.set_ylim(0, 5)
 
     plt.grid(visible=True)
     plt.savefig(save_path + "/materials_comparison")
@@ -315,5 +315,4 @@ param_names = ["material:file", "dimensions:system-size-x", "dimensions:system-s
                 "field intensity input scaling","iteration","training_NRMSE","NRMSE","signal_strength"]
 
 dir = "/home/matteo/Desktop/VAMPIRE_TEST_RESULTS/"
-dir = "/home/matteo/Downloads/testMEng/"
 create_plot_data(dir,param_names)

@@ -4,7 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a4dfd85d-b366-4c78-b6bd-200915180eb4" name="Changes" comment="for viking Co">
+    <list default="true" id="a4dfd85d-b366-4c78-b6bd-200915180eb4" name="Changes" comment="for viking Ni">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CreatePlots.py" beforeDir="false" afterPath="$PROJECT_DIR$/CreatePlots.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RecoupData.py" beforeDir="false" afterPath="$PROJECT_DIR$/RecoupData.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RegressionTraining.py" beforeDir="false" afterPath="$PROJECT_DIR$/RegressionTraining.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SaveData.py" beforeDir="false" afterPath="$PROJECT_DIR$/SaveData.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TrialBest.py" beforeDir="false" afterPath="$PROJECT_DIR$/TrialBest.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -44,6 +50,9 @@
     &quot;accountId&quot;: &quot;c8654b49-6237-4f4d-89e1-1285299058bf&quot;
   }
 }</component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/RegressionTraining.py" root0="FORCE_HIGHLIGHTING" />
+  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -162,31 +171,11 @@
       <workItem from="1715639712439" duration="19857000" />
       <workItem from="1715730015229" duration="23517000" />
       <workItem from="1715812914709" duration="23322000" />
-      <workItem from="1715898602095" duration="56106000" />
-    </task>
-    <task id="LOCAL-00050" summary="removed best per material">
-      <option name="closed" value="true" />
-      <created>1715101607882</created>
-      <option name="number" value="00050" />
-      <option name="presentableId" value="LOCAL-00050" />
-      <option name="project" value="LOCAL" />
-      <updated>1715101607882</updated>
-    </task>
-    <task id="LOCAL-00051" summary="deleted exchange matrix calc">
-      <option name="closed" value="true" />
-      <created>1715102782695</created>
-      <option name="number" value="00051" />
-      <option name="presentableId" value="LOCAL-00051" />
-      <option name="project" value="LOCAL" />
-      <updated>1715102782695</updated>
-    </task>
-    <task id="LOCAL-00052" summary="removed FIF reader and uncommented all unnecessary comments in all files">
-      <option name="closed" value="true" />
-      <created>1715103142625</created>
-      <option name="number" value="00052" />
-      <option name="presentableId" value="LOCAL-00052" />
-      <option name="project" value="LOCAL" />
-      <updated>1715103142625</updated>
+      <workItem from="1715898602095" duration="57141000" />
+      <workItem from="1716109543371" duration="46350000" />
+      <workItem from="1716322912088" duration="79000" />
+      <workItem from="1716337257658" duration="14852000" />
+      <workItem from="1716455948125" duration="21591000" />
     </task>
     <task id="LOCAL-00053" summary="CallVAMPIRE.py cleaned up and commented">
       <option name="closed" value="true" />
@@ -556,7 +545,31 @@
       <option name="project" value="LOCAL" />
       <updated>1716056719848</updated>
     </task>
-    <option name="localTasksCounter" value="99" />
+    <task id="LOCAL-00099" summary="for viking Co">
+      <option name="closed" value="true" />
+      <created>1716057089311</created>
+      <option name="number" value="00099" />
+      <option name="presentableId" value="LOCAL-00099" />
+      <option name="project" value="LOCAL" />
+      <updated>1716057089311</updated>
+    </task>
+    <task id="LOCAL-00100" summary="for viking Fe">
+      <option name="closed" value="true" />
+      <created>1716057244106</created>
+      <option name="number" value="00100" />
+      <option name="presentableId" value="LOCAL-00100" />
+      <option name="project" value="LOCAL" />
+      <updated>1716057244106</updated>
+    </task>
+    <task id="LOCAL-00101" summary="for viking Ni">
+      <option name="closed" value="true" />
+      <created>1716057355347</created>
+      <option name="number" value="00101" />
+      <option name="presentableId" value="LOCAL-00101" />
+      <option name="project" value="LOCAL" />
+      <updated>1716057355347</updated>
+    </task>
+    <option name="localTasksCounter" value="102" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -597,13 +610,13 @@
     <MESSAGE value="bug fixes, lots and lots" />
     <MESSAGE value="pre changes commit (RegressionTraining.py)" />
     <MESSAGE value="Changes worked, now unnormalisation happens before NRMSE" />
-    <MESSAGE value="for viking Ni" />
-    <MESSAGE value="for viking Fe" />
     <MESSAGE value="for viking Co" />
-    <option name="LAST_COMMIT_MESSAGE" value="for viking Co" />
+    <MESSAGE value="for viking Fe" />
+    <MESSAGE value="for viking Ni" />
+    <option name="LAST_COMMIT_MESSAGE" value="for viking Ni" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/MEng_Project_Matteo_Pearce$TrialBest.coverage" NAME="TrialBest Coverage Results" MODIFIED="1716038107437" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/MEng_Project_Matteo_Pearce$TrialBest.coverage" NAME="TrialBest Coverage Results" MODIFIED="1716459693744" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/MEng_Project_Matteo_Pearce$ComputeIterations.coverage" NAME="ComputeIterations Coverage Results" MODIFIED="1713356572337" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/MEng_Project_Matteo_Pearce$GenerateTimeseries.coverage" NAME="GenerateTimeseries Coverage Results" MODIFIED="1715351440296" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/MEng_Project_Matteo_Pearce$ScaleHeight.coverage" NAME="ScaleHeight Coverage Results" MODIFIED="1713349255238" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
@@ -617,7 +630,7 @@
     <SUITE FILE_PATH="coverage/MEng_Project_Matteo_Pearce$ExtractReservoirIO.coverage" NAME="ExtractReservoirIO Coverage Results" MODIFIED="1715185689013" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/MEng_Project_Matteo_Pearce$test.coverage" NAME="test Coverage Results" MODIFIED="1715961820737" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/MEng_Project_Matteo_Pearce$CreateGif.coverage" NAME="CreateGif Coverage Results" MODIFIED="1711042816960" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/MEng_Project_Matteo_Pearce$main.coverage" NAME="main Coverage Results" MODIFIED="1716054989588" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/MEng_Project_Matteo_Pearce$main.coverage" NAME="main Coverage Results" MODIFIED="1716486523445" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/MEng_Project_Matteo_Pearce$UdateMagneticDamping.coverage" NAME="UdateMagneticDamping Coverage Results" MODIFIED="1712076215202" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/MEng_Project_Matteo_Pearce$ExtractReservoirOutput.coverage" NAME="ExtractReservoirOutput Coverage Results" MODIFIED="1711465564280" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/MEng_Project_Matteo_Pearce$CreateCellPics.coverage" NAME="CreateCellPics Coverage Results" MODIFIED="1711482736442" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
@@ -625,14 +638,14 @@
     <SUITE FILE_PATH="coverage/MEng_Project_Matteo_Pearce$NeuronOutput.coverage" NAME="NeuronOutput Coverage Results" MODIFIED="1711470509914" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/MEng_Project_Matteo_Pearce$ScaleGrid.coverage" NAME="ScaleGrid Coverage Results" MODIFIED="1711976573015" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/MEng_Project_Matteo_Pearce$ModifyVampireInputFile.coverage" NAME="ModifyVampireInputFile Coverage Results" MODIFIED="1712073582575" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/MEng_Project_Matteo_Pearce$RegressionTraining.coverage" NAME="RegressionTraining Coverage Results" MODIFIED="1716054823430" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/MEng_Project_Matteo_Pearce$RegressionTraining.coverage" NAME="RegressionTraining Coverage Results" MODIFIED="1716480702378" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/MEng_Project_Matteo_Pearce$SaveData.coverage" NAME="SaveData Coverage Results" MODIFIED="1711564596835" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/MEng_Project_Matteo_Pearce$Sourcefield_Filemaker.coverage" NAME="Sourcefield_Filemaker Coverage Results" MODIFIED="1715021465522" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/MEng_Project_Matteo_Pearce$SourcefieldFilemaker.coverage" NAME="SourcefieldFilemaker Coverage Results" MODIFIED="1715539624691" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/MEng_Project_Matteo_Pearce$TestBest.coverage" NAME="TestBest Coverage Results" MODIFIED="1712920131203" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/MEng_Project_Matteo_Pearce$RecoupData.coverage" NAME="RecoupData Coverage Results" MODIFIED="1716053550588" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/MEng_Project_Matteo_Pearce$RecoupData.coverage" NAME="RecoupData Coverage Results" MODIFIED="1716483065710" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/MEng_Project_Matteo_Pearce$test2.coverage" NAME="test2 Coverage Results" MODIFIED="1711537256603" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/MEng_Project_Matteo_Pearce$ExchangeMatrixCalc.coverage" NAME="ExchangeMatrixCalc Coverage Results" MODIFIED="1713197140330" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/MEng_Project_Matteo_Pearce$CreatePlots.coverage" NAME="CreatePlots Coverage Results" MODIFIED="1716053556416" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/MEng_Project_Matteo_Pearce$CreatePlots.coverage" NAME="CreatePlots Coverage Results" MODIFIED="1716483137314" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
