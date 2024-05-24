@@ -81,6 +81,8 @@ def train_cycle(training_X: np.ndarray,
                 testing_y: np.ndarray,
                 signal_strength: float) -> [float,float,np.ndarray,np.ndarray]:
 
+    # heuristically determined, covers small signals near signal strength up
+    # to a couple of orders of magnitude larger
     stop = signal_strength * training_X.shape[1]
     ridges = np.linspace(0,stop,10,endpoint=True)
 
@@ -93,6 +95,8 @@ def train_cycle(training_X: np.ndarray,
 
         try: # sometimes vampire outputs are NAN. using try statement mitigates crashes and deems this combination a failure
 
+            # Looks slightly different to literature on Ridge Regression in terms of which vectors are transposed.
+            # this is a symptom of how numpy works.
             term1 = np.dot(training_y.transpose(), training_X)
             term1_5 = np.dot(training_X.transpose(), training_X).astype(np.float64)
             identity_Size = term1_5.shape
@@ -112,10 +116,9 @@ def train_cycle(training_X: np.ndarray,
                 best_y = testing_y.copy()
                 best_ridge = RIDGE
 
-
         except ValueError as e:
             print(e)
-            if best is not None:
+            if best is not None: # allows for some of the runs to fail
                 return best, best_training, best_y, best_pred
             else:
                 return None, None, None, None

@@ -1,0 +1,31 @@
+# crystal structure = fcc
+# unit cell size = 2.507 !A
+#=================================================== 
+# Sample vampire material file V3+ 
+#=================================================== 
+ 
+ 
+#--------------------------------------------------- 
+# Number of Materials 
+#--------------------------------------------------- 
+material:num-materials=1 
+#--------------------------------------------------- 
+#same as atomsitic vampire 
+ 
+ 
+# Material 1 Cobalt Generic 
+#--------------------------------------------------- 
+material[1]:material-name=Co 
+material[1]:damping-constant=0.05363157894736842
+material[1]:second-order-uniaxial-anisotropy-constant=6.69e-24 
+material[1]:exchange-matrix[1]=6.064e-21 
+material[1]:atomic-spin-moment=1.72 !muB 
+material[1]:temperature-rescaling-exponent = 2.369
+material[1]:temperature-rescaling-curie-temperature = 1395
+material[1]:material-element=Co 
+material[1]:minimum-height=0.0 
+material[1]:maximum-height=1.0 
+material[1]:initial-spin-direction=1,0,0 
+#material can be specified to be micromagnetic here else it is automatically 
+#atomistic. 
+material[1]:micromagnetic-discretisation-enabled 

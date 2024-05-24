@@ -11,6 +11,42 @@ from UdateMagneticDamping import update_damping
 from ScaleHeight import scale_height
 from CallVAMPIRE import call_vampire
 from RegressionTraining import train_ridge
+
+"""
+TRIAL BEST RUNS X TIMES.
+
+This class has been adapted from main.py and shares most of the functionality. The main difference is that the simulation
+parameters are passed to the constructor and there is no random selection. The constructor must receive a best combination
+of parameters for each of the three materials. See the example at the bottom of this file.
+
+To change the exploration parameters modify the fields:
+
+    input_file_parameters
+    other_sweep_parameters
+
+In order to run multiple random searches programmatically, the constructor will have to be modified slightly to accept 
+these dictionaries at instantiation.
+
+The string fields:
+
+    base_workdir_path
+    base_materials_path
+    base_testdata_path
+
+are integral to proper execution as they point to the working directory, materials library and data retention folders. 
+
+The order of processes is:
+
+0. generate NARMA10
+0. work out how many iterations 
+1. select parameters  <-----------,
+2. update input files             |
+3. run simulation                 |
+4. train model and compute NRMSE  |
+5. save data _____________________/
+"""
+
+
 class TrialBest():
 
     best_Fe: dict = dict()
@@ -158,7 +194,7 @@ class TrialBest():
     def reservoir_computing(self):
 
         # NRMSE on unseen data, NRMSE on seen data, unseen trace, prediction
-        best_result, training_result, y, y_pred = train_ridge(self.base_workdir_path,self.NARMA_output)
+        best_result, training_result, y, y_pred = train_ridge(self.base_workdir_path,self.NARMA_output, self.signal_strength)
 
         # None is returned if failed to fit model. occurs if sim outputs NaNs
         if best_result is not None:
@@ -213,133 +249,45 @@ class TrialBest():
 def main() -> None:
 
     best_co: dict = {"material:file": "Co.mat",
-                                   "dimensions:system-size-x": 199,
-                                   "dimensions:system-size-y": 199,
-                                   "dimensions:system-size-z": 5.014,
-                                   "cells:macro-cell-size": 2.5,
+                                   "dimensions:system-size-x": 74,
+                                   "dimensions:system-size-y": 74,
+                                   "dimensions:system-size-z": 2.507,
+                                   "cells:macro-cell-size": 5,
                                    "sim:temperature": 309.65,
-                                   "intrinsic magnetic damping": 0.401,
-                                   "field intensity input scaling": 1.05}
+                                   "intrinsic magnetic damping": 0.501,
+                                   "field intensity input scaling": 0.1}
 
     best_fe: dict = {"material:file": "Fe.mat",
-                     "dimensions:system-size-x": 199,
-                     "dimensions:system-size-y": 199,
-                     "dimensions:system-size-z": 5.732,
-                     "cells:macro-cell-size": 2.5,
+                     "dimensions:system-size-x": 74,
+                     "dimensions:system-size-y": 74,
+                     "dimensions:system-size-z": 2.866,
+                     "cells:macro-cell-size": 5,
                      "sim:temperature": 309.65,
-                     "intrinsic magnetic damping": 0.451,
-                     "field intensity input scaling": 1.5}
+                     "intrinsic magnetic damping": 0.126,
+                     "field intensity input scaling": 2}
 
     best_ni: dict = {"material:file": "Ni.mat",
-                     "dimensions:system-size-x": 199,
-                     "dimensions:system-size-y": 199,
-                     "dimensions:system-size-z": 7.048,
-                     "cells:macro-cell-size": 2.5,
+                     "dimensions:system-size-x": 74,
+                     "dimensions:system-size-y": 74,
+                     "dimensions:system-size-z": 3.524,
+                     "cells:macro-cell-size": 7.5,
                      "sim:temperature": 309.65,
-                     "intrinsic magnetic damping": 0.451,
-                     "field intensity input scaling": 0.4}
+                     "intrinsic magnetic damping": 0.126,
+                     "field intensity input scaling": 1.05}
 
     signal_strength = 1e-13
     random_scaling = False
     input_length = 1000
     random_input_locs = False
-    test_path = "/home/matteo/Desktop/VAMPIRE_TEST_RESULTS/C2"
+    test_path = "/home/matteo/Desktop/VAMPIRE_TEST_RESULTS/C1"
     start = TrialBest(best_Co=best_co,
                       best_Fe=best_fe,
                       best_Ni=best_ni,
-                      trials=3,
+                      trials=5,
                       trial_length= input_length,
                       random_scaling= random_scaling,
                       random_input_locs=random_input_locs,
                       signal_strength=signal_strength,
                       test_path=test_path)
-
-#----------------------------------------------------------------------------------------------------------------------#
-
-"""    best_co: dict = {"material:file": "Co.mat",
-                                   "dimensions:system-size-x": 49,
-                                   "dimensions:system-size-y": 49,
-                                   "dimensions:system-size-z": 5.014,
-                                   "cells:macro-cell-size": 2.5,
-                                   "sim:temperature": 0,
-                                   "intrinsic magnetic damping": 0.351,
-                                   "field intensity input scaling": 0.5}
-
-    best_fe: dict = {"material:file": "Fe.mat",
-                     "dimensions:system-size-x": 49,
-                     "dimensions:system-size-y": 49,
-                     "dimensions:system-size-z": 5.732,
-                     "cells:macro-cell-size": 2.5,
-                     "sim:temperature": 0,
-                     "intrinsic magnetic damping": 0.351,
-                     "field intensity input scaling": 1}
-
-    best_ni: dict = {"material:file": "Ni.mat",
-                     "dimensions:system-size-x": 49,
-                     "dimensions:system-size-y": 49,
-                     "dimensions:system-size-z": 7.048,
-                     "cells:macro-cell-size": 2.5,
-                     "sim:temperature": 0,
-                     "intrinsic magnetic damping": 0.451,
-                     "field intensity input scaling": 0.3}
-
-    signal_strength = 2e-12
-    random_scaling = False
-    input_length = 1000
-    random_input_locs = False
-    test_path = "/home/matteo/Desktop/VAMPIRE_TEST_RESULTS/B2"
-    start = TrialBest(best_Co=best_co,
-                      best_Fe=best_fe,
-                      best_Ni=best_ni,
-                      trials=40,
-                      trial_length= input_length,
-                      random_scaling= random_scaling,
-                      random_input_locs=random_input_locs,
-                      signal_strength=signal_strength,
-                      test_path=test_path)
-
-#----------------------------------------------------------------------------------------------------------------------#
-
-    best_co: dict = {"material:file": "Co.mat",
-                                   "dimensions:system-size-x": 49,
-                                   "dimensions:system-size-y": 49,
-                                   "dimensions:system-size-z": 5.014,
-                                   "cells:macro-cell-size": 2.5,
-                                   "sim:temperature": 309.65,
-                                   "intrinsic magnetic damping": 0.451,
-                                   "field intensity input scaling": 1.3}
-
-    best_fe: dict = {"material:file": "Fe.mat",
-                     "dimensions:system-size-x": 49,
-                     "dimensions:system-size-y": 49,
-                     "dimensions:system-size-z": 5.732,
-                     "cells:macro-cell-size": 2.5,
-                     "sim:temperature": 309.65,
-                     "intrinsic magnetic damping": 0.451,
-                     "field intensity input scaling": 1.5}
-
-    best_ni: dict = {"material:file": "Ni.mat",
-                     "dimensions:system-size-x": 49,
-                     "dimensions:system-size-y": 49,
-                     "dimensions:system-size-z": 7.048,
-                     "cells:macro-cell-size": 2.5,
-                     "sim:temperature": 309.65,
-                     "intrinsic magnetic damping": 0.001,
-                     "field intensity input scaling": 0.3}
-
-    signal_strength = 75e-12
-    random_scaling = False
-    input_length = 1000
-    random_input_locs = False
-    test_path = "/home/matteo/Desktop/VAMPIRE_TEST_RESULTS/B3"
-    start = TrialBest(best_Co=best_co,
-                      best_Fe=best_fe,
-                      best_Ni=best_ni,
-                      trials=40,
-                      trial_length= input_length,
-                      random_scaling= random_scaling,
-                      random_input_locs=random_input_locs,
-                      signal_strength=signal_strength,
-                      test_path=test_path)"""
 
 if __name__ == "__main__": main()

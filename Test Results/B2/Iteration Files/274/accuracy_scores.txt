@@ -1,0 +1,13 @@
+training_NRMSE: 1.2557658530198722007
+NRMSE: 1.355261549907735159
+signal_strength: 2e-12
+material:file: Fe.mat
+dimensions:system-size-x: 49
+dimensions:system-size-y: 49
+dimensions:system-size-z: 2.866
+cells:macro-cell-size: 5
+sim:applied-field-strength: 0
+sim:applied-field-unit-vector: (0, 0, 1)
+sim:temperature: 309.65
+intrinsic magnetic damping: 0.501
+field intensity input scaling: 0.1

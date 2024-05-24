@@ -53,7 +53,7 @@ The order of processes is:
 1. select parameters  <-----------,
 2. update input files             |
 3. run simulation                 |
-4. train model and compute NRMSE   |
+4. train model and compute NRMSE  |
 5. save data _____________________/
 """
 
@@ -91,8 +91,8 @@ class MaterialEvolution():
                               "sim:applied-field-strength" : " !T",
                               "sim:applied-field-unit-vector": "",
                               "sim:temperature" : ""} # default units for input file parameters. must mirror input_file_parameters keys
-    other_sweep_parameters: dict = { "intrinsic magnetic damping" : np.linspace(0.001,0.501,20),#[0.001,0.005,0.01,0.05,0.1,0.2,0.3,0.4,0.5],
-                                   "field intensity input scaling": np.linspace(0.1,2,5)}#[-3,-2.5,-2,-1.5,-1,-0.5,0.5,1,1.5,2,2.5,3]} # non-input-file parameters to explore
+    other_sweep_parameters: dict = { "intrinsic magnetic damping" : np.linspace(0.001,0.501,20),
+                                   "field intensity input scaling": np.linspace(0.1,2,5)} # non-input-file parameters to explore
     all_sweep_parameters: dict = dict() # collation of input_file_parameters and other_sweep_parameters
     new_input_file_parameters: dict = dict() # current combination of input file exploration parameters. new with every iteration
     new_other_sweep_parameters: dict = dict() # current combination of non-input-file exploration parameters. new with every iteration

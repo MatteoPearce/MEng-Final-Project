@@ -1,0 +1,4 @@
+best iteration number: 34
+total time : 2.16 hours
+average iteration time : 38.65 seconds 
+

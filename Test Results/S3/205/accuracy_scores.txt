@@ -1,0 +1,13 @@
+training_NRMSE: 0.36497967147411610042
+NRMSE: 2.9032326502684366115
+signal_strength: 1e-13
+material:file: Ni.mat
+dimensions:system-size-x: 99
+dimensions:system-size-y: 49
+dimensions:system-size-z: 3.524
+cells:macro-cell-size: 2.5
+sim:applied-field-strength: 0
+sim:applied-field-unit-vector: (0, 0, 1)
+sim:temperature: 309.65
+intrinsic magnetic damping: 0.251
+field intensity input scaling: 0.1

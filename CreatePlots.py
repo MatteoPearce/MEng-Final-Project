@@ -212,10 +212,10 @@ def plot_table(save_path: str = None, data: dict = None, bool = False) -> None:
             # create table in the form of a matrix
             matrix = np.ndarray(len(dummy_dict_to_plot.keys()))
 
-            # reshape into rows and columns of size: N_datapoints x params
+            # reshape into rows and columns of size: 10 x params
             for index,key in enumerate(dummy_dict_to_plot.keys()):
                 row = np.array(dummy_dict_to_plot[key])
-                row = row.reshape((10,1))
+                row = row.reshape((10,1)) # only top 10 shown
                 if index == 0:
                     matrix = row
                 else:
@@ -301,7 +301,7 @@ def plot_material_comparison(save_path: str = None, data: dict = None) -> None:
     ax.set_title('best NRMSEs by material')
     ax.set_xticks(x + width, materials)
     ax.legend(loc='upper left', ncols=3)
-    ax.set_ylim(0, 5)
+    ax.set_ylim(0, 2)
 
     plt.grid(visible=True)
     plt.savefig(save_path + "/materials_comparison")

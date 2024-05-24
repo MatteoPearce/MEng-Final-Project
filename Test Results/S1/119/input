@@ -1,0 +1,47 @@
+#generate crystal structure 
+create:crystal-structure = fcc
+dimensions:unit-cell-size = 3.524 !A
+material:file = Ni.mat
+ 
+#system size 
+dimensions:system-size-x = 99 !nm
+dimensions:system-size-y = 29 !nm
+dimensions:system-size-z = 3.524 !A
+ 
+#define cell size 
+cells:macro-cell-size = 10 !nm
+ 
+#turn on micromagnetic discretisation 
+# discretisation = (micromagnetic/multiscale/atomistic) 
+micromagnetic:discretisation=micromagnetic
+micromagnetic:atomistic-steps-per-micromagnetic-step = 1
+ 
+#define integrator for atomsitic/micromagnetic 
+sim:integrator = llg-heun
+micromagnetic:integrator = llg
+ 
+#program/simulation parameters - same as atomistic vampire. 
+sim:time-step= 20 !ps
+sim:time-steps-increment = 25
+sim:temperature = 309.65
+sim:total-time-steps = 25000
+sim:applied-field-strength = 0 !T
+sim:applied-field-unit-vector = 0, 0, 1
+dipole:solver=tensor 
+sim:program = time-series
+
+sim:cells-source-output = true
+config:macro-cells
+config:macro-cells-output-rate = 1
+#config:atoms
+#config:output-nodes = 100
+#config:atoms-output-rate = 1
+#config:output-format = binary
+
+#outputs - same as atomistic vampire 
+output:time-steps 
+screen:time-steps 
+output:temperature 
+#output:applied-field-strength 
+output:material-magnetisation 
+screen:material-magnetisation 
